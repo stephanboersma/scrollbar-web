@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import './Theme.less';
 
-function App() {
+import React from 'react';
+import { Redirect, Route, Switch } from 'react-router';
+
+import Admin from './pages/Admin';
+import Landing from './pages/Landing';
+import Login from './pages/Login';
+import MembersPortal from './pages/MembersPortal';
+import Profile from './pages/Profile';
+import AuthProvider from './providers/AuthProvider';
+import ThemeProvider from './providers/ThemeProvider';
+import PrivateRoute from './styles/atoms/PrivateRoute';
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <ThemeProvider>
+        <Switch>
+          <Route exact path="/" component={Landing} />
+          <Route exact path="/login" component={Login} />
+          <PrivateRoute exact path="/members" component={MembersPortal} />
+          <PrivateRoute exact path="/profile" component={Profile} />
+          <PrivateRoute exact path="/administration" component={Admin} />
+          <Redirect to="/login" />
+        </Switch>
+      </ThemeProvider>
+    </AuthProvider>
   );
-}
+};
 
 export default App;
