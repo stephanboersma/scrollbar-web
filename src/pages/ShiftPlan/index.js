@@ -2,18 +2,18 @@ import React from 'react';
 
 import SideBarPage from '../../styles/templates/SideBarPage';
 
-const Admin = () => {
+const ShiftPlan = () => {
   return (
-    <SideBarPage title="Administration">
-      <h1>MembersPortal works</h1>
+    <SideBarPage title="Shift Plan">
+      <h1>ShiftPlan works</h1>
     </SideBarPage>
   );
 };
 
 /* 
 import PropTypes from 'prop-types';
-Admin.propTypes = {
+ShiftPlan.propTypes = {
 
 } 
 */
-export default Admin;
+export default ShiftPlan;

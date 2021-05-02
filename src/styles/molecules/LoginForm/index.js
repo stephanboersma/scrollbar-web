@@ -8,7 +8,8 @@ import styled from 'styled-components';
 import { Title } from '../../atoms/Typography';
 
 const Container = styled(Col)`
-  background-color: white;
+  background-color: #f0f2f5;
+  border-radius: ${({ theme }) => theme.baseUnit / 2}px;
   &:first-child {
     padding: ${({ theme }) => theme.baseUnit * 3}px;
   }
@@ -17,13 +18,8 @@ const Container = styled(Col)`
 const LoginForm = ({ onSubmit }) => {
   return (
     <Container xs={12} sm={6} md={4} lg={4}>
-      <Title level={1}>Login</Title>
-      <Form
-        name="normal_login"
-        className="login-form"
-        initialValues={{ remember: true }}
-        onFinish={onSubmit}
-      >
+      <Title level={3}>ScrollBar Members area</Title>
+      <Form name="login" initialValues={{ remember: true }} onFinish={onSubmit}>
         <Form.Item
           name="email"
           rules={[
@@ -40,11 +36,7 @@ const LoginForm = ({ onSubmit }) => {
           name="password"
           rules={[{ required: true, message: 'Please input your Password!' }]}
         >
-          <Input
-            prefix={<LockOutlined />}
-            type="password"
-            placeholder="Password"
-          />
+          <Input.Password prefix={<LockOutlined />} placeholder="Password" />
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit">

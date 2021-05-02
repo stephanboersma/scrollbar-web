@@ -4,8 +4,9 @@ import {
   ThemeProvider as StyledThemeProvider,
 } from 'styled-components';
 const THEME = {
-  primary: '#00D8FF',
+  primary: 'fff319',
   secondary: '#001529',
+  bg: '#171717',
   baseUnit: 12,
 };
 const GlobalStyle = createGlobalStyle`

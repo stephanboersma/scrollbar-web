@@ -1,21 +1,26 @@
 import {
   AntDesignOutlined,
-  DownOutlined,
+  CalendarOutlined,
   HomeOutlined,
+  LogoutOutlined,
+  ProfileOutlined,
   ScheduleOutlined,
-  SmileOutlined,
+  SettingOutlined,
+  TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import { Avatar, Dropdown, Menu } from 'antd';
 import Layout, { Content, Header } from 'antd/lib/layout/layout';
 import Sider from 'antd/lib/layout/Sider';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import styled from 'styled-components';
 
 import logo from '../../../assets/images/logo.png';
-import { Title } from '../../atoms/Typography';
+import AuthContext from '../../../contexts/AuthContext';
+import { signOut } from '../../../firebase/api';
+import { Text, Title } from '../../atoms/Typography';
 
 const Logo = styled.img`
   margin: 16px;
@@ -41,6 +46,7 @@ const StyledHeader = styled(Header)`
 `;
 
 const StyledPageTitle = styled(Title)`
+  margin: 0 !important;
   line-height: inherit !important;
   flex-grow: 1;
 `;
@@ -48,11 +54,18 @@ const Wrapper = styled(Layout)`
   height: 100%;
 `;
 
+const UserNameLink = styled(Text)`
+  margin: 0 12px 0 0;
+`;
+
 const SideBarPage = ({ children, title }) => {
+  const { user } = useContext(AuthContext);
   const history = useHistory();
   const location = useLocation();
-  const navigateToLink = (location) =>
-    location ? history.push(location) : null;
+  const navigateToLink = (location) => history.push(location);
+
+  const hasPermission = (role) => user.roles.includes(role) || user.isAdmin;
+
   const AvatarMenu = (
     <Menu>
       <Menu.Item onClick={() => navigateToLink('/')} icon={<HomeOutlined />}>
@@ -65,16 +78,19 @@ const SideBarPage = ({ children, title }) => {
         Profile
       </Menu.Item>
       <Menu.Item
-        onClick={() => console.log('sign out')}
-        icon={<DownOutlined />}
+        onClick={() => signOut().then(() => history.push('/'))}
+        icon={<LogoutOutlined />}
       >
         Sign out
       </Menu.Item>
     </Menu>
   );
+  if (!user) {
+    return <Title level={1}>Loading</Title>;
+  }
   return (
     <Wrapper>
-      <Sider>
+      <Sider breakpoint="lg" collapsedWidth="0">
         <Logo src={logo} />
         <Menu
           theme="dark"
@@ -85,23 +101,36 @@ const SideBarPage = ({ children, title }) => {
           <Menu.Item key="/members" icon={<HomeOutlined />}>
             {"Member's Portal"}
           </Menu.Item>
-          <Menu.Item key="/shift_plan" icon={<ScheduleOutlined />}>
+          <Menu.Item key="/shifts" icon={<ScheduleOutlined />}>
             Shift plan
           </Menu.Item>
-          <Menu.Item key="/profile" icon={<UserOutlined />}>
+          <Menu.Item key="/profile" icon={<ProfileOutlined />}>
             Profile
           </Menu.Item>
-          <Menu.Item key="/administration" icon={<SmileOutlined />}>
-            Admin
-          </Menu.Item>
+          {hasPermission('user_manager') && (
+            <Menu.Item key="/manage/users" icon={<TeamOutlined />}>
+              User Management
+            </Menu.Item>
+          )}
+          {hasPermission('event_manager') && (
+            <Menu.Item key="/manage/events" icon={<CalendarOutlined />}>
+              Event Management
+            </Menu.Item>
+          )}
+          {hasPermission('shift_manager') && (
+            <Menu.Item key="/manage/shifts" icon={<SettingOutlined />}>
+              Shift Management
+            </Menu.Item>
+          )}
         </Menu>
       </Sider>
       <Layout>
         <StyledHeader>
           <StyledPageTitle level={3}>{title}</StyledPageTitle>
+          <UserNameLink>{user.displayName}</UserNameLink>
           <Dropdown overlay={AvatarMenu}>
             <Avatar
-              src="https://scontent-cph2-1.xx.fbcdn.net/v/t1.6435-9/72338822_10221485736317419_5282220620531105792_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=jxA0sXQHWMEAX83XnaZ&_nc_ht=scontent-cph2-1.xx&oh=630a23c4684d129db083ff736c2ccd00&oe=60B0112A"
+              src={user.photoUrl}
               size="large"
               icon={<AntDesignOutlined />}
             />
