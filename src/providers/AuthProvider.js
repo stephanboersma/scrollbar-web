@@ -15,7 +15,6 @@ const AuthProvider = ({ children }) => {
           getUser(authState.uid)
             .then((_user) => {
               setUser(_user);
-              console.log(_user);
               setLoadingAuthState(false);
             })
             .catch((error) =>

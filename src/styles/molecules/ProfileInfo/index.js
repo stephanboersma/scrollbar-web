@@ -46,7 +46,7 @@ const ProfileInfo = ({ user, updateProfile, manageUser, studylines }) => {
       const newRoles = user.roles.filter((role) => role !== value);
       updateProfile('roles', newRoles);
     } else {
-      const mandatoryRoles = ['passive', 'tender', 'anchor', 'board'];
+      const mandatoryRoles = ['passive', 'tender', 'anchor'];
       const newRoles = user.roles.filter(
         (role) => !mandatoryRoles.includes(role)
       );
@@ -79,7 +79,8 @@ const ProfileInfo = ({ user, updateProfile, manageUser, studylines }) => {
       </Row>
       <Divider />
       <StyledRow>
-        <Descriptions title="Info" style={{ width: '100%' }} bordered>
+        <Title level={3}>Info</Title>
+        <Descriptions style={{ width: '100%' }} bordered>
           <Descriptions.Item label="Studyline" span={3}>
             {editStudyline ? (
               <Select value={user.studyline.id} onChange={updateStudyline}>

@@ -26,7 +26,11 @@ const UploadAvatar = ({ user, onUpdatePhoto }) => {
       showUploadList={false}
       onChange={handleUpload}
     >
-      <Avatar src={user.photoUrl} size={100} icon={<PlusOutlined />} />
+      <Avatar
+        src={user.photoUrl}
+        size={{ xs: 75, sm: 100, md: 100, lg: 100, xl: 100, xxl: 100 }}
+        icon={<PlusOutlined />}
+      />
     </StyledUpload>
   );
 };

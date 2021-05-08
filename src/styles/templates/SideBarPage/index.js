@@ -2,12 +2,9 @@ import {
   AntDesignOutlined,
   CalendarOutlined,
   HomeOutlined,
-  LogoutOutlined,
   ProfileOutlined,
-  ScheduleOutlined,
   SettingOutlined,
   TeamOutlined,
-  UserOutlined,
 } from '@ant-design/icons';
 import { Avatar, Dropdown, Menu } from 'antd';
 import Layout, { Content, Header } from 'antd/lib/layout/layout';
@@ -19,13 +16,9 @@ import styled from 'styled-components';
 
 import logo from '../../../assets/images/logo.png';
 import AuthContext from '../../../contexts/AuthContext';
-import { signOut } from '../../../firebase/api';
+import AvatarMenu from '../../atoms/AvatarMenu';
+import Logo from '../../atoms/Logo';
 import { Text, Title } from '../../atoms/Typography';
-
-const Logo = styled.img`
-  margin: 16px;
-  max-width: 168px;
-`;
 
 const StyledContent = styled(Content)`
   margin: 24px 16px 0;
@@ -49,13 +42,19 @@ const StyledPageTitle = styled(Title)`
   margin: 0 !important;
   line-height: inherit !important;
   flex-grow: 1;
+  @media (max-width: 680px) {
+    font-size: 18px !important;
+  }
 `;
 const Wrapper = styled(Layout)`
-  height: 100%;
+  min-height: 100%;
 `;
 
 const UserNameLink = styled(Text)`
   margin: 0 12px 0 0;
+  @media (max-width: 680px) {
+    display: none;
+  }
 `;
 
 const SideBarPage = ({ children, title }) => {
@@ -66,25 +65,6 @@ const SideBarPage = ({ children, title }) => {
 
   const hasPermission = (role) => user.roles.includes(role) || user.isAdmin;
 
-  const AvatarMenu = (
-    <Menu>
-      <Menu.Item onClick={() => navigateToLink('/')} icon={<HomeOutlined />}>
-        Go to landing page
-      </Menu.Item>
-      <Menu.Item
-        icon={<UserOutlined />}
-        onClick={() => navigateToLink('/profile')}
-      >
-        Profile
-      </Menu.Item>
-      <Menu.Item
-        onClick={() => signOut().then(() => history.push('/'))}
-        icon={<LogoutOutlined />}
-      >
-        Sign out
-      </Menu.Item>
-    </Menu>
-  );
   if (!user) {
     return <Title level={1}>Loading</Title>;
   }
@@ -99,10 +79,7 @@ const SideBarPage = ({ children, title }) => {
           onSelect={(info) => navigateToLink(info.key)}
         >
           <Menu.Item key="/members" icon={<HomeOutlined />}>
-            {"Member's Portal"}
-          </Menu.Item>
-          <Menu.Item key="/shifts" icon={<ScheduleOutlined />}>
-            Shift plan
+            {"Member's Lounge"}
           </Menu.Item>
           <Menu.Item key="/profile" icon={<ProfileOutlined />}>
             Profile
@@ -122,13 +99,18 @@ const SideBarPage = ({ children, title }) => {
               Shift Management
             </Menu.Item>
           )}
+          {hasPermission('admin') && (
+            <Menu.Item key="/settings" icon={<SettingOutlined />}>
+              Settings
+            </Menu.Item>
+          )}
         </Menu>
       </Sider>
       <Layout>
         <StyledHeader>
           <StyledPageTitle level={3}>{title}</StyledPageTitle>
           <UserNameLink>{user.displayName}</UserNameLink>
-          <Dropdown overlay={AvatarMenu}>
+          <Dropdown overlay={<AvatarMenu onNavigate={navigateToLink} />}>
             <Avatar
               src={user.photoUrl}
               size="large"

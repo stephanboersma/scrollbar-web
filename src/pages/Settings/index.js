@@ -2,10 +2,10 @@ import React from 'react';
 
 import SideBarPage from '../../styles/templates/SideBarPage';
 
-const MembersPortal = () => {
+const Settings = () => {
   return (
-    <SideBarPage title="Member's Portal">
-      <h1>MembersPortal works</h1>
+    <SideBarPage title="Settings">
+      <h1>settings works</h1>
     </SideBarPage>
   );
 };
@@ -16,4 +16,4 @@ MembersPortal.propTypes = {
 
 } 
 */
-export default MembersPortal;
+export default Settings;
