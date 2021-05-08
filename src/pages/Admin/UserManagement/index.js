@@ -10,10 +10,11 @@ import {
   inviteUser,
   updateUser,
 } from '../../../firebase/api';
+import DataTable from '../../../styles/molecules/DataTable';
 import InviteModal from '../../../styles/molecules/InviteModal';
 import ProfileInfo from '../../../styles/molecules/ProfileInfo';
-import UserTable from '../../../styles/molecules/UserTable';
 import SideBarPage from '../../../styles/templates/SideBarPage';
+import { INVITED_COLUMNS, USER_COLUMNS } from './tableColumns';
 
 const { TabPane } = Tabs;
 
@@ -68,25 +69,13 @@ const UserManagement = () => {
 
   const updateUsers = () => {
     getUsers()
-      .then((users) =>
-        setUsers(
-          users.map((user) => {
-            return { ...user, key: user.id };
-          })
-        )
-      )
+      .then((users) => setUsers(users))
       .catch((error) => message.error('An error occurred: ' + error.message));
   };
 
   const updateInvitedUsers = () => {
     getInvitedUsers()
-      .then((invited) =>
-        setInvitedUsers(
-          invited.map((user) => {
-            return { ...user, key: user.id };
-          })
-        )
-      )
+      .then((invited) => setInvitedUsers(invited))
       .catch((error) => message.error('An error occurred: ' + error.message));
   };
 
@@ -120,7 +109,7 @@ const UserManagement = () => {
     <SideBarPage title="User Management">
       <StyledTabs type="card" defaultActiveKey="1">
         <StyledTabPane tab="Manage users" key="1">
-          <UserTable onUserEdit={onUserEdit} users={users} />
+          <DataTable columns={USER_COLUMNS(onUserEdit)} data={users} />
         </StyledTabPane>
         <StyledTabPane tab="Invited users" key="2">
           <StyledButton
@@ -129,10 +118,9 @@ const UserManagement = () => {
           >
             Invite users
           </StyledButton>
-          <UserTable
-            users={invitedUsers}
-            onInviteDelete={onInviteDelete}
-            invited
+          <DataTable
+            data={invitedUsers}
+            columns={INVITED_COLUMNS(onInviteDelete)}
           />
         </StyledTabPane>
       </StyledTabs>

@@ -5,7 +5,7 @@ export const getCollection = (path) => {
     .get()
     .then((res) =>
       res.docs.map((doc) => {
-        return { id: doc.id, ...doc.data() };
+        return { id: doc.id, key: doc.id, ...doc.data() };
       })
     );
 };
@@ -16,7 +16,7 @@ export const getDocument = (collection, id) => {
     .doc(id)
     .get()
     .then((doc) => {
-      return { id: doc.id, ...doc.data() };
+      return { id: doc.id, key: doc.id, ...doc.data() };
     });
 };
 export const getExtension = (path) => {

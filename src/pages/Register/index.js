@@ -50,7 +50,6 @@ const Register = () => {
         })
         .catch((error) => {
           setLoading(false);
-          console.log(error);
           message.error(`An error occurred: ${error.message}`);
         });
     } else {

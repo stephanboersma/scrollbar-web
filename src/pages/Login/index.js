@@ -19,7 +19,6 @@ const Login = () => {
     loginWithEmailAndPassword(email, password)
       .then((res) => {
         setUser(res);
-        console.log('logged in successfully', res);
         history.push(`/members`);
       })
       .catch((error) => console.log(error));
