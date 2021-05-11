@@ -16,7 +16,12 @@ const AvatarMenu = ({ onNavigate }) => {
         Profile
       </Menu.Item>
       <Menu.Item
-        onClick={() => signOut().then(() => history.push('/'))}
+        onClick={() =>
+          signOut().then(() => {
+            history.push('/');
+            location.reload();
+          })
+        }
         icon={<LogoutOutlined />}
       >
         Sign out

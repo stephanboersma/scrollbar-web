@@ -110,7 +110,10 @@ const SideBarPage = ({ children, title }) => {
         <StyledHeader>
           <StyledPageTitle level={3}>{title}</StyledPageTitle>
           <UserNameLink>{user.displayName}</UserNameLink>
-          <Dropdown overlay={<AvatarMenu onNavigate={navigateToLink} />}>
+          <Dropdown
+            trigger={['hover', 'click']}
+            overlay={<AvatarMenu onNavigate={navigateToLink} />}
+          >
             <Avatar
               src={user.photoUrl}
               size="large"
