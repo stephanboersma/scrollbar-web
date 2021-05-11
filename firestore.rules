@@ -12,29 +12,29 @@ service cloud.firestore {
 	}
 
    
-    match /invites/{invite} {
+    match /{path=**}/invites/{invite} {
     allow read;
     allow update;
     allow write, delete: if (isAuthed(request) && isAdmin(request)) || isManager(request, 'user_manager');
     }
-    match /events/{event} {
+    match /{path=**}/events/{event} {
     allow read;
     allow write, delete: if (isAuthed(request) && isAdmin(request)) || isManager(request, 'event_manager');
     }
-    match /shifts/{shift} {
+    match /{path=**}/shifts/{shift} {
     allow read: if isAuthed(request);
     allow write, delete: if (isAuthed(request) && isAdmin(request)) || isManager(request, 'event_manager');
     }
-    match /engagements/{engagement} {
+    match /{path=**}/engagements/{engagement} {
     allow read: if isAuthed(request);
     allow update: if isAuthed(request);
     allow create, delete: if (isAuthed(request) && isAdmin(request)) || isManager(request, 'shift_manager');
     }
-    match /studylines/{studyline} {
+    match /{path=**}/studylines/{studyline} {
     allow read;
     allow write, delete: if isAuthed(request) && isAdmin(request);
     }
-    match /users/{userId} {
+    match /{path=**}/users/{userId} {
     	allow read;
       allow create;
       allow update: if isAuthed(request) || isAdmin(request);

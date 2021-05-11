@@ -5,7 +5,9 @@ export const getEngagements = () => {
   return new Promise((resolve, reject) => {
     getUsers()
       .then((users) => {
-        db.collection('/engagements')
+        db.collection('/env')
+          .doc(process.env.REACT_APP_ENV)
+          .collection('/engagements')
           .where('shiftEnd', '>=', new Date(Date.now()))
           .orderBy('shiftEnd', 'asc')
           .get()
@@ -33,19 +35,35 @@ export const getEngagements = () => {
 };
 export const takeShift = (id, userId) => {
   return db
+    .collection('/env')
+    .doc(process.env.REACT_APP_ENV)
     .collection('/engagements')
     .doc(id)
     .update({ userId: userId, upForGrabs: false });
 };
 
 export const setUpForGrabs = (id, status) => {
-  return db.collection('/engagements').doc(id).update({ upForGrabs: status });
+  return db
+    .collection('/env')
+    .doc(process.env.REACT_APP_ENV)
+    .collection('/engagements')
+    .doc(id)
+    .update({ upForGrabs: status });
 };
 
 export const deleteEngagement = (engagement) => {
-  return db.collection('/engagements').doc(engagement.id).delete();
+  return db
+    .collection('/env')
+    .doc(process.env.REACT_APP_ENV)
+    .collection('/engagements')
+    .doc(engagement.id)
+    .delete();
 };
 
 export const createEngagement = (engagement) => {
-  return db.collection('/engagements').add(engagement);
+  return db
+    .collection('/env')
+    .doc(process.env.REACT_APP_ENV)
+    .collection('/engagements')
+    .add(engagement);
 };
