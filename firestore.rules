@@ -1,0 +1,48 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  function isManager(request, role) {
+  	return role in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.roles;
+  }
+  function isAdmin(request) {
+		return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+	}
+  function isAuthed(request) {
+		return request.auth != null;
+	}
+
+   
+    match /invites/{invite} {
+    allow read;
+    allow update;
+    allow write, delete: if (isAuthed(request) && isAdmin(request)) || isManager(request, 'user_manager');
+    }
+    match /events/{event} {
+    allow read;
+    allow write, delete: if (isAuthed(request) && isAdmin(request)) || isManager(request, 'event_manager');
+    }
+    match /shifts/{shift} {
+    allow read: if isAuthed(request);
+    allow write, delete: if (isAuthed(request) && isAdmin(request)) || isManager(request, 'event_manager');
+    }
+    match /engagements/{engagement} {
+    allow read: if isAuthed(request);
+    allow update: if isAuthed(request);
+    allow create, delete: if (isAuthed(request) && isAdmin(request)) || isManager(request, 'shift_manager');
+    }
+    match /studylines/{studyline} {
+    allow read;
+    allow write, delete: if isAuthed(request) && isAdmin(request);
+    }
+    match /users/{userId} {
+    	allow read;
+      allow create;
+      allow update: if isAuthed(request) || isAdmin(request);
+      allow delete: if isAuthed(request) && isAdmin(request);
+    }
+  }
+  
+	
+}
+
+
