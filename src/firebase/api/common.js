@@ -1,6 +1,8 @@
 import { db } from '../index';
 export const getCollection = (path) => {
   return db
+    .collection('/env')
+    .doc(process.env.REACT_APP_ENV)
     .collection(path)
     .get()
     .then((res) =>
@@ -12,6 +14,8 @@ export const getCollection = (path) => {
 
 export const getDocument = (collection, id) => {
   return db
+    .collection('/env')
+    .doc(process.env.REACT_APP_ENV)
     .collection(collection)
     .doc(id)
     .get()

@@ -17,6 +17,8 @@ export const createAccount = (form) => {
           active: true,
         };
         await db
+          .collection('/env')
+          .doc(process.env.REACT_APP_ENV)
           .collection('/invites')
           .doc(form.email)
           .update({ registered: true });
@@ -108,15 +110,27 @@ export const getInvitedUsers = () => {
 };
 
 export const inviteUser = (email) => {
-  return db.collection('/invites').doc(email).set({ registered: false });
+  return db
+    .collection('/env')
+    .doc(process.env.REACT_APP_ENV)
+    .collection('/invites')
+    .doc(email)
+    .set({ registered: false });
 };
 
 export const deleteInvite = ({ id }) => {
-  return db.collection('/invites').doc(id).delete();
+  return db
+    .collection('/env')
+    .doc(process.env.REACT_APP_ENV)
+    .collection('/invites')
+    .doc(id)
+    .delete();
 };
 
 export const updateUser = ({ id, field, value }) => {
   return db
+    .collection('/env')
+    .doc(process.env.REACT_APP_ENV)
     .collection('/users')
     .doc(id)
     .update({ [field]: value });
@@ -124,7 +138,11 @@ export const updateUser = ({ id, field, value }) => {
 
 export const uploadProfilePicture = (picture, email) => {
   return storage
-    .ref(`profile_pictures/${email}.${getExtension(picture.name)}`)
+    .ref(
+      `${process.env.REACT_APP_ENV}/profile_pictures/${email}.${getExtension(
+        picture.name
+      )}`
+    )
     .put(picture, {
       contentType: picture.type,
       customMetadata: { uploadedBy: email },
@@ -135,6 +153,11 @@ export const uploadProfilePicture = (picture, email) => {
 };
 
 const saveUser = (id, profile) => {
-  return db.collection('/users').doc(id).set(profile);
+  return db
+    .collection('/env')
+    .doc(process.env.REACT_APP_ENV)
+    .collection('/users')
+    .doc(id)
+    .set(profile);
 };
 export const signOut = () => auth.signOut();

@@ -10,6 +10,8 @@ export const deleteShift = (shift) => {
 
 export const updateShift = ({ id, field, value }) => {
   return db
+    .collection('/env')
+    .doc(process.env.REACT_APP_ENV)
     .collection('/shifts')
     .doc(id)
     .update({ [field]: value });
@@ -17,6 +19,8 @@ export const updateShift = ({ id, field, value }) => {
 
 export const getShifts = () => {
   return db
+    .collection('/env')
+    .doc(process.env.REACT_APP_ENV)
     .collection('/shifts')
     .where('end', '>=', new Date(Date.now()))
     .orderBy('end', 'asc')
