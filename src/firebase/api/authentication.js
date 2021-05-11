@@ -60,6 +60,26 @@ export const getUser = (id) => {
   });
 };
 
+export const getActiveTenders = () => {
+  return new Promise((resolve, reject) => {
+    getUsers()
+      .then((users) => {
+        resolve(
+          users
+            .filter((user) => !user.roles.includes('passive'))
+            .map((user) => {
+              return {
+                displayName: user.displayName,
+                studyline: user.studyline,
+                photoUrl: user.photoUrl,
+              };
+            })
+        );
+      })
+      .catch(reject);
+  });
+};
+
 export const getUsers = () => {
   return new Promise((resolve, reject) => {
     getCollection('/studylines')

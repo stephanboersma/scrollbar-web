@@ -1,6 +1,6 @@
 import { AntDesignOutlined, MenuOutlined } from '@ant-design/icons';
 import { Avatar, Dropdown, Menu, Space } from 'antd';
-import Layout, { Content, Footer, Header } from 'antd/lib/layout/layout';
+import Layout, { Footer, Header } from 'antd/lib/layout/layout';
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
@@ -41,7 +41,7 @@ const LandingPage = ({ children }) => {
   const history = useHistory();
   return (
     <Layout
-      style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
+      style={{ display: 'flex', flexDirection: 'column', height: 'auto' }}
     >
       <Header style={{ height: 'auto', display: 'flex', flexDirection: 'row' }}>
         <HeaderWrapper direction="horizontal">
@@ -55,9 +55,6 @@ const LandingPage = ({ children }) => {
             defaultSelectedKeys={['2']}
             style={{ lineHeight: '132px', flexGrow: '1' }}
           >
-            <MenuItem key="1" onClick={() => history.push('#about')}>
-              About ScrollBar
-            </MenuItem>
             <MenuItem key="3" onClick={() => history.push('/members')}>
               Members Lounge
             </MenuItem>
@@ -79,17 +76,8 @@ const LandingPage = ({ children }) => {
           </UserCorner>
         )}
       </Header>
-      <Content
-        style={{
-          padding: '50px',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          flexGrow: '1',
-        }}
-      >
-        {children}
-      </Content>
+
+      {children}
       <Footer style={{ textAlign: 'center' }}>ScrollBar ©2021</Footer>
     </Layout>
   );
