@@ -17,5 +17,6 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SCROLLWEB_CC9B4 }}'
+          expires: 14d
           channelId: test
           projectId: scrollweb-cc9b4
