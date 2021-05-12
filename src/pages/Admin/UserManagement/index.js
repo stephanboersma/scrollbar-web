@@ -1,15 +1,10 @@
 import { Button, Divider, Drawer, message, Tabs } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
-import {
-  deleteInvite,
-  getInvitedUsers,
-  getStudyLines,
-  getUsers,
-  inviteUser,
-  updateUser,
-} from '../../../firebase/api';
+import AuthContext from '../../../contexts/AuthContext';
+import TendersContext from '../../../contexts/TendersContext';
+import { deleteInvite, inviteUser, updateUser } from '../../../firebase/api';
 import DataTable from '../../../styles/molecules/DataTable';
 import InviteModal from '../../../styles/molecules/InviteModal';
 import ProfileInfo from '../../../styles/molecules/ProfileInfo';
@@ -37,9 +32,10 @@ const StyledButton = styled(Button)`
 `;
 
 const UserManagement = () => {
-  const [users, setUsers] = useState([]);
-  const [invitedUsers, setInvitedUsers] = useState([]);
-  const [studylines, setStudylines] = useState();
+  const { tenderState, fetchInvitedTenders, fetchTenders } = useContext(
+    TendersContext
+  );
+  const { studylines } = useContext(AuthContext);
   const [isProfileVisible, setIsProfileVisible] = useState(false);
   const [isInviteModalVisible, setIsInviteModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -52,7 +48,7 @@ const UserManagement = () => {
   const updateProfile = (field, value) => {
     updateUser({ id: selectedUser.id, field: field, value: value })
       .then(() => {
-        updateUsers();
+        fetchTenders();
         if (field === 'studyline') {
           setSelectedUser({
             ...selectedUser,
@@ -67,26 +63,16 @@ const UserManagement = () => {
       .catch((error) => message.error('An error occurred ' + error.message));
   };
 
-  const updateUsers = () => {
-    getUsers()
-      .then((users) => setUsers(users))
-      .catch((error) => message.error('An error occurred: ' + error.message));
-  };
-
-  const updateInvitedUsers = () => {
-    getInvitedUsers()
-      .then((invited) => setInvitedUsers(invited))
-      .catch((error) => message.error('An error occurred: ' + error.message));
-  };
-
   const addInvite = ({ email }) => {
-    if (invitedUsers.filter((user) => user.key === email).length > 0) {
+    if (
+      tenderState.invitedTenders.filter((user) => user.key === email).length > 0
+    ) {
       message.error(`${email} is already invited`);
     } else {
       inviteUser(email)
         .then(() => {
           message.success(`${email} has been invited.`);
-          updateInvitedUsers();
+          fetchInvitedTenders();
         })
         .catch((error) => message.error('An error ocurred: ' + error.message));
     }
@@ -94,22 +80,17 @@ const UserManagement = () => {
 
   const onInviteDelete = (row) => {
     deleteInvite(row)
-      .then(() => updateInvitedUsers())
+      .then(() => fetchInvitedTenders())
       .catch((error) => message.error('An error ocurred: ' + error.message));
   };
-
-  useEffect(() => {
-    updateUsers();
-    updateInvitedUsers();
-    getStudyLines()
-      .then((_studylines) => setStudylines(_studylines))
-      .catch((error) => message.error('An error occurred: ' + error.message));
-  }, []);
   return (
     <SideBarPage title="User Management">
       <StyledTabs type="card" defaultActiveKey="1">
         <StyledTabPane tab="Manage users" key="1">
-          <DataTable columns={USER_COLUMNS(onUserEdit)} data={users} />
+          <DataTable
+            columns={USER_COLUMNS(onUserEdit)}
+            data={tenderState.tenders}
+          />
         </StyledTabPane>
         <StyledTabPane tab="Invited users" key="2">
           <StyledButton
@@ -119,7 +100,7 @@ const UserManagement = () => {
             Invite users
           </StyledButton>
           <DataTable
-            data={invitedUsers}
+            data={tenderState.invitedTenders}
             columns={INVITED_COLUMNS(onInviteDelete)}
           />
         </StyledTabPane>

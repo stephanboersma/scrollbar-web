@@ -1,15 +1,11 @@
 import { message } from 'antd';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import { Row } from 'react-styled-flexboxgrid';
 import styled from 'styled-components';
 
 import AuthContext from '../../contexts/AuthContext';
-import {
-  checkIfEmailIsInvited,
-  createAccount,
-  getStudyLines,
-} from '../../firebase/api';
+import { checkIfEmailIsInvited, createAccount } from '../../firebase/api';
 import RegisterForm from '../../styles/molecules/RegisterForm';
 import FullWidthPage from '../../styles/templates/FullPage';
 
@@ -17,25 +13,9 @@ const Wrapper = styled(Row)`
   height: 100%;
 `;
 const Register = () => {
-  const { setUser } = useContext(AuthContext);
+  const { setUser, studylines } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
-  const [studylines, setStudylines] = useState();
-
-  useEffect(() => {
-    getStudyLines()
-      .then((res) => {
-        setStudylines(
-          res.map((studyline) => {
-            return {
-              label: `${studyline.prefix} in ${studyline.name}`,
-              value: studyline.id,
-            };
-          })
-        );
-      })
-      .catch((error) => message.error(`An error occurred: ${error.message}`));
-  }, [studylines]);
 
   const register = async (form) => {
     setLoading(true);
@@ -65,7 +45,12 @@ const Register = () => {
         <RegisterForm
           loading={loading}
           onSubmit={register}
-          studylines={studylines}
+          studylines={studylines.map((studyline) => {
+            return {
+              label: `${studyline.prefix} in ${studyline.name}`,
+              value: studyline.id,
+            };
+          })}
         />
       </Wrapper>
     </FullWidthPage>

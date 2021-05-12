@@ -21,7 +21,9 @@ const Landing = () => {
   const [activeTenders, setActiveTenders] = useState([]);
 
   useEffect(() => {
-    getEvents().then((events) => setEvents(events));
+    getEvents().then((events) =>
+      setEvents(events.filter((event) => event.published))
+    );
     getActiveTenders().then((tenders) => setActiveTenders(tenders));
   }, []);
   return (
@@ -167,35 +169,42 @@ const Landing = () => {
             }}
           >
             <Title id="future_events">Future events</Title>
-            <VerticalTimeline style={{ width: '100%' }}>
-              {events.map((each, i) => {
-                return (
-                  <VerticalTimelineElement
-                    className="vertical-timeline-element--work"
-                    iconStyle={{
-                      background: '#fff319',
-                      color: '#171717',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      paddingTop: '10px',
-                    }}
-                    icon={<CalendarOutlined size={24} />}
-                    date={moment(each.start.toDate())
-                      .format('DD-MM-YYYY HH:mm')
-                      .toString()}
-                    key={i}
-                  >
-                    <Title
-                      level={3}
-                      className="vertical-timeline-element-title"
+
+            {events.length > 0 ? (
+              <VerticalTimeline style={{ width: '100%' }}>
+                {events.map((each, i) => {
+                  return (
+                    <VerticalTimelineElement
+                      className="vertical-timeline-element--work"
+                      iconStyle={{
+                        background: '#fff319',
+                        color: '#171717',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        paddingTop: '10px',
+                      }}
+                      icon={<CalendarOutlined size={24} />}
+                      date={moment(each.start.toDate())
+                        .format('DD-MM-YYYY HH:mm')
+                        .toString()}
+                      key={i}
                     >
-                      {each.displayName}
-                    </Title>
-                  </VerticalTimelineElement>
-                );
-              })}
-            </VerticalTimeline>
+                      <Title
+                        level={3}
+                        className="vertical-timeline-element-title"
+                      >
+                        {each.displayName}
+                      </Title>
+                    </VerticalTimelineElement>
+                  );
+                })}
+              </VerticalTimeline>
+            ) : (
+              <Text type="secondary">
+                We will be back shortly with awesome events!
+              </Text>
+            )}
           </Col>
         </Row>
       </Content>
