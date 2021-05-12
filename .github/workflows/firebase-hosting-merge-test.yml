@@ -5,16 +5,18 @@ name: Deploy to Firebase Hosting on merge
 'on':
   push:
     branches:
-      - main
+      - develop
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: npm ci && npm run build
+      - run: curl -o- -L https://yarnpkg.com/install.sh | bash
+      - run: yarn install && yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SCROLLWEB_CC9B4 }}'
-          channelId: live
+          expires: 14d
+          channelId: test
           projectId: scrollweb-cc9b4
