@@ -29,7 +29,11 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "bratus": "node ./node_modules/@react-bratus/cli/bin",
+    "bratus:start": "node ./node_modules/@react-bratus/cli/bin -s",
+    "bratus:parse": "node ./node_modules/@react-bratus/cli/bin -p",
+    "bratus:help": "node ./node_modules/@react-bratus/cli/bin -h"
   },
   "eslintConfig": {
     "extends": [
@@ -50,6 +54,7 @@
     ]
   },
   "devDependencies": {
+    "@react-bratus/cli": "^2.0.4",
     "eslint": "^7.25.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
