@@ -16,9 +16,8 @@ export const createAccount = (form) => {
           isPassive: false,
           active: true,
         };
+        console.log('Reading /invites');
         await db
-          .collection('/env')
-          .doc(process.env.REACT_APP_ENV)
           .collection('/invites')
           .doc(form.email)
           .update({ registered: true });
@@ -33,7 +32,7 @@ export const createAccount = (form) => {
 export const loginWithEmailAndPassword = (email, password) => {
   return new Promise((resolve, reject) => {
     auth.signInWithEmailAndPassword(email, password).then((user) => {
-      getDocument('users', user.uid)
+      getDocument('/users', user.uid, false)
         .then((userData) => resolve(userData))
         .catch((error) => reject(error));
     });
@@ -41,18 +40,18 @@ export const loginWithEmailAndPassword = (email, password) => {
 };
 
 export const checkIfEmailIsInvited = (email) => {
-  return getDocument('invites', email);
+  return getDocument('invites', email, false);
 };
 
 export const getStudyLines = () => {
-  return getCollection('/studylines');
+  return getCollection('/studylines', false);
 };
 
 export const getUser = (id) => {
   return new Promise((resolve, reject) => {
-    getDocument('/users', id)
+    getDocument('/users', id, false)
       .then((user) => {
-        getDocument('/studylines', user.studyline)
+        getDocument('/studylines', user.studyline, false)
           .then((studyline) => {
             resolve({ ...user, studyline: studyline });
           })
@@ -84,9 +83,9 @@ export const getActiveTenders = () => {
 
 export const getUsers = () => {
   return new Promise((resolve, reject) => {
-    getCollection('/studylines')
+    getCollection('/studylines', false)
       .then((studylines) => {
-        getCollection('/users')
+        getCollection('/users', false)
           .then((users) => {
             resolve(
               users.map((user) => {
@@ -106,31 +105,19 @@ export const getUsers = () => {
 };
 
 export const getInvitedUsers = () => {
-  return getCollection('/invites');
+  return getCollection('/invites', false);
 };
 
 export const inviteUser = (email) => {
-  return db
-    .collection('/env')
-    .doc(process.env.REACT_APP_ENV)
-    .collection('/invites')
-    .doc(email)
-    .set({ registered: false });
+  return db.collection('/invites').doc(email).set({ registered: false });
 };
 
 export const deleteInvite = ({ id }) => {
-  return db
-    .collection('/env')
-    .doc(process.env.REACT_APP_ENV)
-    .collection('/invites')
-    .doc(id)
-    .delete();
+  return db.collection('/invites').doc(id).delete();
 };
 
 export const updateUser = ({ id, field, value }) => {
   return db
-    .collection('/env')
-    .doc(process.env.REACT_APP_ENV)
     .collection('/users')
     .doc(id)
     .update({ [field]: value });
@@ -138,11 +125,7 @@ export const updateUser = ({ id, field, value }) => {
 
 export const uploadProfilePicture = (picture, email) => {
   return storage
-    .ref(
-      `${process.env.REACT_APP_ENV}/profile_pictures/${email}.${getExtension(
-        picture.name
-      )}`
-    )
+    .ref(`profile_pictures/${email}.${getExtension(picture.name)}`)
     .put(picture, {
       contentType: picture.type,
       customMetadata: { uploadedBy: email },
@@ -153,11 +136,6 @@ export const uploadProfilePicture = (picture, email) => {
 };
 
 const saveUser = (id, profile) => {
-  return db
-    .collection('/env')
-    .doc(process.env.REACT_APP_ENV)
-    .collection('/users')
-    .doc(id)
-    .set(profile);
+  return db.collection('/users').doc(id).set(profile);
 };
 export const signOut = () => auth.signOut();

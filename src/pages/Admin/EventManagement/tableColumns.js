@@ -15,13 +15,14 @@ export const EVENT_COLUMNS = (onEventEdit, onEventDelete, onDuplicateEvent) => [
     title: 'Start',
     dataIndex: 'start',
     key: 'start',
-    render: (start) => moment(start).format('DD-MM-YYYY HH:mm').toString(),
+    render: (start) =>
+      moment(start.toDate()).format('DD-MM-YYYY HH:mm').toString(),
   },
   {
     title: 'End',
     dataIndex: 'end',
     key: 'end',
-    render: (end) => moment(end).format('DD-MM-YYYY HH:mm').toString(),
+    render: (end) => moment(end.toDate()).format('DD-MM-YYYY HH:mm').toString(),
   },
   {
     title: 'Actions',

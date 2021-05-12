@@ -27,6 +27,7 @@ export const updateEvent = ({ id, field, value }) => {
 };
 
 export const getEvents = (old) => {
+  console.log('Reading /events');
   const op = old ? '<' : '>=';
   return db
     .collection('/env')

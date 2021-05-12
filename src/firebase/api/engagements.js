@@ -5,6 +5,7 @@ export const getEngagements = () => {
   return new Promise((resolve, reject) => {
     getUsers()
       .then((users) => {
+        console.log('Reading /engagements');
         db.collection('/env')
           .doc(process.env.REACT_APP_ENV)
           .collection('/engagements')
