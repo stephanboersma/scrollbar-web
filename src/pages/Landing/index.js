@@ -14,13 +14,30 @@ import {
   VerticalTimeline,
   VerticalTimelineElement,
 } from 'react-vertical-timeline-component';
+import styled from 'styled-components';
 
-import hero from '../../assets/hero_video.mp4';
+import hero from '../../assets/images/hero.jpg';
 import AuthContext from '../../contexts/AuthContext';
 import EventContext from '../../contexts/EventContext';
 import TendersContext from '../../contexts/TendersContext';
 import { Paragraph, Text, Title } from '../../styles/atoms/Typography';
 import LandingPage from '../../styles/templates/LandingPage';
+
+const NextEvent = styled(Row)`
+  padding: 0 24px;
+  @media (max-width: 991px) {
+    padding: 0;
+  }
+`;
+
+const StyledTimelineElement = styled(VerticalTimelineElement)`
+  .vertical-timeline-element-icon svg {
+    margin: inherit;
+    left: inherit;
+    top: inherit;
+    display: inline-block;
+  }
+`;
 
 const Landing = () => {
   const { eventState } = useContext(EventContext);
@@ -38,6 +55,10 @@ const Landing = () => {
     <LandingPage>
       <div
         style={{
+          background: `url(${hero})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'top center',
+          backgroundSize: 'cover',
           minHeight: '40vh',
           maxHeight: '40vh',
           width: '100%',
@@ -56,44 +77,33 @@ const Landing = () => {
             background: 'rgba(0, 0, 0, 0.5)',
           }}
         />
-        <video
-          muted
-          loop="loop"
-          autoPlay="autoplay"
-          style={{
-            minHeight: '40vh',
-            width: '100%',
-            marginTop: '-100px',
-            position: 'relative',
-          }}
-        >
-          <source src={hero} type="video/mp4" />
-        </video>
 
         {eventState.events.length > 1 && (
-          <div
-            style={{
-              position: 'absolute',
-              width: '600px',
-              height: '300px',
-              bottom: '-100px',
-              right: '40px',
-              zIndex: 2,
-              background: 'rgba(255, 243, 25, 0.8)',
-              padding: '24px',
-            }}
-          >
-            <Title>See you next time!</Title>
+          <NextEvent justify="end">
+            <Col
+              md={24}
+              lg={8}
+              style={{
+                width: '100%',
+                position: 'absolute',
+                bottom: '24px',
+                zIndex: 2,
+                background: 'rgba(255, 243, 25, 0.8)',
+                padding: '24px',
+              }}
+            >
+              <Title level={4}>See you next time!</Title>
 
-            <div style={{ paddingRight: '12px' }}>
-              <Title level={2}>
-                {eventState.events[0].displayName} @{' '}
-                {moment(eventState.events[0].start.toDate())
-                  .format('DD-MM-YYYY HH:mm')
-                  .toString()}
-              </Title>
-            </div>
-          </div>
+              <div style={{ paddingRight: '12px' }}>
+                <Title level={5}>
+                  {eventState.events[0].displayName} @{' '}
+                  {moment(eventState.events[0].start.toDate())
+                    .format('DD-MM-YYYY HH:mm')
+                    .toString()}
+                </Title>
+              </div>
+            </Col>
+          </NextEvent>
         )}
       </div>
 
@@ -109,14 +119,17 @@ const Landing = () => {
       >
         <Row justify="center">
           <Col
-            span={12}
+            md={24}
+            lg={12}
             style={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
             }}
           >
-            <Title id="about">About ScrollBar</Title>
+            <Title id="about" level={2}>
+              About ScrollBar
+            </Title>
             <Paragraph>
               ScrollBar is a study-bar driven by the volunteer-organisation
               ScrollBar, founded in 2004, that aims to bring together students
@@ -134,18 +147,20 @@ const Landing = () => {
         <Divider />
         <Row justify="center">
           <Col
-            span={20}
+            md={24}
+            lg={20}
             style={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
             }}
           >
-            <Title>The volunteers behind</Title>
+            <Title level={2}>The volunteers behind</Title>
             <Space
               direction="horizontal"
-              style={{ width: '100%', justifyContent: 'space-between' }}
+              style={{ width: '100%', justifyContent: 'space-evenly' }}
               size={16}
+              wrap
             >
               {studylines.length > 0 && !tenderState.loading ? (
                 tenderState.tenders
@@ -155,7 +170,14 @@ const Landing = () => {
                       <Space direction="vertical" align="center" key={i}>
                         <Avatar
                           src={each.photoUrl}
-                          size={100}
+                          size={{
+                            xs: 75,
+                            sm: 100,
+                            md: 100,
+                            lg: 100,
+                            xl: 100,
+                            xxl: 100,
+                          }}
                           icon={<AntDesignOutlined />}
                         />
                         <Text>{each.displayName}</Text>
@@ -191,7 +213,7 @@ const Landing = () => {
               <VerticalTimeline style={{ width: '100%' }}>
                 {eventState.events.map((each, i) => {
                   return (
-                    <VerticalTimelineElement
+                    <StyledTimelineElement
                       className="vertical-timeline-element--work"
                       iconStyle={{
                         background: '#fff319',
@@ -199,7 +221,8 @@ const Landing = () => {
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'center',
-                        paddingTop: '10px',
+                        width: '50px',
+                        height: '50px',
                       }}
                       icon={<CalendarOutlined size={24} />}
                       date={moment(each.start.toDate())
@@ -208,12 +231,12 @@ const Landing = () => {
                       key={i}
                     >
                       <Title
-                        level={3}
+                        level={5}
                         className="vertical-timeline-element-title"
                       >
                         {each.displayName}
                       </Title>
-                    </VerticalTimelineElement>
+                    </StyledTimelineElement>
                   );
                 })}
               </VerticalTimeline>

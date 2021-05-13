@@ -47,7 +47,7 @@ const ShiftPlan = () => {
     return <LoadingOutlined size={100} spin />;
   }
   return (
-    <SideBarPage title="Member's lounge">
+    <SideBarPage title="Tender site">
       <Space direction="vertical" style={{ width: '100%' }}>
         {eventState.events.map((each, i) => {
           return (

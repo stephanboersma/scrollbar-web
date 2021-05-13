@@ -3,8 +3,9 @@ import { Grid } from 'react-styled-flexboxgrid';
 import styled from 'styled-components';
 
 const StyledGrid = styled(Grid)`
-  height: 100%;
   width: 100%;
+  min-height: 100%;
+  padding: 24px;
   background-color: ${({ theme }) => theme.bg};
 `;
 const FullWidthPage = ({ children }) => {
