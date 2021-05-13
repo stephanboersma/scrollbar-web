@@ -1,31 +1,39 @@
 import 'react-vertical-timeline-component/style.min.css';
 
-import { AntDesignOutlined, CalendarOutlined } from '@ant-design/icons';
+import {
+  AntDesignOutlined,
+  CalendarOutlined,
+  LoadingOutlined,
+} from '@ant-design/icons';
 import { Col, Divider, Row, Space } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import { Content } from 'antd/lib/layout/layout';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import {
   VerticalTimeline,
   VerticalTimelineElement,
 } from 'react-vertical-timeline-component';
 
 import hero from '../../assets/hero_video.mp4';
-import { getActiveTenders, getEvents } from '../../firebase/api';
+import AuthContext from '../../contexts/AuthContext';
+import EventContext from '../../contexts/EventContext';
+import TendersContext from '../../contexts/TendersContext';
 import { Paragraph, Text, Title } from '../../styles/atoms/Typography';
 import LandingPage from '../../styles/templates/LandingPage';
 
 const Landing = () => {
-  const [events, setEvents] = useState([]);
-  const [activeTenders, setActiveTenders] = useState([]);
+  const { eventState } = useContext(EventContext);
+  const { tenderState } = useContext(TendersContext);
+  const { studylines } = useContext(AuthContext);
 
-  useEffect(() => {
-    getEvents().then((events) =>
-      setEvents(events.filter((event) => event.published))
-    );
-    getActiveTenders().then((tenders) => setActiveTenders(tenders));
-  }, []);
+  const getStudyline = (id) => {
+    if (studylines.length) {
+      return studylines.filter((_studyline) => _studyline.id === id)[0];
+    }
+    return { abbreviation: 'loading' };
+  };
+
   return (
     <LandingPage>
       <div
@@ -62,7 +70,7 @@ const Landing = () => {
           <source src={hero} type="video/mp4" />
         </video>
 
-        {events.length > 1 && (
+        {eventState.events.length > 1 && (
           <div
             style={{
               position: 'absolute',
@@ -79,8 +87,8 @@ const Landing = () => {
 
             <div style={{ paddingRight: '12px' }}>
               <Title level={2}>
-                {events[0].displayName} @{' '}
-                {moment(events[0].start.toDate())
+                {eventState.events[0].displayName} @{' '}
+                {moment(eventState.events[0].start.toDate())
                   .format('DD-MM-YYYY HH:mm')
                   .toString()}
               </Title>
@@ -139,21 +147,29 @@ const Landing = () => {
               style={{ width: '100%', justifyContent: 'space-between' }}
               size={16}
             >
-              {activeTenders.map((each, i) => {
-                return (
-                  <Space direction="vertical" align="center" key={i}>
-                    <Avatar
-                      src={each.photoUrl}
-                      size={100}
-                      icon={<AntDesignOutlined />}
-                    />
-                    <Text>{each.displayName}</Text>
-                    <Text type="secondary">
-                      {each.studyline.abbreviation.toUpperCase()}
-                    </Text>
-                  </Space>
-                );
-              })}
+              {studylines.length > 0 && !tenderState.loading ? (
+                tenderState.tenders
+                  .filter((_tender) => !_tender.roles.includes('passive'))
+                  .map((each, i) => {
+                    return (
+                      <Space direction="vertical" align="center" key={i}>
+                        <Avatar
+                          src={each.photoUrl}
+                          size={100}
+                          icon={<AntDesignOutlined />}
+                        />
+                        <Text>{each.displayName}</Text>
+                        <Text type="secondary">
+                          {getStudyline(
+                            each.studyline
+                          ).abbreviation.toUpperCase()}
+                        </Text>
+                      </Space>
+                    );
+                  })
+              ) : (
+                <LoadingOutlined spin />
+              )}
             </Space>
           </Col>
         </Row>
@@ -170,9 +186,10 @@ const Landing = () => {
           >
             <Title id="future_events">Future events</Title>
 
-            {events.length > 0 ? (
+            {eventState.events.filter((_event) => _event.published).length >
+            0 ? (
               <VerticalTimeline style={{ width: '100%' }}>
-                {events.map((each, i) => {
+                {eventState.events.map((each, i) => {
                   return (
                     <VerticalTimelineElement
                       className="vertical-timeline-element--work"

@@ -32,7 +32,7 @@ export const INVITED_COLUMNS = (onInviteDelete) => [
   },
 ];
 
-export const USER_COLUMNS = (onUserEdit) => [
+export const USER_COLUMNS = (onUserEdit, studylines) => [
   {
     title: 'Name',
     dataIndex: 'displayName',
@@ -42,7 +42,10 @@ export const USER_COLUMNS = (onUserEdit) => [
     title: 'Studyline',
     dataIndex: 'studyline',
     key: 'studyline',
-    render: (studyline) => studyline.abbreviation.toUpperCase(),
+    render: (studyline) =>
+      studylines
+        .filter((_studyline) => _studyline.id === studyline)[0]
+        .abbreviation.toUpperCase(),
   },
   {
     title: 'Email',

@@ -2,15 +2,16 @@ import { message } from 'antd';
 import React, { useContext } from 'react';
 
 import AuthContext from '../../contexts/AuthContext';
-import { updateUser } from '../../firebase/api';
+import TendersContext from '../../contexts/TendersContext';
 import ProfileInfo from '../../styles/molecules/ProfileInfo';
 import SideBarPage from '../../styles/templates/SideBarPage';
 
 const Profile = () => {
   const { user, setUser, studylines } = useContext(AuthContext);
+  const { updateTender } = useContext(TendersContext);
 
   const updateProfile = (field, value) => {
-    updateUser({ id: user.id, field: field, value: value })
+    updateTender(user.id, field, value)
       .then(() => {
         if (field === 'studyline') {
           setUser({

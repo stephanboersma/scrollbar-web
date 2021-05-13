@@ -5,7 +5,6 @@ import EngagementContext from '../../../contexts/EngagementContext';
 import EventContext from '../../../contexts/EventContext';
 import ShiftContext from '../../../contexts/ShiftContext';
 import TendersContext from '../../../contexts/TendersContext';
-import { createEngagement, deleteEngagement } from '../../../firebase/api';
 import EventListItem from '../../../styles/molecules/EventListItem';
 import SideBarPage from '../../../styles/templates/SideBarPage';
 
@@ -13,24 +12,24 @@ const ShiftManagement = () => {
   const { eventState } = useContext(EventContext);
   const { shiftState } = useContext(ShiftContext);
   const { tenderState } = useContext(TendersContext);
-  const { engagementState, fetchEngagements } = useContext(EngagementContext);
+  const { engagementState, addEngagement, removeEngagement } = useContext(
+    EngagementContext
+  );
 
   const getEventShifts = (eventId) => {
     return shiftState.shifts.filter((shift) => shift.eventId === eventId);
   };
 
-  const addEngagement = (newEngagement) => {
-    createEngagement(newEngagement)
+  const onAddEngagement = (newEngagement) => {
+    addEngagement(newEngagement)
       .then(() => {
-        fetchEngagements();
         message.success(`${newEngagement.type} has been added to the shift`);
       })
       .catch((error) => message.error('An error occurred: ', error.message));
   };
-  const removeEngagement = (engagement) => {
-    deleteEngagement(engagement)
+  const onRemoveEngagement = (engagement) => {
+    removeEngagement(engagement)
       .then(() => {
-        fetchEngagements();
         message.success('Tender removed from shift');
       })
       .catch((error) => message.error('An error occurred: ', error.message));
@@ -47,9 +46,9 @@ const ShiftManagement = () => {
               engagements={engagementState.engagements}
               key={i}
               manage
-              users={tenderState.users}
-              onAddEngagement={addEngagement}
-              onRemoveEngagement={removeEngagement}
+              users={tenderState.tenders}
+              onAddEngagement={onAddEngagement}
+              onRemoveEngagement={onRemoveEngagement}
             />
           );
         })}

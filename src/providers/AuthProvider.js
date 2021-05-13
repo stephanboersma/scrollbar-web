@@ -20,14 +20,14 @@ const AuthProvider = ({ children }) => {
     auth.onAuthStateChanged(async (authState) => {
       if (authState) {
         if (authState.uid) {
-          getUser(authState.uid)
-            .then((_user) => {
-              setUser(_user);
+          getUser(authState.uid, {
+            next: (snapshot) => {
+              setUser({ ...snapshot.data(), id: snapshot.id });
               setLoadingAuthState(false);
-            })
-            .catch((error) =>
-              message.error(`An error occured: ${error.message}`)
-            );
+            },
+            error: (error) =>
+              message.error('An error occurred ' + error.message),
+          });
         } else {
           setLoadingAuthState(false);
         }

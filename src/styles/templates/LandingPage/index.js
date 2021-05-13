@@ -76,7 +76,6 @@ const LandingPage = ({ children }) => {
           </UserCorner>
         )}
       </Header>
-
       {children}
       <Footer style={{ textAlign: 'center' }}>ScrollBar ©2021</Footer>
     </Layout>

@@ -1,30 +1,61 @@
 import { message } from 'antd';
 import { useEffect, useState } from 'react';
 
-import { getEvents } from '../firebase/api';
+import {
+  createEvent,
+  deleteEvent,
+  streamEvents,
+  updateEvent as update,
+} from '../firebase/api';
 
 const useEvents = () => {
   const [eventState, setEventState] = useState({
     loading: false,
     isLoaded: false,
     events: [],
+    previousEvents: [],
   });
 
-  useEffect(() => {
+  useEffect(async () => {
     setEventState({ ...eventState, loading: true });
-    fetchEvents();
+    const unsubscribe = streamEvents({
+      next: (snapshot) => {
+        const updatedEvents = snapshot.docs.map((doc) => {
+          return { ...doc.data(), id: doc.id, key: doc.id };
+        });
+        setEventState({
+          ...eventState,
+          loading: false,
+          isLoaded: true,
+          events: updatedEvents.filter(
+            (_event) => _event.end.toDate() >= new Date(Date.now())
+          ),
+          previousEvents: updatedEvents.filter(
+            (_event) => _event.end.toDate() < new Date(Date.now())
+          ),
+        });
+      },
+      error: (error) => message.error('An error occurred: ' + error.message),
+    });
+    return unsubscribe;
   }, [setEventState]);
 
-  const fetchEvents = () => {
-    console.log('fetch events');
-    getEvents(false)
-      .then((_events) =>
-        setEventState({ loading: false, isLoaded: true, events: _events })
-      )
-      .catch((error) => message.error('An error occurred: ', error.message));
+  const addEvent = (event) => {
+    return createEvent(event);
   };
 
-  return { eventState, fetchEvents };
+  const removeEvent = (event) => {
+    return deleteEvent(event);
+  };
+  const updateEvent = (id, field, value) => {
+    return update({
+      id: id,
+      field: field,
+      value: value,
+    });
+  };
+
+  return { eventState, addEvent, removeEvent, updateEvent };
 };
 
 export default useEvents;

@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import AuthContext from '../../../contexts/AuthContext';
 import TendersContext from '../../../contexts/TendersContext';
-import { deleteInvite, inviteUser, updateUser } from '../../../firebase/api';
 import DataTable from '../../../styles/molecules/DataTable';
 import InviteModal from '../../../styles/molecules/InviteModal';
 import ProfileInfo from '../../../styles/molecules/ProfileInfo';
@@ -32,9 +31,13 @@ const StyledButton = styled(Button)`
 `;
 
 const UserManagement = () => {
-  const { tenderState, fetchInvitedTenders, fetchTenders } = useContext(
-    TendersContext
-  );
+  const {
+    tenderState,
+    invitedTenders,
+    updateTender,
+    addInvite,
+    removeInvite,
+  } = useContext(TendersContext);
   const { studylines } = useContext(AuthContext);
   const [isProfileVisible, setIsProfileVisible] = useState(false);
   const [isInviteModalVisible, setIsInviteModalVisible] = useState(false);
@@ -46,9 +49,8 @@ const UserManagement = () => {
   };
 
   const updateProfile = (field, value) => {
-    updateUser({ id: selectedUser.id, field: field, value: value })
+    updateTender({ id: selectedUser.id, field: field, value: value })
       .then(() => {
-        fetchTenders();
         if (field === 'studyline') {
           setSelectedUser({
             ...selectedUser,
@@ -63,24 +65,24 @@ const UserManagement = () => {
       .catch((error) => message.error('An error occurred ' + error.message));
   };
 
-  const addInvite = ({ email }) => {
+  const onAddInvite = ({ email }) => {
+    console.log(tenderState);
     if (
       tenderState.invitedTenders.filter((user) => user.key === email).length > 0
     ) {
       message.error(`${email} is already invited`);
     } else {
-      inviteUser(email)
+      addInvite(email)
         .then(() => {
           message.success(`${email} has been invited.`);
-          fetchInvitedTenders();
         })
         .catch((error) => message.error('An error ocurred: ' + error.message));
     }
   };
 
   const onInviteDelete = (row) => {
-    deleteInvite(row)
-      .then(() => fetchInvitedTenders())
+    removeInvite(row)
+      .then(() => message.success('Invite removed'))
       .catch((error) => message.error('An error ocurred: ' + error.message));
   };
   return (
@@ -88,7 +90,7 @@ const UserManagement = () => {
       <StyledTabs type="card" defaultActiveKey="1">
         <StyledTabPane tab="Manage users" key="1">
           <DataTable
-            columns={USER_COLUMNS(onUserEdit)}
+            columns={USER_COLUMNS(onUserEdit, studylines)}
             data={tenderState.tenders}
           />
         </StyledTabPane>
@@ -100,7 +102,7 @@ const UserManagement = () => {
             Invite users
           </StyledButton>
           <DataTable
-            data={tenderState.invitedTenders}
+            data={invitedTenders}
             columns={INVITED_COLUMNS(onInviteDelete)}
           />
         </StyledTabPane>
@@ -108,7 +110,7 @@ const UserManagement = () => {
       <Divider />
       <InviteModal
         visible={isInviteModalVisible}
-        onCreate={addInvite}
+        onCreate={onAddInvite}
         onCancel={() => setIsInviteModalVisible(false)}
       />
       <Drawer
