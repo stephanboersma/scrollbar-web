@@ -24,8 +24,12 @@ const UserNameLink = styled(Text)`
 `;
 
 const UserCorner = styled(Space)`
+  align-self: flex-end;
   @media (max-width: 680px) {
     display: none;
+  }
+  @media (min-width: 680px) {
+    padding-right: 50px;
   }
 `;
 
@@ -33,6 +37,9 @@ const HeaderWrapper = styled(Space)`
   flex-grow: 1;
   @media (max-width: 680px) {
     justify-content: space-between;
+  }
+  @media (min-width: 680px) {
+    padding-left: 50px;
   }
 `;
 
@@ -43,7 +50,14 @@ const LandingPage = ({ children }) => {
     <Layout
       style={{ display: 'flex', flexDirection: 'column', height: 'auto' }}
     >
-      <Header style={{ height: 'auto', display: 'flex', flexDirection: 'row' }}>
+      <Header
+        style={{
+          height: 'auto',
+          display: 'flex',
+          flexDirection: 'row',
+          padding: '0',
+        }}
+      >
         <HeaderWrapper direction="horizontal">
           <Logo style={{ height: '100px', flexGrow: 1 }} src={logo} />
           <Menu
@@ -52,11 +66,10 @@ const LandingPage = ({ children }) => {
             }
             theme="dark"
             mode="horizontal"
-            defaultSelectedKeys={['2']}
-            style={{ lineHeight: '132px', flexGrow: '1' }}
+            style={{ lineHeight: '132px', flex: '1' }}
           >
             <MenuItem key="3" onClick={() => history.push('/members')}>
-              Members Lounge
+              Tender site
             </MenuItem>
           </Menu>
         </HeaderWrapper>
@@ -69,7 +82,14 @@ const LandingPage = ({ children }) => {
               <Avatar
                 style={{ margin: 'auto 0 ' }}
                 src={user.photoUrl}
-                size={{ xs: 75, sm: 100, md: 100, lg: 100, xl: 100, xxl: 100 }}
+                size={{
+                  xs: 75,
+                  sm: 100,
+                  md: 100,
+                  lg: 100,
+                  xl: 100,
+                  xxl: 100,
+                }}
                 icon={<AntDesignOutlined />}
               />
             </Dropdown>

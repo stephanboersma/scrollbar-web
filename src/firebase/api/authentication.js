@@ -30,11 +30,14 @@ export const createAccount = (form) => {
 
 export const loginWithEmailAndPassword = (email, password) => {
   return new Promise((resolve, reject) => {
-    auth.signInWithEmailAndPassword(email, password).then((user) => {
-      getDocument('/users', user.uid, false)
-        .then((userData) => resolve(userData))
-        .catch((error) => reject(error));
-    });
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((user) => {
+        getDocument('/users', user.uid, false)
+          .then((userData) => resolve(userData))
+          .catch((error) => reject(error));
+      })
+      .catch(reject);
   });
 };
 

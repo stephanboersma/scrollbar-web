@@ -80,7 +80,7 @@ const SideBarPage = ({ children, title }) => {
           onSelect={(info) => navigateToLink(info.key)}
         >
           <Menu.Item key="/members/shifts" icon={<HomeOutlined />}>
-            {"Member's Lounge"}
+            Tender site
           </Menu.Item>
           <Menu.Item key="/members/profile" icon={<ProfileOutlined />}>
             Profile
