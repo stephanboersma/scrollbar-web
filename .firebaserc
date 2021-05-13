@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "scrollweb-cc9b4"
+  },
+  "targets": {
+    "scrollweb-cc9b4": {
+      "hosting": {
+        "test-scrollbar": [
+          "test-scrollbar"
+        ],
+        "scrollbar": [
+          "scrollbar"
+        ]
+      }
+    }
   }
 }

@@ -18,7 +18,7 @@ const Container = styled(Col)`
 const LoginForm = ({ onSubmit }) => {
   return (
     <Container xs={12} sm={6} md={4} lg={4}>
-      <Title level={3}>ScrollBar Members area</Title>
+      <Title level={3}>ScrollBar Tender site</Title>
       <Form name="login" initialValues={{ remember: true }} onFinish={onSubmit}>
         <Form.Item
           name="email"

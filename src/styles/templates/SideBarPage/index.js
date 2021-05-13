@@ -2,6 +2,7 @@ import {
   AntDesignOutlined,
   CalendarOutlined,
   HomeOutlined,
+  LoadingOutlined,
   ProfileOutlined,
   SettingOutlined,
   TeamOutlined,
@@ -66,7 +67,7 @@ const SideBarPage = ({ children, title }) => {
   const hasPermission = (role) => user.roles.includes(role) || user.isAdmin;
 
   if (!user) {
-    return <Title level={1}>Loading</Title>;
+    return <LoadingOutlined spin />;
   }
   return (
     <Wrapper>
@@ -79,7 +80,7 @@ const SideBarPage = ({ children, title }) => {
           onSelect={(info) => navigateToLink(info.key)}
         >
           <Menu.Item key="/members/shifts" icon={<HomeOutlined />}>
-            {"Member's Lounge"}
+            Tender site
           </Menu.Item>
           <Menu.Item key="/members/profile" icon={<ProfileOutlined />}>
             Profile

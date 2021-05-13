@@ -1,70 +1,56 @@
-# Getting Started with Create React App
+# Official website and members platform for ScrollBar.dk
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Production (main branch)
 
-## Available Scripts
+[https://scrollbar.web.app](https://scrollbar.web.app)
 
-In the project directory, you can run:
+Change to scrollbar.dk when domain settings have been changes
 
-### `yarn start`
+## Test (develop branch)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+[https://test-scrollbar.web.app](https://test-scrollbar.web.app)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+# Contribute
 
-### `yarn test`
+## vscode
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Suggested extensions for enhanced development experience:
 
-### `yarn build`
+- `dbaeumer.vscode-eslint`
+- `esbenp.prettier-vscode`
+- `jpoissonnier.vscode-styled-components`
+- `davidanson.vscode-markdownlint`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Guidelines to contribute
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Remember to checkout on a new branch when making changes. The naming convention is to prefix with `feature/` when you make an enhancement or `fix/` when you fix a bug.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Example when creating a count down timer: `checkout -b feature/count-down`.
 
-### `yarn eject`
+Create a PR to develop when ready for review. You can indicate work in progress by adding the prefix `WIP` or `🚧` to the PR title.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+A preview url will be generated for each PR. When merged into the develop branch, changes will be deployed to [https://test-scrollbar.web.app](https://test-scrollbar.web.app)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Always make sure that your code is properly linted according to the rules defined in `.prettierrc.js` and `.eslintrc.js`. Run `yarn lint:fix`to run the linter on the entire directory.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Steps to set up local development environment
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+1. Create a firebase project and populate a local `.env` file with the environment variables. See `.env.example`
 
-## Learn More
+2. Go to your firebase console
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. Enable e-mail authentication
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+4. Activate your firestore database in the eu-west region
 
-### Code Splitting
+5. Create a collection named `invites` and add a document with your email as the id. Create a boolean field named `registered` with the value false.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+6. Run `yarn install && yarn start`
 
-### Analyzing the Bundle Size
+7. Navigate to [https://localhost:3000/register](https://localhost:3000/register) and sign up
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+8. Go back to your firestore database and change the `isAdmin` value to `true` in the recently created document in the `users` collection
 
-### Making a Progressive Web App
+9. Sign in at [https://localhost:3000/login](https://localhost:3000/login)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+10. Happy coding...

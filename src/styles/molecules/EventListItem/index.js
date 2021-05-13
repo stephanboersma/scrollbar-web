@@ -1,7 +1,7 @@
 import { Divider, Space } from 'antd';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import Shift from '../../atoms/Shift';
 import { Text, Title } from '../../atoms/Typography';
@@ -16,7 +16,6 @@ const EventListItem = ({
   setUpForGrabs,
   onTakeShift,
 }) => {
-  useEffect(() => console.log('EventListRender render'));
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
       <Title level={3}>
@@ -46,8 +45,6 @@ const EventListItem = ({
             }}
             onRemoveEngagement={onRemoveEngagement}
             onSetUpForGrabs={(engagement, userId) => {
-              console.log('Up for grabs EventListItem');
-
               setUpForGrabs(engagement, userId);
             }}
             takeShift={onTakeShift}

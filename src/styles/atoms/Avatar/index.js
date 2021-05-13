@@ -1,8 +1,8 @@
-import { AntDesignOutlined } from '@ant-design/icons';
+import { AntDesignOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import PropTypes from 'prop-types';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 
 import AuthContext from '../../../contexts/AuthContext';
 import { Text } from '../Typography';
@@ -16,9 +16,6 @@ const TenderAvatar = ({
   takeShift,
 }) => {
   const { user } = useContext(AuthContext);
-  useEffect(() => {
-    console.log('Tender render');
-  });
 
   const getButton = () => {
     if (manage) return;
@@ -32,7 +29,6 @@ const TenderAvatar = ({
         <Button
           type="primary"
           onClick={() => {
-            console.log('Up for grabs tenderAvatar');
             setUpForGrabs(true);
           }}
         >
@@ -47,6 +43,9 @@ const TenderAvatar = ({
       ) : null;
     }
   };
+  if (!tender) {
+    return <LoadingOutlined spin />;
+  }
   return (
     <Space style={{ cursor: 'pointer' }} direction="vertical" align="center">
       <Avatar

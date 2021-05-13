@@ -27,8 +27,6 @@ export const updateEvent = ({ id, field, value }) => {
 };
 
 export const streamEvents = (observer) => {
-  console.log('Reading /events');
-
   return db
     .collection('/env')
     .doc(process.env.REACT_APP_ENV)

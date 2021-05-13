@@ -11,7 +11,7 @@ const StyledUpload = styled(Upload)`
   width: fit-content;
   cursor: pointer;
 `;
-const UploadAvatar = ({ user, onUpdatePhoto }) => {
+const UploadAvatar = ({ tender, onUpdatePhoto }) => {
   const [file, setFile] = useState([]);
   const handleUpload = (e) => {
     setFile(e.file.originFileObj);
@@ -21,13 +21,13 @@ const UploadAvatar = ({ user, onUpdatePhoto }) => {
     <StyledUpload
       name="avatar"
       customRequest={() => {
-        uploadProfilePicture(file, user.email).then(onUpdatePhoto);
+        uploadProfilePicture(file, tender.email).then(onUpdatePhoto);
       }}
       showUploadList={false}
       onChange={handleUpload}
     >
       <Avatar
-        src={user.photoUrl}
+        src={tender.photoUrl}
         size={{ xs: 75, sm: 100, md: 100, lg: 100, xl: 100, xxl: 100 }}
         icon={<PlusOutlined />}
       />
@@ -36,7 +36,7 @@ const UploadAvatar = ({ user, onUpdatePhoto }) => {
 };
 
 UploadAvatar.propTypes = {
-  user: PropTypes.any,
+  tender: PropTypes.any,
   onUpdatePhoto: PropTypes.func,
 };
 export default UploadAvatar;

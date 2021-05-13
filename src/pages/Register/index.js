@@ -11,6 +11,7 @@ import FullWidthPage from '../../styles/templates/FullPage';
 
 const Wrapper = styled(Row)`
   height: 100%;
+  padding: 24px 0;
 `;
 const Register = () => {
   const { setUser, studylines } = useContext(AuthContext);

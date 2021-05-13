@@ -27,7 +27,6 @@ export const updateShift = ({ id, field, value }) => {
 };
 
 export const streamShifts = (observer) => {
-  console.log('Reading /shifts');
   return db
     .collection('/env')
     .doc(process.env.REACT_APP_ENV)
