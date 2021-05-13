@@ -1,3 +1,4 @@
+import { LoadingOutlined } from '@ant-design/icons';
 import { Button, Divider, Drawer, message, Tabs } from 'antd';
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
@@ -49,7 +50,7 @@ const UserManagement = () => {
   };
 
   const updateProfile = (field, value) => {
-    updateTender({ id: selectedUser.id, field: field, value: value })
+    updateTender(selectedUser.id, field, value)
       .then(() => {
         if (field === 'studyline') {
           setSelectedUser({
@@ -66,7 +67,6 @@ const UserManagement = () => {
   };
 
   const onAddInvite = ({ email }) => {
-    console.log(tenderState);
     if (invitedTenders.filter((user) => user.key === email).length > 0) {
       message.error(`${email} is already invited`);
     } else {
@@ -83,6 +83,11 @@ const UserManagement = () => {
       .then(() => message.success('Invite removed'))
       .catch((error) => message.error('An error ocurred: ' + error.message));
   };
+
+  if (tenderState.loading || studylines.length === 0) {
+    return <LoadingOutlined spin />;
+  }
+
   return (
     <SideBarPage title="User Management">
       <StyledTabs type="card" defaultActiveKey="1">
@@ -119,9 +124,8 @@ const UserManagement = () => {
         visible={isProfileVisible}
       >
         <ProfileInfo
-          user={selectedUser}
+          tender={selectedUser}
           updateProfile={updateProfile}
-          studylines={studylines}
           manageUser
         />
       </Drawer>

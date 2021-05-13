@@ -13,10 +13,9 @@ export const createAccount = (form) => {
           isAdmin: false,
           roles: ['regular_access', 'tender'],
           phone: null,
-          isPassive: false,
           active: true,
+          photoUrl: '',
         };
-        console.log('Reading /invites');
         await db
           .collection('/invites')
           .doc(form.email)

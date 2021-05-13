@@ -1,4 +1,4 @@
-import { Form, Input, Modal } from 'antd';
+import { Form, Input, message, Modal } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
 import PropTypes from 'prop-types';
 import React, { useRef } from 'react';
@@ -16,7 +16,7 @@ const InviteModal = ({ visible, onCreate, onCancel }) => {
         inviteForm.getFieldInstance('email').focus();
       })
       .catch((info) => {
-        console.log('Validate Failed:', info);
+        message.error('Invite failed: ' + info);
       });
   };
   return (

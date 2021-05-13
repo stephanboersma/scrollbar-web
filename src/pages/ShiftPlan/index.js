@@ -1,6 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { message, Space } from 'antd';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 
 import EngagementContext from '../../contexts/EngagementContext';
 import EventContext from '../../contexts/EventContext';
@@ -42,9 +42,7 @@ const ShiftPlan = () => {
       })
       .catch((error) => message.error('An error occurred: ' + error.message));
   };
-  useEffect(() => {
-    console.log('ShiftPlan render');
-  }, []);
+
   if (eventState.loading || tenderState.loading || shiftState.loading) {
     return <LoadingOutlined size={100} spin />;
   }
