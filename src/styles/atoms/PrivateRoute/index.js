@@ -29,7 +29,7 @@ const PrivateRoute = ({
               message.warning(
                 'You do not have sufficient permissions to access this page.'
               );
-              history.push('/profile');
+              history.push('/members/profile');
             }
           }
         } else {

@@ -83,7 +83,7 @@ const ProfileInfo = ({ user, updateProfile, manageUser, studylines }) => {
         <Descriptions style={{ width: '100%' }} bordered>
           <Descriptions.Item label="Studyline" span={3}>
             {editStudyline ? (
-              <Select value={user.studyline.id} onChange={updateStudyline}>
+              <Select value={user.studyline} onChange={updateStudyline}>
                 {studylines.map((each) => {
                   return (
                     <Option key={each.id} value={each.id}>
@@ -98,7 +98,11 @@ const ProfileInfo = ({ user, updateProfile, manageUser, studylines }) => {
                   onStart: () => setEditStudyline(true),
                 }}
               >
-                {user.studyline.name}
+                {
+                  studylines.filter(
+                    (studyline) => studyline.id === user.studyline
+                  )[0].name
+                }
               </Text>
             )}
           </Descriptions.Item>

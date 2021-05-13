@@ -78,29 +78,29 @@ const SideBarPage = ({ children, title }) => {
           defaultSelectedKeys={[location.pathname]}
           onSelect={(info) => navigateToLink(info.key)}
         >
-          <Menu.Item key="/members" icon={<HomeOutlined />}>
+          <Menu.Item key="/members/shifts" icon={<HomeOutlined />}>
             {"Member's Lounge"}
           </Menu.Item>
-          <Menu.Item key="/profile" icon={<ProfileOutlined />}>
+          <Menu.Item key="/members/profile" icon={<ProfileOutlined />}>
             Profile
           </Menu.Item>
           {hasPermission('user_manager') && (
-            <Menu.Item key="/manage/users" icon={<TeamOutlined />}>
+            <Menu.Item key="/members/manage/users" icon={<TeamOutlined />}>
               User Management
             </Menu.Item>
           )}
           {hasPermission('event_manager') && (
-            <Menu.Item key="/manage/events" icon={<CalendarOutlined />}>
+            <Menu.Item key="/members/manage/events" icon={<CalendarOutlined />}>
               Event Management
             </Menu.Item>
           )}
           {hasPermission('shift_manager') && (
-            <Menu.Item key="/manage/shifts" icon={<SettingOutlined />}>
+            <Menu.Item key="/members/manage/shifts" icon={<SettingOutlined />}>
               Shift Management
             </Menu.Item>
           )}
           {hasPermission('admin') && (
-            <Menu.Item key="/settings" icon={<SettingOutlined />}>
+            <Menu.Item key="/members/settings" icon={<SettingOutlined />}>
               Settings
             </Menu.Item>
           )}
