@@ -1,6 +1,5 @@
 import { db } from '../index';
 export const getCollection = (path, useEnv) => {
-  console.log('Reading ' + path);
   const reference = useEnv
     ? db.collection('/env').doc(process.env.REACT_APP_ENV).collection(path)
     : db.collection(path);
@@ -12,7 +11,6 @@ export const getCollection = (path, useEnv) => {
 };
 
 export const getDocument = (collection, id, useEnv) => {
-  console.log('Reading ' + collection + '/' + id);
   const reference = useEnv
     ? db
         .collection('/env')

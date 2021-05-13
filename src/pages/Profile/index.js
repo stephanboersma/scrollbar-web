@@ -1,3 +1,4 @@
+import { LoadingOutlined } from '@ant-design/icons';
 import { message } from 'antd';
 import React, { useContext } from 'react';
 
@@ -26,14 +27,13 @@ const Profile = () => {
       })
       .catch((error) => message.error('An error occurred ' + error.message));
   };
+  if (!user || studylines.length === 0) {
+    return <LoadingOutlined spin />;
+  }
 
   return (
     <SideBarPage title="Profile">
-      <ProfileInfo
-        user={user}
-        studylines={studylines}
-        updateProfile={updateProfile}
-      />
+      <ProfileInfo tender={user} updateProfile={updateProfile} />
     </SideBarPage>
   );
 };

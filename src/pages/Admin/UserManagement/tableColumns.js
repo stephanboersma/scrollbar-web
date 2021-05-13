@@ -42,10 +42,13 @@ export const USER_COLUMNS = (onUserEdit, studylines) => [
     title: 'Studyline',
     dataIndex: 'studyline',
     key: 'studyline',
-    render: (studyline) =>
-      studylines
-        .filter((_studyline) => _studyline.id === studyline)[0]
-        .abbreviation.toUpperCase(),
+    render: (studyline) => {
+      return studylines.length > 0
+        ? studylines
+            .filter((_studyline) => _studyline.id === studyline)[0]
+            .abbreviation.toUpperCase()
+        : '';
+    },
   },
   {
     title: 'Email',
@@ -79,7 +82,12 @@ export const USER_COLUMNS = (onUserEdit, studylines) => [
     title: 'Actions',
     key: 'actions',
     render: (user) => (
-      <Link onClick={() => onUserEdit(user)} style={{ color: '#171717' }}>
+      <Link
+        onClick={() => {
+          onUserEdit(user);
+        }}
+        style={{ color: '#171717' }}
+      >
         <EditOutlined />
       </Link>
     ),

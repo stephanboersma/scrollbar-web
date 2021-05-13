@@ -21,7 +21,6 @@ const useTenders = () => {
     setTenderState({ ...tenderState, loading: true });
     const unsubscribeTenders = streamUsers({
       next: (snapshot) => {
-        console.log('loadTenders');
         const updatedTenders = snapshot.docs.map((doc) => {
           return { ...doc.data(), id: doc.id, key: doc.id };
         });
@@ -36,7 +35,6 @@ const useTenders = () => {
     });
     const unsubscribeInvitedTenders = streamInvitedUsers({
       next: (snapshot) => {
-        console.log('loadInvited');
         const updatedInvites = snapshot.docs.map((doc) => {
           return { ...doc.data(), id: doc.id, key: doc.id };
         });

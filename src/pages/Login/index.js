@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Row } from 'react-styled-flexboxgrid';
@@ -18,7 +19,7 @@ const Login = () => {
       .then(() => {
         history.push(`/members/profile`);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => message.error('An error occurred: ' + error.message));
   };
   return (
     <FullWidthPage>

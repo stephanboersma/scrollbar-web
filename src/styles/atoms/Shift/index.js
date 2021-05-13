@@ -78,7 +78,6 @@ const Shift = ({
     }
   };
   useEffect(() => {
-    console.log('Shift render');
     setUpOptions();
     setTenderEngagements(
       engagements.filter(
@@ -143,8 +142,6 @@ const Shift = ({
               tender={getTender(anchorEngagement.userId)}
               takeShift={(user) => onTakeShift(anchorEngagement, user)}
               setUpForGrabs={(status) => {
-                console.log('Up for grabs Shift');
-
                 onSetUpForGrabs(anchorEngagement, status);
               }}
               key={i}
@@ -188,7 +185,6 @@ const Shift = ({
               key={i}
               takeShift={(user) => onTakeShift(tenderEngagement, user)}
               setUpForGrabs={(status) => {
-                console.log('Up for grabs Shift');
                 onSetUpForGrabs(tenderEngagement, status);
               }}
               isUpForGrabs={tenderEngagement.upForGrabs}

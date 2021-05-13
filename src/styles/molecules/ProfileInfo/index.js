@@ -1,3 +1,4 @@
+import { LoadingOutlined } from '@ant-design/icons';
 import {
   Col,
   Descriptions,
@@ -9,9 +10,10 @@ import {
   Space,
 } from 'antd';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
+import AuthContext from '../../../contexts/AuthContext';
 import { Text, Title } from '../../atoms/Typography';
 import UploadAvatar from '../../atoms/UploadAvatar';
 const { Option, OptGroup } = Select;
@@ -24,10 +26,11 @@ const StyledRow = styled(Row)`
   padding: ${({ theme }) => theme.baseUnit}px;
 `;
 
-const ProfileInfo = ({ user, updateProfile, manageUser, studylines }) => {
+const ProfileInfo = ({ tender, updateProfile, manageUser }) => {
   const [editStudyline, setEditStudyline] = useState(false);
+  const { user, studylines } = useContext(AuthContext);
   const getRole = () => {
-    const roles = user.roles;
+    const roles = tender.roles;
     if (roles.includes('passive')) {
       return 'Passive member';
     } else if (roles.includes('board')) {
@@ -43,11 +46,11 @@ const ProfileInfo = ({ user, updateProfile, manageUser, studylines }) => {
 
   const updateRole = (value, deselect) => {
     if (deselect) {
-      const newRoles = user.roles.filter((role) => role !== value);
+      const newRoles = tender.roles.filter((role) => role !== value);
       updateProfile('roles', newRoles);
     } else {
       const mandatoryRoles = ['passive', 'tender', 'anchor'];
-      const newRoles = user.roles.filter(
+      const newRoles = tender.roles.filter(
         (role) => !mandatoryRoles.includes(role)
       );
       newRoles.push(value);
@@ -60,12 +63,16 @@ const ProfileInfo = ({ user, updateProfile, manageUser, studylines }) => {
     setEditStudyline(false);
   };
 
+  if (studylines.length === 0 || !tender) {
+    return <LoadingOutlined spin />;
+  }
+
   return (
     <Col>
       <Row align="middle">
         <UploadAvatar
           onUpdatePhoto={(url) => updateProfile('photoUrl', url)}
-          user={user}
+          tender={tender}
         />
 
         <DisplayName
@@ -74,7 +81,7 @@ const ProfileInfo = ({ user, updateProfile, manageUser, studylines }) => {
             onChange: (value) => updateProfile('displayName', value),
           }}
         >
-          {user.displayName}
+          {tender.displayName}
         </DisplayName>
       </Row>
       <Divider />
@@ -83,7 +90,7 @@ const ProfileInfo = ({ user, updateProfile, manageUser, studylines }) => {
         <Descriptions style={{ width: '100%' }} bordered>
           <Descriptions.Item label="Studyline" span={3}>
             {editStudyline ? (
-              <Select value={user.studyline} onChange={updateStudyline}>
+              <Select value={tender.studyline} onChange={updateStudyline}>
                 {studylines.map((each) => {
                   return (
                     <Option key={each.id} value={each.id}>
@@ -100,14 +107,14 @@ const ProfileInfo = ({ user, updateProfile, manageUser, studylines }) => {
               >
                 {
                   studylines.filter(
-                    (studyline) => studyline.id === user.studyline
+                    (studyline) => studyline.id === tender.studyline
                   )[0].name
                 }
               </Text>
             )}
           </Descriptions.Item>
           <Descriptions.Item label="E-mail" span={3}>
-            <Text>{user.email}</Text>
+            <Text>{tender.email}</Text>
           </Descriptions.Item>
           <Descriptions.Item label="Phone" span={3}>
             <Text
@@ -115,7 +122,7 @@ const ProfileInfo = ({ user, updateProfile, manageUser, studylines }) => {
                 onChange: (value) => updateProfile('phone', value),
               }}
             >
-              {user.phone ? user.phone : 'Add phone number please'}
+              {tender.phone ? tender.phone : 'Add phone number please'}
             </Text>
           </Descriptions.Item>
           <Descriptions.Item label="Role" span={3}>
@@ -124,7 +131,7 @@ const ProfileInfo = ({ user, updateProfile, manageUser, studylines }) => {
                 mode="multiple"
                 style={{ width: '100%' }}
                 placeholder="Select Roles"
-                value={user.roles}
+                value={tender.roles}
                 onSelect={(value) => updateRole(value, false)}
                 onDeselect={(value) => updateRole(value, true)}
               >
@@ -136,7 +143,7 @@ const ProfileInfo = ({ user, updateProfile, manageUser, studylines }) => {
                 </OptGroup>
                 <OptGroup label="Permissions">
                   <Option value="regular_access">Regular Access</Option>
-                  <Option value="user_manager">User Manager</Option>
+                  <Option value="tender_manager">User Manager</Option>
                   <Option value="shift_manager">Shift Manager</Option>
                   <Option value="event_manager">Event Manager</Option>
                 </OptGroup>
@@ -155,7 +162,7 @@ const ProfileInfo = ({ user, updateProfile, manageUser, studylines }) => {
                     updateProfile('isAdmin', e.target.value);
                   }
                 }}
-                value={user.isAdmin}
+                value={tender.isAdmin}
               >
                 <Space direction="vertical">
                   <Radio value={true}>Yes</Radio>
@@ -170,7 +177,7 @@ const ProfileInfo = ({ user, updateProfile, manageUser, studylines }) => {
   );
 };
 ProfileInfo.propTypes = {
-  user: PropTypes.any,
+  tender: PropTypes.any,
   updateProfile: PropTypes.func,
   manageUser: PropTypes.bool,
   studylines: PropTypes.any,
