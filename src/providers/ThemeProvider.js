@@ -13,12 +13,6 @@ const GlobalStyle = createGlobalStyle`
 #root {
   height: 100vh;
 }
-
-.vertical-timeline-element-icon svg {
-  margin: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-}
 `;
 
 const ThemeProvider = ({ children }) => {

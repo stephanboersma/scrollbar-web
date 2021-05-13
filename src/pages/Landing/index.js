@@ -30,6 +30,15 @@ const NextEvent = styled(Row)`
   }
 `;
 
+const StyledTimelineElement = styled(VerticalTimelineElement)`
+  .vertical-timeline-element-icon svg {
+    margin: inherit;
+    left: inherit;
+    top: inherit;
+    display: inline-block;
+  }
+`;
+
 const Landing = () => {
   const { eventState } = useContext(EventContext);
   const { tenderState } = useContext(TendersContext);
@@ -204,7 +213,7 @@ const Landing = () => {
               <VerticalTimeline style={{ width: '100%' }}>
                 {eventState.events.map((each, i) => {
                   return (
-                    <VerticalTimelineElement
+                    <StyledTimelineElement
                       className="vertical-timeline-element--work"
                       iconStyle={{
                         background: '#fff319',
@@ -227,7 +236,7 @@ const Landing = () => {
                       >
                         {each.displayName}
                       </Title>
-                    </VerticalTimelineElement>
+                    </StyledTimelineElement>
                   );
                 })}
               </VerticalTimeline>
