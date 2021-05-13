@@ -1,8 +1,9 @@
 import { AutoComplete, Divider, message, Space } from 'antd';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
+import TendersContext from '../../../contexts/TendersContext';
 import TenderAvatar from '../Avatar';
 import { Text, Title } from '../Typography';
 
@@ -20,6 +21,7 @@ const Shift = ({
   const [anchorSearchValue, setAnchorSearchValue] = useState();
   const [anchorEngagements, setAnchorEngagements] = useState([]);
   const [tenderEngagements, setTenderEngagements] = useState([]);
+  const { tenderState } = useContext(TendersContext);
   const [anchors, setAnchors] = useState([]);
   const [tenders, setTenders] = useState([]);
 
@@ -91,6 +93,11 @@ const Shift = ({
       )
     );
   }, [engagements]);
+
+  const getTender = (userId) => {
+    return tenderState.tenders.filter((_tender) => _tender.id === userId)[0];
+  };
+
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
       <Divider orientation="left">
@@ -133,7 +140,7 @@ const Shift = ({
               onClick={() =>
                 manage ? onRemoveEngagement(anchorEngagement) : null
               }
-              tender={anchorEngagement.user}
+              tender={getTender(anchorEngagement.userId)}
               takeShift={(user) => onTakeShift(anchorEngagement, user)}
               setUpForGrabs={(status) => {
                 console.log('Up for grabs Shift');
@@ -177,7 +184,7 @@ const Shift = ({
               onClick={() =>
                 manage ? onRemoveEngagement(tenderEngagement) : null
               }
-              tender={tenderEngagement.user}
+              tender={getTender(tenderEngagement.userId)}
               key={i}
               takeShift={(user) => onTakeShift(tenderEngagement, user)}
               setUpForGrabs={(status) => {

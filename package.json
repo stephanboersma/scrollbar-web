@@ -30,6 +30,8 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
+    "lint": "eslint src",
+    "lint:fix": "eslint --fix src",
     "bratus": "node ./node_modules/@react-bratus/cli/bin",
     "bratus:start": "node ./node_modules/@react-bratus/cli/bin -s",
     "bratus:parse": "node ./node_modules/@react-bratus/cli/bin -p",

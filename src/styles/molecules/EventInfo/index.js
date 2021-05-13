@@ -62,7 +62,7 @@ const EventInfo = ({
           <Descriptions.Item label="When" span={3}>
             <RangePicker
               style={{ width: '100%' }}
-              value={[moment(event.start), moment(event.end)]}
+              value={[moment(event.start.toDate()), moment(event.end.toDate())]}
               showTime={{ format: 'HH:mm' }}
               format="DD-MM-YYYY HH:mm"
               onCalendarChange={saveWhen}

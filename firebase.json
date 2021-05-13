@@ -9,6 +9,7 @@
     ]
   },
   "hosting": {
+    "site": "scrollbar",
     "public": "build",
     "ignore": [
       "firebase.json",
