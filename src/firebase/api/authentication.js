@@ -16,9 +16,8 @@ export const createAccount = (form) => {
           isPassive: false,
           active: true,
         };
+        console.log('Reading /invites');
         await db
-          .collection('/env')
-          .doc(process.env.REACT_APP_ENV)
           .collection('/invites')
           .doc(form.email)
           .update({ registered: true });
@@ -33,7 +32,7 @@ export const createAccount = (form) => {
 export const loginWithEmailAndPassword = (email, password) => {
   return new Promise((resolve, reject) => {
     auth.signInWithEmailAndPassword(email, password).then((user) => {
-      getDocument('users', user.uid)
+      getDocument('/users', user.uid, false)
         .then((userData) => resolve(userData))
         .catch((error) => reject(error));
     });
@@ -41,96 +40,35 @@ export const loginWithEmailAndPassword = (email, password) => {
 };
 
 export const checkIfEmailIsInvited = (email) => {
-  return getDocument('invites', email);
+  return getDocument('invites', email, false);
 };
 
 export const getStudyLines = () => {
-  return getCollection('/studylines');
+  return getCollection('/studylines', false);
 };
 
-export const getUser = (id) => {
-  return new Promise((resolve, reject) => {
-    getDocument('/users', id)
-      .then((user) => {
-        getDocument('/studylines', user.studyline)
-          .then((studyline) => {
-            resolve({ ...user, studyline: studyline });
-          })
-          .catch(reject);
-      })
-      .catch(reject);
-  });
+export const getUser = (id, observer) => {
+  return db.collection('/users').doc(id).onSnapshot(observer);
 };
 
-export const getActiveTenders = () => {
-  return new Promise((resolve, reject) => {
-    getUsers()
-      .then((users) => {
-        resolve(
-          users
-            .filter((user) => !user.roles.includes('passive'))
-            .map((user) => {
-              return {
-                displayName: user.displayName,
-                studyline: user.studyline,
-                photoUrl: user.photoUrl,
-              };
-            })
-        );
-      })
-      .catch(reject);
-  });
+export const streamUsers = (observer) => {
+  return db.collection('/users').onSnapshot(observer);
 };
 
-export const getUsers = () => {
-  return new Promise((resolve, reject) => {
-    getCollection('/studylines')
-      .then((studylines) => {
-        getCollection('/users')
-          .then((users) => {
-            resolve(
-              users.map((user) => {
-                return {
-                  ...user,
-                  studyline: studylines.filter(
-                    (studyline) => studyline.id === user.studyline
-                  )[0],
-                };
-              })
-            );
-          })
-          .catch(reject);
-      })
-      .catch(reject);
-  });
-};
-
-export const getInvitedUsers = () => {
-  return getCollection('/invites');
+export const streamInvitedUsers = (observer) => {
+  return db.collection('/invites').onSnapshot(observer);
 };
 
 export const inviteUser = (email) => {
-  return db
-    .collection('/env')
-    .doc(process.env.REACT_APP_ENV)
-    .collection('/invites')
-    .doc(email)
-    .set({ registered: false });
+  return db.collection('/invites').doc(email).set({ registered: false });
 };
 
 export const deleteInvite = ({ id }) => {
-  return db
-    .collection('/env')
-    .doc(process.env.REACT_APP_ENV)
-    .collection('/invites')
-    .doc(id)
-    .delete();
+  return db.collection('/invites').doc(id).delete();
 };
 
 export const updateUser = ({ id, field, value }) => {
   return db
-    .collection('/env')
-    .doc(process.env.REACT_APP_ENV)
     .collection('/users')
     .doc(id)
     .update({ [field]: value });
@@ -138,11 +76,7 @@ export const updateUser = ({ id, field, value }) => {
 
 export const uploadProfilePicture = (picture, email) => {
   return storage
-    .ref(
-      `${process.env.REACT_APP_ENV}/profile_pictures/${email}.${getExtension(
-        picture.name
-      )}`
-    )
+    .ref(`profile_pictures/${email}.${getExtension(picture.name)}`)
     .put(picture, {
       contentType: picture.type,
       customMetadata: { uploadedBy: email },
@@ -153,11 +87,6 @@ export const uploadProfilePicture = (picture, email) => {
 };
 
 const saveUser = (id, profile) => {
-  return db
-    .collection('/env')
-    .doc(process.env.REACT_APP_ENV)
-    .collection('/users')
-    .doc(id)
-    .set(profile);
+  return db.collection('/users').doc(id).set(profile);
 };
 export const signOut = () => auth.signOut();

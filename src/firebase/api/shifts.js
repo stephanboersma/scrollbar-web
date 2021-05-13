@@ -1,11 +1,20 @@
 import { db } from '..';
 
 export const createShift = (shift) => {
-  return db.collection('/shifts').add(shift);
+  return db
+    .collection('/env')
+    .doc(process.env.REACT_APP_ENV)
+    .collection('/shifts')
+    .add(shift);
 };
 
 export const deleteShift = (shift) => {
-  return db.collection('/shifts').doc(shift.id).delete();
+  return db
+    .collection('/env')
+    .doc(process.env.REACT_APP_ENV)
+    .collection('/shifts')
+    .doc(shift.id)
+    .delete();
 };
 
 export const updateShift = ({ id, field, value }) => {
@@ -17,17 +26,12 @@ export const updateShift = ({ id, field, value }) => {
     .update({ [field]: value });
 };
 
-export const getShifts = () => {
+export const streamShifts = (observer) => {
+  console.log('Reading /shifts');
   return db
     .collection('/env')
     .doc(process.env.REACT_APP_ENV)
     .collection('/shifts')
-    .where('end', '>=', new Date(Date.now()))
     .orderBy('end', 'asc')
-    .get()
-    .then((res) =>
-      res.docs.map((doc) => {
-        return { id: doc.id, key: doc.id, ...doc.data() };
-      })
-    );
+    .onSnapshot(observer);
 };

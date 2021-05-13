@@ -26,18 +26,13 @@ export const updateEvent = ({ id, field, value }) => {
     .update({ [field]: value });
 };
 
-export const getEvents = (old) => {
-  const op = old ? '<' : '>=';
+export const streamEvents = (observer) => {
+  console.log('Reading /events');
+
   return db
     .collection('/env')
     .doc(process.env.REACT_APP_ENV)
     .collection('/events')
     .orderBy('end', 'asc')
-    .where('end', op, new Date(Date.now()))
-    .get()
-    .then((res) =>
-      res.docs.map((doc) => {
-        return { id: doc.id, key: doc.id, ...doc.data() };
-      })
-    );
+    .onSnapshot(observer);
 };
