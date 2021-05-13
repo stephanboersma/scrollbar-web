@@ -1,3 +1,4 @@
+import { LoadingOutlined } from '@ant-design/icons';
 import { message, Space } from 'antd';
 import React, { useContext, useEffect } from 'react';
 
@@ -5,7 +6,6 @@ import EngagementContext from '../../contexts/EngagementContext';
 import EventContext from '../../contexts/EventContext';
 import ShiftContext from '../../contexts/ShiftContext';
 import TendersContext from '../../contexts/TendersContext';
-import { setUpForGrabs, takeShift } from '../../firebase/api';
 import EventListItem from '../../styles/molecules/EventListItem';
 import SideBarPage from '../../styles/templates/SideBarPage';
 
@@ -13,7 +13,9 @@ const ShiftPlan = () => {
   const { eventState } = useContext(EventContext);
   const { shiftState } = useContext(ShiftContext);
   const { tenderState } = useContext(TendersContext);
-  const { engagementState } = useContext(EngagementContext);
+  const { engagementState, takeShift, setUpForGrabs } = useContext(
+    EngagementContext
+  );
 
   const getEventShifts = (eventId) => {
     return shiftState.shifts.filter((shift) => shift.eventId === eventId);
@@ -43,6 +45,9 @@ const ShiftPlan = () => {
   useEffect(() => {
     console.log('ShiftPlan render');
   }, []);
+  if (eventState.loading || tenderState.loading || shiftState.loading) {
+    return <LoadingOutlined size={100} spin />;
+  }
   return (
     <SideBarPage title="Member's lounge">
       <Space direction="vertical" style={{ width: '100%' }}>

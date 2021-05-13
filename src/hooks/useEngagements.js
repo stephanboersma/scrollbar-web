@@ -1,7 +1,13 @@
 import { message } from 'antd';
 import { useEffect, useState } from 'react';
 
-import { getEngagements } from '../firebase/api';
+import {
+  createEngagement,
+  deleteEngagement,
+  setUpForGrabs as updateGrabs,
+  streamEngagements,
+  takeShift as updateShift,
+} from '../firebase/api';
 
 const useEngagements = () => {
   const [engagementState, setEngagementState] = useState({
@@ -12,22 +18,46 @@ const useEngagements = () => {
 
   useEffect(() => {
     setEngagementState({ ...engagementState, loading: true });
-    fetchEngagements();
-  }, [setEngagementState]);
-
-  const fetchEngagements = () => {
-    getEngagements()
-      .then((_engagements) =>
+    const unsubscribe = streamEngagements({
+      next: (snapshot) => {
+        const updatedEngagements = snapshot.docs.map((doc) => {
+          return { ...doc.data(), id: doc.id, key: doc.id };
+        });
         setEngagementState({
+          ...engagementState,
           loading: false,
           isLoaded: true,
-          engagements: _engagements,
-        })
-      )
-      .catch((error) => message.error('An error occurred: ', error.message));
+          engagements: updatedEngagements,
+        });
+      },
+      error: (error) => message.error('An error occurred: ' + error.message),
+    });
+    return unsubscribe;
+  }, [setEngagementState]);
+
+  const addEngagement = (newEngagement) => {
+    return createEngagement(newEngagement);
   };
 
-  return { engagementState, fetchEngagements };
+  const removeEngagement = (engagement) => {
+    return deleteEngagement(engagement);
+  };
+
+  const takeShift = (id, userId) => {
+    return updateShift(id, userId);
+  };
+
+  const setUpForGrabs = (id, status) => {
+    return updateGrabs(id, status);
+  };
+
+  return {
+    engagementState,
+    addEngagement,
+    removeEngagement,
+    takeShift,
+    setUpForGrabs,
+  };
 };
 
 export default useEngagements;

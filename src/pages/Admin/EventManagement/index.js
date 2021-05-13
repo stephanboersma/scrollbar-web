@@ -5,17 +5,10 @@ import styled from 'styled-components';
 
 import EventContext from '../../../contexts/EventContext';
 import ShiftContext from '../../../contexts/ShiftContext';
-import {
-  createEvent,
-  createShift,
-  deleteEvent,
-  deleteShift,
-  updateEvent,
-  updateShift,
-} from '../../../firebase/api';
 import DataTable from '../../../styles/molecules/DataTable';
 import EventInfo from '../../../styles/molecules/EventInfo';
 import SideBarPage from '../../../styles/templates/SideBarPage';
+import { convertToTimestamp } from '../../../utils/timestamp';
 import { EVENT_COLUMNS } from './tableColumns';
 
 const { TabPane } = Tabs;
@@ -39,9 +32,12 @@ const StyledButton = styled(Button)`
 `;
 
 const EventManagement = () => {
-  const { eventState, fetchEvents } = useContext(EventContext);
-  const [oldEvents] = useState([]);
-  const { shiftState, fetchShifts } = useContext(ShiftContext);
+  const { eventState, addEvent, removeEvent, updateEvent } = useContext(
+    EventContext
+  );
+  const { shiftState, addShift, removeShift, updateShift } = useContext(
+    ShiftContext
+  );
   const [selectedShifts, setSelectedShifts] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState();
   const [isEventInfoVisible, setIsEventInfoVisible] = useState(false);
@@ -56,11 +52,10 @@ const EventManagement = () => {
       end: possibleDates[1],
       published: false,
     };
-    createEvent(newEvent)
+    addEvent(newEvent)
       .then((res) => {
         message.success('A new event has been created');
         setSelectedEvent({ ...newEvent, id: res.id });
-        fetchEvents();
         setIsEventInfoVisible(true);
       })
       .catch((error) => message.error('An error ocurred: ' + error.message));
@@ -76,52 +71,22 @@ const EventManagement = () => {
       end: possibleDates[1],
       published: false,
     };
-    createEvent(newEvent)
+    addEvent(newEvent)
       .then((res) => {
         setSelectedEvent({ ...newEvent, id: res.id });
-        fetchEvents();
         shiftState.shifts
           .filter((shift) => shift.eventId === event.id)
-          .forEach((shift) => addShift({ ...shift, eventId: res.id }));
+          .forEach((shift) => createNewShift({ ...shift, eventId: res.id }));
       })
       .catch((error) => message.error('An error ocurred: ' + error.message));
   };
   const updateEventField = (field, value) => {
-    updateEvent({ id: selectedEvent.id, field: field, value: value })
+    updateEvent(selectedEvent.id, field, value)
       .then(() => {
-        fetchEvents();
         setSelectedEvent({ ...selectedEvent, [field]: value });
       })
       .catch((error) => message.error('An error occurred ' + error.message));
   };
-
-  /* const updateEvents = (old) => {
-    getEvents(old)
-      .then((events) => {
-        if (old) {
-          setOldEvents(
-            events.map((event) => {
-              return {
-                ...event,
-                start: event.start.toDate(),
-                end: event.end.toDate(),
-              };
-            })
-          );
-        } else {
-          setEvents(
-            events.map((event) => {
-              return {
-                ...event,
-                start: event.start.toDate(),
-                end: event.end.toDate(),
-              };
-            })
-          );
-        }
-      })
-      .catch((error) => message.error('An error occurred: ' + error.message));
-  }; */
 
   const onEventEdit = (event) => {
     setSelectedEvent(event);
@@ -131,43 +96,61 @@ const EventManagement = () => {
     setIsEventInfoVisible(true);
   };
   const onEventDelete = (event) => {
-    deleteEvent(event)
+    removeEvent(event)
       .then(() => {
         message.success('Event deleted');
         shiftState.shifts
           .filter((shift) => shift.eventId === event.id)
           .forEach(onDeleteShift);
-        fetchEvents();
       })
       .catch((error) => message.error('An error occurred: ' + error.message));
   };
   const onDeleteShift = (shift) => {
-    deleteShift(shift)
+    removeShift(shift)
       .then(() => {
         message.success('Shift deleted');
-        fetchShifts();
+        setSelectedShifts(
+          selectedShifts.filter((_shift) => _shift.id !== shift.id)
+        );
       })
       .catch((error) => message.error('An error occurred: ' + error.message));
   };
-  const addShift = (duplicate) => {
+  const createNewShift = (duplicate) => {
     const newShift = {
       title: duplicate ? duplicate.title : 'Opening',
       location: duplicate ? duplicate.location : 'Main bar',
-      start: moment(selectedEvent.start.toDate()).subtract(1, 'hours').toDate(),
-      end: moment(selectedEvent.start.toDate()).add(6, 'hours').toDate(),
+      start: convertToTimestamp(
+        moment(selectedEvent.start.toDate()).subtract(1, 'hours').toDate()
+      ),
+      end: convertToTimestamp(
+        moment(selectedEvent.start.toDate()).add(6, 'hours').toDate()
+      ),
       eventId: duplicate ? duplicate.eventId : selectedEvent.id,
       anchors: duplicate ? duplicate.anchors : 1,
       tenders: duplicate ? duplicate.tenders : 4,
     };
-    createShift(newShift)
-      .then(() => fetchShifts())
+    addShift(newShift)
+      .then((res) => {
+        setSelectedShifts([
+          ...selectedShifts,
+          {
+            ...newShift,
+            id: res.id,
+          },
+        ]);
+      })
       .catch((error) => message.error('An error occurred: ' + error.message));
   };
 
   const updateShiftField = (id, field, value) => {
-    updateShift({ id: id, field: field, value: value })
+    updateShift(id, field, value)
       .then(() => {
-        fetchShifts();
+        const index = selectedShifts.findIndex((shift) => shift.id === 1);
+        const shift = selectedShifts[index];
+        setSelectedShifts([
+          ...selectedShifts.splice(index, 1),
+          { ...shift, [field]: value },
+        ]);
       })
       .catch((error) => message.error('An error occurred ' + error.message));
   };
@@ -181,7 +164,10 @@ const EventManagement = () => {
       // then just give me this week's instance of that day
       const start = moment().isoWeekday(dayINeed).hour(15).minute(0).second(0);
       const end = moment(start).add(11, 'hours');
-      return [start.toDate(), end.toDate()];
+      return [
+        convertToTimestamp(start.toDate()),
+        convertToTimestamp(end.toDate()),
+      ];
     } else {
       // otherwise, give me *next week's* instance of that same day
       const start = moment()
@@ -191,7 +177,10 @@ const EventManagement = () => {
         .minute(0)
         .second(0);
       const end = moment(start).add(11, 'hours');
-      return [start.toDate(), end.toDate()];
+      return [
+        convertToTimestamp(start.toDate()),
+        convertToTimestamp(end.toDate()),
+      ];
     }
   };
   return (
@@ -208,7 +197,7 @@ const EventManagement = () => {
         </StyledTabPane>
         <StyledTabPane tab="Previous events" key="2">
           <DataTable
-            data={oldEvents}
+            data={eventState.previousEvents}
             columns={EVENT_COLUMNS(onEventEdit, onEventDelete, duplicateEvent)}
           />
         </StyledTabPane>
@@ -224,7 +213,7 @@ const EventManagement = () => {
         <EventInfo
           updateEvent={(field, value) => updateEventField(field, value)}
           shifts={selectedShifts}
-          onAddShift={addShift}
+          onAddShift={createNewShift}
           onUpdateShift={updateShiftField}
           onDeleteShift={onDeleteShift}
           event={selectedEvent}

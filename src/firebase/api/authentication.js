@@ -47,65 +47,16 @@ export const getStudyLines = () => {
   return getCollection('/studylines', false);
 };
 
-export const getUser = (id) => {
-  return new Promise((resolve, reject) => {
-    getDocument('/users', id, false)
-      .then((user) => {
-        getDocument('/studylines', user.studyline, false)
-          .then((studyline) => {
-            resolve({ ...user, studyline: studyline });
-          })
-          .catch(reject);
-      })
-      .catch(reject);
-  });
+export const getUser = (id, observer) => {
+  return db.collection('/users').doc(id).onSnapshot(observer);
 };
 
-export const getActiveTenders = () => {
-  return new Promise((resolve, reject) => {
-    getUsers()
-      .then((users) => {
-        resolve(
-          users
-            .filter((user) => !user.roles.includes('passive'))
-            .map((user) => {
-              return {
-                displayName: user.displayName,
-                studyline: user.studyline,
-                photoUrl: user.photoUrl,
-              };
-            })
-        );
-      })
-      .catch(reject);
-  });
+export const streamUsers = (observer) => {
+  return db.collection('/users').onSnapshot(observer);
 };
 
-export const getUsers = () => {
-  return new Promise((resolve, reject) => {
-    getCollection('/studylines', false)
-      .then((studylines) => {
-        getCollection('/users', false)
-          .then((users) => {
-            resolve(
-              users.map((user) => {
-                return {
-                  ...user,
-                  studyline: studylines.filter(
-                    (studyline) => studyline.id === user.studyline
-                  )[0],
-                };
-              })
-            );
-          })
-          .catch(reject);
-      })
-      .catch(reject);
-  });
-};
-
-export const getInvitedUsers = () => {
-  return getCollection('/invites', false);
+export const streamInvitedUsers = (observer) => {
+  return db.collection('/invites').onSnapshot(observer);
 };
 
 export const inviteUser = (email) => {
