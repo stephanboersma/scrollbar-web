@@ -67,9 +67,7 @@ const UserManagement = () => {
 
   const onAddInvite = ({ email }) => {
     console.log(tenderState);
-    if (
-      tenderState.invitedTenders.filter((user) => user.key === email).length > 0
-    ) {
+    if (invitedTenders.filter((user) => user.key === email).length > 0) {
       message.error(`${email} is already invited`);
     } else {
       addInvite(email)

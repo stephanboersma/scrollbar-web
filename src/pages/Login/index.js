@@ -1,9 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Row } from 'react-styled-flexboxgrid';
 import styled from 'styled-components';
 
-import AuthContext from '../../contexts/AuthContext';
 import { loginWithEmailAndPassword } from '../../firebase/api';
 import LoginForm from '../../styles/molecules/LoginForm';
 import FullWidthPage from '../../styles/templates/FullPage';
@@ -13,13 +12,11 @@ const Wrapper = styled(Row)`
 `;
 const Login = () => {
   const history = useHistory();
-  const { setUser } = useContext(AuthContext);
 
   const login = ({ email, password }) => {
     loginWithEmailAndPassword(email, password)
-      .then((res) => {
-        setUser(res);
-        history.push(`/members`);
+      .then(() => {
+        history.push(`/members/profile`);
       })
       .catch((error) => console.log(error));
   };
