@@ -215,7 +215,12 @@ const Landing = () => {
                         width: '50px',
                         height: '50px',
                       }}
-                      icon={<CalendarOutlined size={24} />}
+                      icon={
+                        <CalendarOutlined
+                          size={24}
+                          style={{ margin: 0, left: 'none', right: 'none' }}
+                        />
+                      }
                       date={moment(each.start.toDate())
                         .format('DD-MM-YYYY HH:mm')
                         .toString()}
