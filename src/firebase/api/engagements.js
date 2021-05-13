@@ -1,6 +1,7 @@
 import { db } from '..';
 export const streamEngagements = (observer) => {
-  db.collection('/env')
+  return db
+    .collection('/env')
     .doc(process.env.REACT_APP_ENV)
     .collection('/engagements')
     .where('shiftEnd', '>=', new Date(Date.now()))

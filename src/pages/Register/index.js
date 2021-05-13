@@ -26,7 +26,7 @@ const Register = () => {
           message.success('You have been signed up succesfully');
           setLoading(false);
           setUser(user);
-          history.push('/profile');
+          history.push('/members/profile');
         })
         .catch((error) => {
           setLoading(false);

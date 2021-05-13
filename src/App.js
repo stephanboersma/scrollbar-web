@@ -11,6 +11,7 @@ import AuthProvider from './providers/AuthProvider';
 import EventProvider from './providers/EventProvider';
 import TendersProvider from './providers/TendersProvider';
 import ThemeProvider from './providers/ThemeProvider';
+import PrivateRoute from './styles/atoms/PrivateRoute';
 
 const App = () => {
   return (
@@ -20,12 +21,15 @@ const App = () => {
           <TendersProvider>
             <EventProvider>
               <Route exact path="/" component={Landing} />
-              <LoggedInRouter />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/register" component={Register} />
+              <PrivateRoute
+                path="/members"
+                requiredRoles={[]}
+                component={LoggedInRouter}
+              />
             </EventProvider>
           </TendersProvider>
-
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
 
           <Redirect to="/" />
         </Switch>
