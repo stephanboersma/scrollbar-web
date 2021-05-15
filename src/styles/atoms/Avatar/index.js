@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 
 import AuthContext from '../../../contexts/AuthContext';
+import { DEFAULT_AVATAR_URL } from '../DefaultAvatarPicture';
 import { Text } from '../Typography';
 
 const TenderAvatar = ({
@@ -50,7 +51,7 @@ const TenderAvatar = ({
     <Space style={{ cursor: 'pointer' }} direction="vertical" align="center">
       <Avatar
         onClick={onClick}
-        src={tender.photoUrl}
+        src={tender.photoUrl ? tender.photoUrl : DEFAULT_AVATAR_URL}
         size="large"
         icon={<AntDesignOutlined />}
       />

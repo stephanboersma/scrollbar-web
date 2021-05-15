@@ -20,6 +20,7 @@ import hero from '../../assets/images/hero.jpg';
 import AuthContext from '../../contexts/AuthContext';
 import EventContext from '../../contexts/EventContext';
 import TendersContext from '../../contexts/TendersContext';
+import { DEFAULT_AVATAR_URL } from '../../styles/atoms/DefaultAvatarPicture';
 import { Paragraph, Text, Title } from '../../styles/atoms/Typography';
 import LandingPage from '../../styles/templates/LandingPage';
 
@@ -169,7 +170,9 @@ const Landing = () => {
                     return (
                       <Space direction="vertical" align="center" key={i}>
                         <Avatar
-                          src={each.photoUrl}
+                          src={
+                            each.photoUrl ? each.photoUrl : DEFAULT_AVATAR_URL
+                          }
                           size={{
                             xs: 75,
                             sm: 100,
