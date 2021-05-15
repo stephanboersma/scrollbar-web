@@ -149,7 +149,7 @@ const EventManagement = () => {
   const updateShiftField = (id, field, value) => {
     updateShift(id, field, value)
       .then(() => {
-        const index = selectedShifts.findIndex((shift) => shift.id === 1);
+        const index = selectedShifts.findIndex((shift) => shift.id === id);
         const shift = selectedShifts[index];
         const fieldValue =
           field === 'start' || field === 'end'

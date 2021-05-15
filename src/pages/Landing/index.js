@@ -94,9 +94,10 @@ const Landing = () => {
             }}
           >
             <div style={{ paddingRight: '12px' }}>
-              {eventState.events.length > 1 ? (
+              {eventState.events.filter((_event) => _event.published).length >
+              0 ? (
                 <>
-                  <Title level={4}>See you next time!</Title>
+                  <Title level={4}>See you at our next event!</Title>
                   <Title level={5}>
                     {eventState.events[0].displayName} @{' '}
                     {moment(eventState.events[0].start.toDate())

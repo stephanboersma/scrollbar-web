@@ -2,7 +2,6 @@ import {
   AntDesignOutlined,
   CalendarOutlined,
   HomeOutlined,
-  LoadingOutlined,
   ProfileOutlined,
   SettingOutlined,
   TeamOutlined,
@@ -68,7 +67,7 @@ const SideBarPage = ({ children, title }) => {
   const hasPermission = (role) => user.roles.includes(role) || user.isAdmin;
 
   if (!user) {
-    return <LoadingOutlined style={{ fontSize: '100px' }} spin />;
+    return;
   }
   return (
     <Wrapper>
