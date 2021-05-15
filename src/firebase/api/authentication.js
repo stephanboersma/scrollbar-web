@@ -92,3 +92,7 @@ const saveUser = (id, profile) => {
   return db.collection('/users').doc(id).set(profile);
 };
 export const signOut = () => auth.signOut();
+
+export const streamSettings = (observer) => {
+  return db.collection('/settings').doc('settings').onSnapshot(observer);
+};

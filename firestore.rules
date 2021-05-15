@@ -40,6 +40,10 @@ service cloud.firestore {
       allow update: if isAuthed(request) || isAdmin(request);
       allow delete: if isAuthed(request) && isAdmin(request);
     }
+    match /{path=**}/settings/{settings} {
+    	allow read;
+      allow write, update, delete: if isAdmin(request);
+    }
   }
   
 	
