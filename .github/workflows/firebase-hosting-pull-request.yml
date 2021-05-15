@@ -6,6 +6,15 @@ name: Deploy to Firebase Hosting on PR
   pull_request:
     branches:
       - develop
+    paths-ignore:
+      - 'README.md'
+      - 'firestore.rules'
+      - 'storage.rules'
+      - 'firestore.indexes.json'
+      - '.env.example'
+      - 'functions/**'
+      - '.github/**'
+      - '.vscode/**'
 jobs:
   build_and_preview:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
@@ -23,7 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: curl -o- -L https://yarnpkg.com/install.sh | bash
-      - run: yarn install && yarn build
+      - run: yarn install && yarn lint && yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'

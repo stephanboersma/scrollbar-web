@@ -6,6 +6,15 @@ name: Deploy to Firebase Hosting on merge
   push:
     branches:
       - develop
+    paths-ignore:
+      - 'README.md'
+      - 'firestore.rules'
+      - 'storage.rules'
+      - 'firestore.indexes.json'
+      - '.env.example'
+      - 'functions/**'
+      - '.github/**'
+      - '.vscode/**'
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
