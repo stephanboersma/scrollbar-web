@@ -70,10 +70,17 @@ const LandingPage = ({ children }) => {
           display: 'flex',
           flexDirection: 'row',
           padding: '0',
+          position: 'fixed',
+          width: '100%',
+          zIndex: 3,
         }}
       >
         <HeaderWrapper direction="horizontal">
-          <Logo style={{ height: '100px', flexGrow: 1 }} src={logo} />
+          <Logo
+            style={{ height: '100px', flexGrow: 1 }}
+            src={logo}
+            onClick={() => history.push('/')}
+          />
           <Menu
             overflowedIndicator={
               <MenuOutlined style={{ fontSize: '32px', color: '#fff319' }} />
@@ -82,7 +89,17 @@ const LandingPage = ({ children }) => {
             mode="horizontal"
             style={{ lineHeight: '132px', flex: '1' }}
           >
-            <MenuItem key="3" onClick={() => history.push('/members')}>
+            <MenuItem key="1">
+              <Link href="#about">About Scrollbar</Link>
+            </MenuItem>
+
+            <MenuItem key="2">
+              <Link href="#volunteers"> Our volunteers</Link>
+            </MenuItem>
+            <MenuItem key="3">
+              <Link href="#future_events">Future events</Link>
+            </MenuItem>
+            <MenuItem key="4" onClick={() => history.push('/members')}>
               Tender site
             </MenuItem>
           </Menu>
@@ -117,7 +134,11 @@ const LandingPage = ({ children }) => {
           style={{ marginBottom: '24px' }}
         >
           <Col lg={6} md={6} sm={24} xs={24}>
-            <Logo style={{ height: '100px', flexGrow: 1 }} src={logo} />
+            <Logo
+              style={{ height: '100px', flexGrow: 1 }}
+              src={logo}
+              onClick={() => history.push('/')}
+            />
           </Col>
           <Col lg={6} md={6} sm={24} xs={24}>
             <Title level={4} style={{ color: 'white' }}>
@@ -179,7 +200,9 @@ const LandingPage = ({ children }) => {
         </Row>
         <Row justify="center" style={{ padding: '12px 0' }}>
           <Col>
-            <FooterText>ScrollBar © 2021</FooterText>
+            <FooterText>
+              ScrollBar © {new Date(Date.now()).getFullYear().toString()}
+            </FooterText>
           </Col>
         </Row>
       </StyledFooter>

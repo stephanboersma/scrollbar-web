@@ -85,7 +85,7 @@ const UserManagement = () => {
   };
 
   if (tenderState.loading || studylines.length === 0) {
-    return <LoadingOutlined spin />;
+    return <LoadingOutlined style={{ fontSize: '50px' }} spin />;
   }
 
   return (

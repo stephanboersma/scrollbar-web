@@ -6,6 +6,7 @@ import EngagementContext from '../../contexts/EngagementContext';
 import EventContext from '../../contexts/EventContext';
 import ShiftContext from '../../contexts/ShiftContext';
 import TendersContext from '../../contexts/TendersContext';
+import { Text } from '../../styles/atoms/Typography';
 import EventListItem from '../../styles/molecules/EventListItem';
 import SideBarPage from '../../styles/templates/SideBarPage';
 
@@ -44,24 +45,32 @@ const ShiftPlan = () => {
   };
 
   if (eventState.loading || tenderState.loading || shiftState.loading) {
-    return <LoadingOutlined size={100} spin />;
+    return <LoadingOutlined style={{ fontSize: '100px' }} spin />;
   }
   return (
     <SideBarPage title="Tender site">
       <Space direction="vertical" style={{ width: '100%' }}>
-        {eventState.events.map((each, i) => {
-          return (
-            <EventListItem
-              event={each}
-              shifts={getEventShifts(each.id)}
-              engagements={getEventEngagements(each.id)}
-              key={i}
-              users={tenderState.tenders}
-              onTakeShift={onTakeShift}
-              setUpForGrabs={onSetUpForGrabs}
-            />
-          );
-        })}
+        {eventState.events.filter((_event) => _event.published).length > 0 ? (
+          eventState.events
+            .filter((_event) => _event.published)
+            .map((each, i) => {
+              return (
+                <EventListItem
+                  event={each}
+                  shifts={getEventShifts(each.id)}
+                  engagements={getEventEngagements(each.id)}
+                  key={i}
+                  users={tenderState.tenders}
+                  onTakeShift={onTakeShift}
+                  setUpForGrabs={onSetUpForGrabs}
+                />
+              );
+            })
+        ) : (
+          <Text type="secondary">
+            No events are currently planned. Stay tuned
+          </Text>
+        )}
       </Space>
     </SideBarPage>
   );

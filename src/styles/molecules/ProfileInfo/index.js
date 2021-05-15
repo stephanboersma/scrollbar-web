@@ -64,7 +64,7 @@ const ProfileInfo = ({ tender, updateProfile, manageUser }) => {
   };
 
   if (studylines.length === 0 || !tender) {
-    return <LoadingOutlined spin />;
+    return <LoadingOutlined style={{ fontsize: '100px' }} spin />;
   }
 
   return (

@@ -105,6 +105,7 @@ const EventInfo = ({
               </Button>
               <Checkbox
                 onChange={(e) => updateEvent('published', e.target.checked)}
+                checked={event.published}
               >
                 Publish event
               </Checkbox>

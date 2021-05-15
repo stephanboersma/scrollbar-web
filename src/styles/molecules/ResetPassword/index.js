@@ -1,4 +1,4 @@
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Space } from 'antd';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -15,11 +15,15 @@ const Container = styled(Col)`
   }
 `;
 
-const LoginForm = ({ onSubmit }) => {
+const ResetPasswordForm = ({ onSubmit }) => {
   return (
     <Container xs={12} sm={6} md={4} lg={4}>
-      <Title level={3}>ScrollBar Tender site</Title>
-      <Form name="login" initialValues={{ remember: true }} onFinish={onSubmit}>
+      <Title level={3}>Reset Password</Title>
+      <Form
+        name="reset_password"
+        initialValues={{ remember: true }}
+        onFinish={onSubmit}
+      >
         <Form.Item
           name="email"
           rules={[
@@ -32,30 +36,24 @@ const LoginForm = ({ onSubmit }) => {
         >
           <Input prefix={<UserOutlined />} placeholder="E-mail" />
         </Form.Item>
-        <Form.Item
-          name="password"
-          rules={[{ required: true, message: 'Please input your Password!' }]}
-        >
-          <Input.Password prefix={<LockOutlined />} placeholder="Password" />
-        </Form.Item>
 
         <Form.Item>
-          <Space align="end" direction="horizontal">
-            <Button type="primary" htmlType="submit">
-              Log in
-            </Button>
-            <Link style={{ color: '#171717' }} href="/reset-password">
-              Forgot password?
-            </Link>
-          </Space>
+          <Button type="primary" htmlType="submit">
+            Reset
+          </Button>
         </Form.Item>
+        <Space direction="horizontal">
+          <Link href="/login" style={{ color: '#171717' }}>
+            Go back to login
+          </Link>
+        </Space>
       </Form>
     </Container>
   );
 };
 
-LoginForm.propTypes = {
+ResetPasswordForm.propTypes = {
   onSubmit: PropTypes.func,
 };
 
-export default LoginForm;
+export default ResetPasswordForm;

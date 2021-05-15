@@ -2,7 +2,6 @@ import {
   AntDesignOutlined,
   CalendarOutlined,
   HomeOutlined,
-  LoadingOutlined,
   ProfileOutlined,
   SettingOutlined,
   TeamOutlined,
@@ -68,12 +67,12 @@ const SideBarPage = ({ children, title }) => {
   const hasPermission = (role) => user.roles.includes(role) || user.isAdmin;
 
   if (!user) {
-    return <LoadingOutlined spin />;
+    return;
   }
   return (
     <Wrapper>
       <Sider breakpoint="lg" collapsedWidth="0">
-        <Logo src={logo} />
+        <Logo src={logo} onClick={() => history.push('/')} />
         <Menu
           theme="dark"
           mode="inline"

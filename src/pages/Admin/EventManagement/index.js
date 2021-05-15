@@ -83,7 +83,11 @@ const EventManagement = () => {
   const updateEventField = (field, value) => {
     updateEvent(selectedEvent.id, field, value)
       .then(() => {
-        setSelectedEvent({ ...selectedEvent, [field]: value });
+        const fieldValue =
+          field === 'start' || field === 'end'
+            ? convertToTimestamp(value)
+            : value;
+        setSelectedEvent({ ...selectedEvent, [field]: fieldValue });
       })
       .catch((error) => message.error('An error occurred ' + error.message));
   };
@@ -145,11 +149,15 @@ const EventManagement = () => {
   const updateShiftField = (id, field, value) => {
     updateShift(id, field, value)
       .then(() => {
-        const index = selectedShifts.findIndex((shift) => shift.id === 1);
+        const index = selectedShifts.findIndex((shift) => shift.id === id);
         const shift = selectedShifts[index];
+        const fieldValue =
+          field === 'start' || field === 'end'
+            ? convertToTimestamp(value)
+            : value;
         setSelectedShifts([
-          ...selectedShifts.splice(index, 1),
-          { ...shift, [field]: value },
+          ...selectedShifts.filter((_shift) => _shift.id !== id),
+          { ...shift, [field]: fieldValue },
         ]);
       })
       .catch((error) => message.error('An error occurred ' + error.message));
