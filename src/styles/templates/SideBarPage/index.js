@@ -68,7 +68,7 @@ const SideBarPage = ({ children, title }) => {
   const hasPermission = (role) => user.roles.includes(role) || user.isAdmin;
 
   if (!user) {
-    return <LoadingOutlined spin />;
+    return <LoadingOutlined style={{ fontSize: '100px' }} spin />;
   }
   return (
     <Wrapper>

@@ -208,7 +208,7 @@ const Landing = () => {
                     );
                   })
               ) : (
-                <LoadingOutlined spin />
+                <LoadingOutlined style={{ fontSize: '100px' }} spin />
               )}
             </Space>
           </Col>
