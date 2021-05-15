@@ -16,10 +16,10 @@ import {
 } from 'react-vertical-timeline-component';
 import styled from 'styled-components';
 
-import hero from '../../assets/images/hero.jpg';
 import AuthContext from '../../contexts/AuthContext';
 import EventContext from '../../contexts/EventContext';
 import TendersContext from '../../contexts/TendersContext';
+import { DEFAULT_AVATAR_URL } from '../../styles/atoms/DefaultAvatarPicture';
 import { Paragraph, Text, Title } from '../../styles/atoms/Typography';
 import LandingPage from '../../styles/templates/LandingPage';
 
@@ -42,7 +42,7 @@ const StyledTimelineElement = styled(VerticalTimelineElement)`
 const Landing = () => {
   const { eventState } = useContext(EventContext);
   const { tenderState } = useContext(TendersContext);
-  const { studylines } = useContext(AuthContext);
+  const { studylines, settings } = useContext(AuthContext);
 
   const getStudyline = (id) => {
     if (studylines.length) {
@@ -55,12 +55,14 @@ const Landing = () => {
     <LandingPage>
       <div
         style={{
-          background: `url(${hero})`,
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'top center',
+          backgroundImage: `url(${settings ? settings.hero : ''})`,
+          backgroundColor: '#171717',
+          backgroundRepeat: 'no-repeat no-repeat',
+          backgroundPosition: 'center center',
           backgroundSize: 'cover',
           minHeight: '40vh',
           maxHeight: '40vh',
+          marginTop: '132px',
           width: '100%',
           position: 'relative',
           overflow: 'hidden',
@@ -78,33 +80,46 @@ const Landing = () => {
           }}
         />
 
-        {eventState.events.length > 1 && (
-          <NextEvent justify="end">
-            <Col
-              md={24}
-              lg={8}
-              style={{
-                width: '100%',
-                position: 'absolute',
-                bottom: '24px',
-                zIndex: 2,
-                background: 'rgba(255, 243, 25, 0.8)',
-                padding: '24px',
-              }}
-            >
-              <Title level={4}>See you next time!</Title>
-
-              <div style={{ paddingRight: '12px' }}>
-                <Title level={5}>
-                  {eventState.events[0].displayName} @{' '}
-                  {moment(eventState.events[0].start.toDate())
-                    .format('DD-MM-YYYY HH:mm')
-                    .toString()}
-                </Title>
-              </div>
-            </Col>
-          </NextEvent>
-        )}
+        <NextEvent justify="end">
+          <Col
+            md={24}
+            lg={8}
+            style={{
+              width: '100%',
+              position: 'absolute',
+              bottom: '24px',
+              zIndex: 2,
+              background: 'rgba(255, 243, 25, 0.8)',
+              padding: '24px',
+            }}
+          >
+            <div style={{ paddingRight: '12px' }}>
+              {eventState.events.filter((_event) => _event.published).length >
+              0 ? (
+                <>
+                  <Title level={4}>See you at our next event!</Title>
+                  <Title level={5}>
+                    {
+                      eventState.events.filter((_event) => _event.published)[0]
+                        .displayName
+                    }{' '}
+                    @{' '}
+                    {moment(eventState.events[0].start.toDate())
+                      .format('DD-MM-YYYY HH:mm')
+                      .toString()}
+                  </Title>
+                </>
+              ) : (
+                <>
+                  <Title level={4}>We currently have no events planned</Title>
+                  <Title level={5}>
+                    ... but rest assured. We will be back!
+                  </Title>
+                </>
+              )}
+            </div>
+          </Col>
+        </NextEvent>
       </div>
 
       <Content
@@ -127,10 +142,10 @@ const Landing = () => {
               alignItems: 'center',
             }}
           >
-            <Title id="about" level={2}>
-              About ScrollBar
+            <Title id="about" level={2} style={{ scrollMarginTop: '135px' }}>
+              What is ScrollBar?
             </Title>
-            <Paragraph>
+            <Paragraph style={{ fontSize: '18px', lineHeight: '36px' }}>
               ScrollBar is a study-bar driven by the volunteer-organisation
               ScrollBar, founded in 2004, that aims to bring together students
               from ITU in a cozy atmosphere. ScrollBar is open every Friday
@@ -144,21 +159,27 @@ const Landing = () => {
             </Paragraph>
           </Col>
         </Row>
+
         <Divider />
         <Row justify="center">
           <Col
-            md={24}
-            lg={20}
+            lg={18}
             style={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
             }}
           >
-            <Title level={2}>The volunteers behind</Title>
+            <Title
+              level={2}
+              style={{ scrollMarginTop: '135px' }}
+              id="volunteers"
+            >
+              The volunteers behind
+            </Title>
             <Space
               direction="horizontal"
-              style={{ width: '100%', justifyContent: 'space-evenly' }}
+              style={{ width: '100%', justifyContent: 'space-around' }}
               size={16}
               wrap
             >
@@ -169,7 +190,9 @@ const Landing = () => {
                     return (
                       <Space direction="vertical" align="center" key={i}>
                         <Avatar
-                          src={each.photoUrl}
+                          src={
+                            each.photoUrl ? each.photoUrl : DEFAULT_AVATAR_URL
+                          }
                           size={{
                             xs: 75,
                             sm: 100,
@@ -190,7 +213,7 @@ const Landing = () => {
                     );
                   })
               ) : (
-                <LoadingOutlined spin />
+                <LoadingOutlined style={{ fontSize: '100px' }} spin />
               )}
             </Space>
           </Col>
@@ -206,7 +229,9 @@ const Landing = () => {
               padding: '60px 0',
             }}
           >
-            <Title id="future_events">Future events</Title>
+            <Title id="future_events" style={{ scrollMarginTop: '135px' }}>
+              Future events
+            </Title>
 
             {eventState.events.filter((_event) => _event.published).length >
             0 ? (

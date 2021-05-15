@@ -7,6 +7,7 @@ import LoggedInRouter from './LoggedInRouter';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import ResetPassword from './pages/ResetPassword';
 import AuthProvider from './providers/AuthProvider';
 import EventProvider from './providers/EventProvider';
 import TendersProvider from './providers/TendersProvider';
@@ -23,6 +24,7 @@ const App = () => {
               <Route exact path="/" component={Landing} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
+              <Route exact path="/reset-password" component={ResetPassword} />
               <PrivateRoute
                 path="/members"
                 requiredRoles={[]}

@@ -2,10 +2,10 @@ import React from 'react';
 import { Redirect } from 'react-router';
 
 import EventManagement from './pages/Admin/EventManagement';
+import Settings from './pages/Admin/Settings';
 import ShiftManagement from './pages/Admin/ShiftManagement';
 import UserManagement from './pages/Admin/UserManagement';
 import Profile from './pages/Profile';
-import Settings from './pages/Settings';
 import ShiftPlan from './pages/ShiftPlan';
 import EngagementProvider from './providers/EngagementProvider';
 import ShiftProvider from './providers/ShiftProvider';

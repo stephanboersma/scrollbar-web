@@ -2,7 +2,6 @@ import {
   AntDesignOutlined,
   CalendarOutlined,
   HomeOutlined,
-  LoadingOutlined,
   ProfileOutlined,
   SettingOutlined,
   TeamOutlined,
@@ -18,6 +17,7 @@ import styled from 'styled-components';
 import logo from '../../../assets/images/logo.png';
 import AuthContext from '../../../contexts/AuthContext';
 import AvatarMenu from '../../atoms/AvatarMenu';
+import { DEFAULT_AVATAR_URL } from '../../atoms/DefaultAvatarPicture';
 import Logo from '../../atoms/Logo';
 import { Text, Title } from '../../atoms/Typography';
 
@@ -67,12 +67,12 @@ const SideBarPage = ({ children, title }) => {
   const hasPermission = (role) => user.roles.includes(role) || user.isAdmin;
 
   if (!user) {
-    return <LoadingOutlined spin />;
+    return;
   }
   return (
     <Wrapper>
       <Sider breakpoint="lg" collapsedWidth="0">
-        <Logo src={logo} />
+        <Logo src={logo} onClick={() => history.push('/')} />
         <Menu
           theme="dark"
           mode="inline"
@@ -116,7 +116,7 @@ const SideBarPage = ({ children, title }) => {
             overlay={<AvatarMenu onNavigate={navigateToLink} />}
           >
             <Avatar
-              src={user.photoUrl}
+              src={user.photoUrl ? user.photoUrl : DEFAULT_AVATAR_URL}
               size="large"
               icon={<AntDesignOutlined />}
             />

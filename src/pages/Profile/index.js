@@ -28,7 +28,7 @@ const Profile = () => {
       .catch((error) => message.error('An error occurred ' + error.message));
   };
   if (!user || studylines.length === 0) {
-    return <LoadingOutlined spin />;
+    return <LoadingOutlined style={{ fontSize: '100px' }} spin />;
   }
 
   return (

@@ -5,6 +5,7 @@ import EngagementContext from '../../../contexts/EngagementContext';
 import EventContext from '../../../contexts/EventContext';
 import ShiftContext from '../../../contexts/ShiftContext';
 import TendersContext from '../../../contexts/TendersContext';
+import { Text } from '../../../styles/atoms/Typography';
 import EventListItem from '../../../styles/molecules/EventListItem';
 import SideBarPage from '../../../styles/templates/SideBarPage';
 
@@ -38,22 +39,29 @@ const ShiftManagement = () => {
   return (
     <SideBarPage title="Shift Management">
       <Space direction="vertical" style={{ width: '100%' }}>
-        {eventState.events.map((each, i) => {
-          return (
-            <EventListItem
-              event={each}
-              shifts={getEventShifts(each.id)}
-              engagements={engagementState.engagements}
-              key={i}
-              manage
-              users={tenderState.tenders}
-              onAddEngagement={onAddEngagement}
-              onRemoveEngagement={onRemoveEngagement}
-            />
-          );
-        })}
+        {eventState.events.length > 0 ? (
+          eventState.events.map((each, i) => {
+            return (
+              <div key={i}>
+                <EventListItem
+                  event={each}
+                  shifts={getEventShifts(each.id)}
+                  engagements={engagementState.engagements}
+                  manage
+                  users={tenderState.tenders}
+                  onAddEngagement={onAddEngagement}
+                  onRemoveEngagement={onRemoveEngagement}
+                />
+                <Divider />
+              </div>
+            );
+          })
+        ) : (
+          <Text type="secondary">
+            Nothing to plan. Go make some events first...
+          </Text>
+        )}
       </Space>
-      <Divider />
     </SideBarPage>
   );
 };
