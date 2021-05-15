@@ -99,7 +99,11 @@ const Landing = () => {
                 <>
                   <Title level={4}>See you at our next event!</Title>
                   <Title level={5}>
-                    {eventState.events[0].displayName} @{' '}
+                    {
+                      eventState.events.filter((_event) => _event.published)[0]
+                        .displayName
+                    }{' '}
+                    @{' '}
                     {moment(eventState.events[0].start.toDate())
                       .format('DD-MM-YYYY HH:mm')
                       .toString()}
