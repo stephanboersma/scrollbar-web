@@ -30,6 +30,7 @@ const UserNameLink = styled(Text)`
 
 const UserCorner = styled(Space)`
   align-self: flex-end;
+  margin: auto 0;
   @media (max-width: 680px) {
     display: none;
   }

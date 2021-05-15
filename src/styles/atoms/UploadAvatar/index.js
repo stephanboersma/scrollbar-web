@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { uploadProfilePicture } from '../../../firebase/api';
+import { DEFAULT_AVATAR_URL } from '../DefaultAvatarPicture';
 
 const StyledUpload = styled(Upload)`
   width: fit-content;
@@ -27,7 +28,7 @@ const UploadAvatar = ({ tender, onUpdatePhoto }) => {
       onChange={handleUpload}
     >
       <Avatar
-        src={tender.photoUrl}
+        src={tender.photoUrl ? tender.photoUrl : DEFAULT_AVATAR_URL}
         size={{ xs: 75, sm: 100, md: 100, lg: 100, xl: 100, xxl: 100 }}
         icon={<PlusOutlined />}
       />
