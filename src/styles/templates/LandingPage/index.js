@@ -70,6 +70,9 @@ const LandingPage = ({ children }) => {
           display: 'flex',
           flexDirection: 'row',
           padding: '0',
+          position: 'fixed',
+          width: '100%',
+          zIndex: 3,
         }}
       >
         <HeaderWrapper direction="horizontal">
@@ -82,7 +85,17 @@ const LandingPage = ({ children }) => {
             mode="horizontal"
             style={{ lineHeight: '132px', flex: '1' }}
           >
-            <MenuItem key="3" onClick={() => history.push('/members')}>
+            <MenuItem key="1">
+              <Link href="#about">About Scrollbar</Link>
+            </MenuItem>
+
+            <MenuItem key="2">
+              <Link href="#volunteers"> Our volunteers</Link>
+            </MenuItem>
+            <MenuItem key="3">
+              <Link href="#future_events">Future events</Link>
+            </MenuItem>
+            <MenuItem key="4" onClick={() => history.push('/members')}>
               Tender site
             </MenuItem>
           </Menu>
@@ -179,7 +192,9 @@ const LandingPage = ({ children }) => {
         </Row>
         <Row justify="center" style={{ padding: '12px 0' }}>
           <Col>
-            <FooterText>ScrollBar © 2021</FooterText>
+            <FooterText>
+              ScrollBar © {new Date(Date.now()).getFullYear().toString()}
+            </FooterText>
           </Col>
         </Row>
       </StyledFooter>

@@ -96,3 +96,7 @@ export const signOut = () => auth.signOut();
 export const streamSettings = (observer) => {
   return db.collection('/settings').doc('settings').onSnapshot(observer);
 };
+
+export const sendResetPasswordEmail = ({ email }) => {
+  return auth.sendPasswordResetEmail(email);
+};
