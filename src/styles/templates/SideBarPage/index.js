@@ -73,7 +73,7 @@ const SideBarPage = ({ children, title }) => {
   return (
     <Wrapper>
       <Sider breakpoint="lg" collapsedWidth="0">
-        <Logo src={logo} />
+        <Logo src={logo} onClick={() => history.push('/')} />
         <Menu
           theme="dark"
           mode="inline"

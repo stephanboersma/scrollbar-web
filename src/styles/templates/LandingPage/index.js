@@ -76,7 +76,11 @@ const LandingPage = ({ children }) => {
         }}
       >
         <HeaderWrapper direction="horizontal">
-          <Logo style={{ height: '100px', flexGrow: 1 }} src={logo} />
+          <Logo
+            style={{ height: '100px', flexGrow: 1 }}
+            src={logo}
+            onClick={() => history.push('/')}
+          />
           <Menu
             overflowedIndicator={
               <MenuOutlined style={{ fontSize: '32px', color: '#fff319' }} />
@@ -130,7 +134,11 @@ const LandingPage = ({ children }) => {
           style={{ marginBottom: '24px' }}
         >
           <Col lg={6} md={6} sm={24} xs={24}>
-            <Logo style={{ height: '100px', flexGrow: 1 }} src={logo} />
+            <Logo
+              style={{ height: '100px', flexGrow: 1 }}
+              src={logo}
+              onClick={() => history.push('/')}
+            />
           </Col>
           <Col lg={6} md={6} sm={24} xs={24}>
             <Title level={4} style={{ color: 'white' }}>

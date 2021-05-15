@@ -55,9 +55,9 @@ const Landing = () => {
     <LandingPage>
       <div
         style={{
-          background: `url(${settings ? settings.hero : ''})`,
-          backgroudColor: '#171717',
-          backgroundRepeat: 'no-repeat',
+          backgroundImage: `url(${settings ? settings.hero : ''})`,
+          backgroundColor: '#171717',
+          backgroundRepeat: 'no-repeat no-repeat',
           backgroundPosition: 'center center',
           backgroundSize: 'cover',
           minHeight: '40vh',

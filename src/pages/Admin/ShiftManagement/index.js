@@ -42,19 +42,18 @@ const ShiftManagement = () => {
         {eventState.events.length > 0 ? (
           eventState.events.map((each, i) => {
             return (
-              <>
+              <div key={i}>
                 <EventListItem
                   event={each}
                   shifts={getEventShifts(each.id)}
                   engagements={engagementState.engagements}
-                  key={i}
                   manage
                   users={tenderState.tenders}
                   onAddEngagement={onAddEngagement}
                   onRemoveEngagement={onRemoveEngagement}
                 />
                 <Divider />
-              </>
+              </div>
             );
           })
         ) : (
