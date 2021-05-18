@@ -20,6 +20,16 @@ const GlobalStyle = createGlobalStyle`
   background-color: #171717;
   color: #ff3139
 }
+@media only screen and (min-width: 1170px) {
+  .vertical-timeline.vertical-timeline--two-columns:before {
+  left: 49.5%;
+  }
+
+}
+.vertical-timeline::before {
+  left: 24px;
+}
+
 `;
 
 const ThemeProvider = ({ children }) => {
