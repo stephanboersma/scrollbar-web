@@ -1,4 +1,3 @@
-import { LoadingOutlined } from '@ant-design/icons';
 import {
   Col,
   Descriptions,
@@ -63,9 +62,11 @@ const ProfileInfo = ({ tender, updateProfile, manageUser }) => {
     setEditStudyline(false);
   };
 
-  if (studylines.length === 0 || !tender) {
-    return <LoadingOutlined style={{ fontsize: '100px' }} spin />;
-  }
+  const getStudyline = (id) => {
+    const index = studylines.findIndex((_studyline) => _studyline.id === id);
+    const studyline = studylines[index];
+    return `${studyline.prefix} in ${studyline.name}`;
+  };
 
   return (
     <Col>
@@ -94,7 +95,7 @@ const ProfileInfo = ({ tender, updateProfile, manageUser }) => {
                 {studylines.map((each) => {
                   return (
                     <Option key={each.id} value={each.id}>
-                      {each.name}
+                      {each.prefix} in {each.name}
                     </Option>
                   );
                 })}
@@ -105,11 +106,7 @@ const ProfileInfo = ({ tender, updateProfile, manageUser }) => {
                   onStart: () => setEditStudyline(true),
                 }}
               >
-                {
-                  studylines.filter(
-                    (studyline) => studyline.id === tender.studyline
-                  )[0].name
-                }
+                {getStudyline(tender.studyline)}
               </Text>
             )}
           </Descriptions.Item>

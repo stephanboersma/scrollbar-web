@@ -13,6 +13,13 @@ const GlobalStyle = createGlobalStyle`
 #root {
   height: 100vh;
 }
+.ant-menu-dark.ant-menu-horizontal > .ant-menu-item:hover {
+  background-color: #171717;
+}
+.ant-menu.ant-menu-dark .ant-menu-item-selected, .ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected {
+  background-color: #171717;
+  color: #ff3139
+}
 `;
 
 const ThemeProvider = ({ children }) => {

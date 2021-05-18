@@ -99,7 +99,7 @@ const LandingPage = ({ children }) => {
             <MenuItem key="3">
               <Link href="#future_events">Future events</Link>
             </MenuItem>
-            <MenuItem key="4" onClick={() => history.push('/members')}>
+            <MenuItem key="4" onClick={() => history.push('/members/shifts')}>
               Tender site
             </MenuItem>
           </Menu>

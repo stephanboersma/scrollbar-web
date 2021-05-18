@@ -13,7 +13,7 @@ module.exports = {
               '@menu-dark-color': '#fff',
               '@layout-header-background': '#171717',
               '@menu-dark-inline-submenu-bg': '#171717',
-              '@menu-dark-highlight-color': '#171717',
+              '@menu-dark-highlight-color': '#fff319',
               '@menu-dark-selected-item-icon-color': '#171717',
               '@menu-dark-selected-item-text-color': '#171717',
               '@text-selection-bg': '#171717',

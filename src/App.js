@@ -22,9 +22,10 @@ const App = () => {
           <TendersProvider>
             <EventProvider>
               <Route exact path="/" component={Landing} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/reset-password" component={ResetPassword} />
+              <Route path="/login" component={Login} />
+              <Route path="/register" component={Register} />
+              <Route path="/reset-password" component={ResetPassword} />
+
               <PrivateRoute
                 path="/members"
                 requiredRoles={[]}

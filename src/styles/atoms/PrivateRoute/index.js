@@ -14,6 +14,7 @@ const PrivateRoute = ({
   const history = useHistory();
   const hasPermission = () =>
     requiredRoles.every((role) => user.roles.includes(role)) || user.isAdmin;
+
   if (loadingAuthState) {
     return <></>;
   }
