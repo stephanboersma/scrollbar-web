@@ -1,4 +1,3 @@
-import { LoadingOutlined } from '@ant-design/icons';
 import { Button, Divider, Drawer, message, Tabs } from 'antd';
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
@@ -52,16 +51,7 @@ const UserManagement = () => {
   const updateProfile = (field, value) => {
     updateTender(selectedUser.id, field, value)
       .then(() => {
-        if (field === 'studyline') {
-          setSelectedUser({
-            ...selectedUser,
-            studyline: studylines.filter(
-              (studyline) => studyline.id === value
-            )[0],
-          });
-        } else {
-          setSelectedUser({ ...selectedUser, [field]: value });
-        }
+        setSelectedUser({ ...selectedUser, [field]: value });
       })
       .catch((error) => message.error('An error occurred ' + error.message));
   };
@@ -83,10 +73,6 @@ const UserManagement = () => {
       .then(() => message.success('Invite removed'))
       .catch((error) => message.error('An error ocurred: ' + error.message));
   };
-
-  if (tenderState.loading || studylines.length === 0) {
-    return <LoadingOutlined style={{ fontSize: '50px' }} spin />;
-  }
 
   return (
     <SideBarPage title="User Management">

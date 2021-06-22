@@ -1,4 +1,3 @@
-import { LoadingOutlined } from '@ant-design/icons';
 import { message, Space } from 'antd';
 import React, { useContext } from 'react';
 
@@ -44,9 +43,6 @@ const ShiftPlan = () => {
       .catch((error) => message.error('An error occurred: ' + error.message));
   };
 
-  if (eventState.loading || tenderState.loading || shiftState.loading) {
-    return <LoadingOutlined style={{ fontSize: '100px' }} spin />;
-  }
   return (
     <SideBarPage title="Tender site">
       <Space direction="vertical" style={{ width: '100%' }}>

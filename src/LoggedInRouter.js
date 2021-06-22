@@ -1,5 +1,4 @@
 import React from 'react';
-import { Redirect } from 'react-router';
 
 import EventManagement from './pages/Admin/EventManagement';
 import Settings from './pages/Admin/Settings';
@@ -15,43 +14,36 @@ const LoggedInRouter = () => {
     <ShiftProvider>
       <EngagementProvider>
         <PrivateRoute
-          exact
           path="/members/shifts"
           requiredRoles={['regular_access']}
           component={ShiftPlan}
         />
         <PrivateRoute
-          exact
           path="/members/manage/events"
           requiredRoles={['event_manager']}
           component={EventManagement}
         />
         <PrivateRoute
-          exact
           path="/members/manage/shifts"
           requiredRoles={['shift_manager']}
           component={ShiftManagement}
         />
         <PrivateRoute
-          exact
           path="/members/profile"
           requiredRoles={[]}
           component={Profile}
         />
         <PrivateRoute
-          exact
           path="/members/manage/users"
           requiredRoles={['user_manager']}
           component={UserManagement}
         />
 
         <PrivateRoute
-          exact
           path="/members/settings"
           requiredRoles={['admin']}
           component={Settings}
         />
-        <Redirect to="/members/shifts" />
       </EngagementProvider>
     </ShiftProvider>
   );

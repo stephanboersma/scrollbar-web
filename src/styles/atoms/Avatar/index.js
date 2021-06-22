@@ -1,4 +1,4 @@
-import { AntDesignOutlined, LoadingOutlined } from '@ant-design/icons';
+import { AntDesignOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import PropTypes from 'prop-types';
@@ -44,9 +44,7 @@ const TenderAvatar = ({
       ) : null;
     }
   };
-  if (!tender) {
-    return <LoadingOutlined spin />;
-  }
+
   return (
     <Space style={{ cursor: 'pointer' }} direction="vertical" align="center">
       <Avatar
