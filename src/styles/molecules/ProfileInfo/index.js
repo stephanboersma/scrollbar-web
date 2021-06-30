@@ -48,12 +48,7 @@ const ProfileInfo = ({ tender, updateProfile, manageUser }) => {
       const newRoles = tender.roles.filter((role) => role !== value);
       updateProfile('roles', newRoles);
     } else {
-      const mandatoryRoles = ['passive', 'tender', 'anchor'];
-      const newRoles = tender.roles.filter(
-        (role) => !mandatoryRoles.includes(role)
-      );
-      newRoles.push(value);
-      updateProfile('roles', newRoles);
+      updateProfile('roles', [...tender.roles, value]);
     }
   };
 
@@ -75,15 +70,18 @@ const ProfileInfo = ({ tender, updateProfile, manageUser }) => {
           onUpdatePhoto={(url) => updateProfile('photoUrl', url)}
           tender={tender}
         />
-
-        <DisplayName
-          level={4}
-          editable={{
-            onChange: (value) => updateProfile('displayName', value),
-          }}
-        >
-          {tender.displayName}
-        </DisplayName>
+        {manageUser ? (
+          <DisplayName
+            level={4}
+            editable={{
+              onChange: (value) => updateProfile('displayName', value),
+            }}
+          >
+            {tender.displayName}
+          </DisplayName>
+        ) : (
+          <DisplayName level={4}>{tender.displayName}</DisplayName>
+        )}
       </Row>
       <Divider />
       <StyledRow>

@@ -2,6 +2,7 @@ import {
   AntDesignOutlined,
   FacebookOutlined,
   InstagramOutlined,
+  LinkedinOutlined,
   MenuOutlined,
 } from '@ant-design/icons';
 import { Avatar, Col, Dropdown, Menu, Row, Space } from 'antd';
@@ -171,6 +172,9 @@ const LandingPage = ({ children }) => {
               </Link>
               <Link href="https://www.instagram.com/scrollbaritu/">
                 <InstagramOutlined style={{ fontSize: '48px' }} />
+              </Link>
+              <Link href="https://www.linkedin.com/company/scrollbaritu/">
+                <LinkedinOutlined style={{ fontSize: '48px' }} />
               </Link>
             </Space>
           </Col>

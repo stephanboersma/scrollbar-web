@@ -8,6 +8,7 @@ import ShiftContext from '../../../contexts/ShiftContext';
 import DataTable from '../../../styles/molecules/DataTable';
 import EventInfo from '../../../styles/molecules/EventInfo';
 import SideBarPage from '../../../styles/templates/SideBarPage';
+import { sortShifts } from '../../../utils/sortShifts';
 import { convertToTimestamp } from '../../../utils/timestamp';
 import { EVENT_COLUMNS } from './tableColumns';
 
@@ -135,13 +136,15 @@ const EventManagement = () => {
     };
     addShift(newShift)
       .then((res) => {
-        setSelectedShifts([
-          ...selectedShifts,
-          {
-            ...newShift,
-            id: res.id,
-          },
-        ]);
+        setSelectedShifts(
+          [
+            ...selectedShifts,
+            {
+              ...newShift,
+              id: res.id,
+            },
+          ].sort(sortShifts)
+        );
       })
       .catch((error) => message.error('An error occurred: ' + error.message));
   };
@@ -155,10 +158,12 @@ const EventManagement = () => {
           field === 'start' || field === 'end'
             ? convertToTimestamp(value)
             : value;
-        setSelectedShifts([
-          ...selectedShifts.filter((_shift) => _shift.id !== id),
-          { ...shift, [field]: fieldValue },
-        ]);
+        setSelectedShifts(
+          [
+            ...selectedShifts.filter((_shift) => _shift.id !== id),
+            { ...shift, [field]: fieldValue },
+          ].sort(sortShifts)
+        );
       })
       .catch((error) => message.error('An error occurred ' + error.message));
   };
