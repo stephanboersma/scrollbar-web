@@ -153,7 +153,7 @@ const Shift = ({
           />
         </Space>
       )}
-      <Space direction="horizontal" wrap>
+      <Space direction="horizontal" align="start" wrap>
         {anchorEngagements.length > 0 ? (
           anchorEngagements.map((anchorEngagement, i) => (
             <TenderAvatar
@@ -208,7 +208,7 @@ const Shift = ({
           />
         </Space>
       )}
-      <Space direction="horizontal" wrap>
+      <Space direction="horizontal" align="start" wrap>
         {tenderEngagements.length > 0 ? (
           tenderEngagements.map((tenderEngagement, i) => (
             <TenderAvatar
