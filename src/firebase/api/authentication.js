@@ -54,7 +54,10 @@ export const getUser = (id, observer) => {
 };
 
 export const streamUsers = (observer) => {
-  return db.collection('/users').onSnapshot(observer);
+  return db
+    .collection('/users')
+    .orderBy('displayName', 'asc')
+    .onSnapshot(observer);
 };
 
 export const streamInvitedUsers = (observer) => {

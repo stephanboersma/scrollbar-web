@@ -31,6 +31,6 @@ export const streamShifts = (observer) => {
     .collection('/env')
     .doc(process.env.REACT_APP_ENV)
     .collection('/shifts')
-    .orderBy('end', 'asc')
+    .orderBy('start', 'asc')
     .onSnapshot(observer);
 };

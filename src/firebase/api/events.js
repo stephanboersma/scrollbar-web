@@ -31,6 +31,6 @@ export const streamEvents = (observer) => {
     .collection('/env')
     .doc(process.env.REACT_APP_ENV)
     .collection('/events')
-    .orderBy('end', 'asc')
+    .orderBy('start', 'asc')
     .onSnapshot(observer);
 };

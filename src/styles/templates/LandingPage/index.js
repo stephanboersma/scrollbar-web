@@ -2,6 +2,7 @@ import {
   AntDesignOutlined,
   FacebookOutlined,
   InstagramOutlined,
+  LinkedinOutlined,
   MenuOutlined,
 } from '@ant-design/icons';
 import { Avatar, Col, Dropdown, Menu, Row, Space } from 'antd';
@@ -99,7 +100,7 @@ const LandingPage = ({ children }) => {
             <MenuItem key="3">
               <Link href="#future_events">Future events</Link>
             </MenuItem>
-            <MenuItem key="4" onClick={() => history.push('/members')}>
+            <MenuItem key="4" onClick={() => history.push('/members/shifts')}>
               Tender site
             </MenuItem>
           </Menu>
@@ -171,6 +172,9 @@ const LandingPage = ({ children }) => {
               </Link>
               <Link href="https://www.instagram.com/scrollbaritu/">
                 <InstagramOutlined style={{ fontSize: '48px' }} />
+              </Link>
+              <Link href="https://www.linkedin.com/company/scrollbaritu/">
+                <LinkedinOutlined style={{ fontSize: '48px' }} />
               </Link>
             </Space>
           </Col>

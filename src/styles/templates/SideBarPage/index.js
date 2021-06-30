@@ -66,9 +66,6 @@ const SideBarPage = ({ children, title }) => {
 
   const hasPermission = (role) => user.roles.includes(role) || user.isAdmin;
 
-  if (!user) {
-    return;
-  }
   return (
     <Wrapper>
       <Sider breakpoint="lg" collapsedWidth="0">
