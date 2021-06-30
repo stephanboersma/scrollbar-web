@@ -29,6 +29,9 @@ const GlobalStyle = createGlobalStyle`
 .vertical-timeline::before {
   left: 24px;
 }
+.ant-typography-expand, .ant-typography-edit, .ant-typography-copy {
+  color: orange;
+}
 
 `;
 
