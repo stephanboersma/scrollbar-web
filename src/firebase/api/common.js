@@ -19,7 +19,7 @@ export const getDocument = (collection, id, useEnv) => {
         .doc(id)
     : db.collection(collection).doc(id);
   return reference.get().then((doc) => {
-    return { id: doc.id, key: doc.id, ...doc.data() };
+    return !doc.exists ? null : { id: doc.id, key: doc.id, ...doc.data() };
   });
 };
 export const getExtension = (path) => {
