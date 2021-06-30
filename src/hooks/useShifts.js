@@ -7,6 +7,7 @@ import {
   streamShifts,
   updateShift as update,
 } from '../firebase/api';
+import { sortShifts } from '../utils/sortShifts';
 
 const useShifts = () => {
   const [shiftState, setShiftState] = useState({
@@ -19,9 +20,11 @@ const useShifts = () => {
     setShiftState({ ...shiftState, loading: true });
     const unsubscribe = streamShifts({
       next: (snapshot) => {
-        const updatedShifts = snapshot.docs.map((doc) => {
-          return { ...doc.data(), id: doc.id, key: doc.id };
-        });
+        const updatedShifts = snapshot.docs
+          .map((doc) => {
+            return { ...doc.data(), id: doc.id, key: doc.id };
+          })
+          .sort(sortShifts);
         setShiftState({
           ...shiftState,
           loading: false,

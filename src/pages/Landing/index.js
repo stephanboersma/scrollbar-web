@@ -236,34 +236,36 @@ const Landing = () => {
             {eventState.events.filter((_event) => _event.published).length >
             0 ? (
               <VerticalTimeline style={{ width: '100%' }}>
-                {eventState.events.map((each, i) => {
-                  return (
-                    <StyledTimelineElement
-                      className="vertical-timeline-element--work"
-                      iconStyle={{
-                        background: '#fff319',
-                        color: '#171717',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        width: '50px',
-                        height: '50px',
-                      }}
-                      icon={<CalendarOutlined size={24} />}
-                      date={moment(each.start.toDate())
-                        .format('DD-MM-YYYY HH:mm')
-                        .toString()}
-                      key={i}
-                    >
-                      <Title
-                        level={5}
-                        className="vertical-timeline-element-title"
+                {eventState.events
+                  .filter((_event) => _event.published)
+                  .map((each, i) => {
+                    return (
+                      <StyledTimelineElement
+                        className="vertical-timeline-element--work"
+                        iconStyle={{
+                          background: '#fff319',
+                          color: '#171717',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'center',
+                          width: '50px',
+                          height: '50px',
+                        }}
+                        icon={<CalendarOutlined size={24} />}
+                        date={moment(each.start.toDate())
+                          .format('DD-MM-YYYY HH:mm')
+                          .toString()}
+                        key={i}
                       >
-                        {each.displayName}
-                      </Title>
-                    </StyledTimelineElement>
-                  );
-                })}
+                        <Title
+                          level={5}
+                          className="vertical-timeline-element-title"
+                        >
+                          {each.displayName}
+                        </Title>
+                      </StyledTimelineElement>
+                    );
+                  })}
               </VerticalTimeline>
             ) : (
               <Text type="secondary">
