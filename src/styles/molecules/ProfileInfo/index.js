@@ -48,12 +48,7 @@ const ProfileInfo = ({ tender, updateProfile, manageUser }) => {
       const newRoles = tender.roles.filter((role) => role !== value);
       updateProfile('roles', newRoles);
     } else {
-      const mandatoryRoles = ['passive', 'tender', 'anchor'];
-      const newRoles = tender.roles.filter(
-        (role) => !mandatoryRoles.includes(role)
-      );
-      newRoles.push(value);
-      updateProfile('roles', newRoles);
+      updateProfile('roles', [...tender.roles, value]);
     }
   };
 

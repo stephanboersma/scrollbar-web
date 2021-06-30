@@ -1,4 +1,4 @@
-import { AutoComplete, Divider, message, Space } from 'antd';
+import { Divider, message, Select, Space } from 'antd';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
@@ -29,7 +29,11 @@ const Shift = ({
     setAnchors(
       users
         .filter((user) => user.roles.includes('anchor'))
-        .map((user) => ({ label: user.displayName, value: user.id }))
+        .map((user) => ({
+          label: user.displayName,
+          value: user.id,
+          passive: user.roles.includes('passive').toString(),
+        }))
     );
     setTenders(
       users
@@ -37,9 +41,14 @@ const Shift = ({
           (user) =>
             user.roles.includes('tender') ||
             user.roles.includes('anchor') ||
-            user.roles.includes('board')
+            user.roles.includes('board') ||
+            user.roles.includes('passive')
         )
-        .map((user) => ({ label: user.displayName, value: user.id }))
+        .map((user) => ({
+          label: user.displayName,
+          value: user.id,
+          passive: user.roles.includes('passive').toString(),
+        }))
     );
   };
 
@@ -117,15 +126,28 @@ const Shift = ({
       </Title>
       {manage && (
         <Space>
-          <AutoComplete
+          <Select
+            showSearch
             value={anchorSearchValue}
-            options={anchors}
-            style={{ width: 200 }}
+            options={[
+              {
+                label: 'Active',
+                options: anchors.filter((anchor) => anchor.passive === 'false'),
+              },
+              {
+                label: 'Passive',
+                options: anchors.filter((anchor) => anchor.passive === 'true'),
+              },
+            ]}
             defaultActiveFirstOption
+            style={{ width: 200 }}
             onSelect={(selectedTender) => {
               createEngagement('anchor', selectedTender);
               setAnchorSearchValue('');
             }}
+            filterOption={(input, option) =>
+              option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
             onSearch={setAnchorSearchValue}
             placeholder="Add Anchors"
           />
@@ -159,11 +181,24 @@ const Shift = ({
       </Title>
       {manage && (
         <Space>
-          <AutoComplete
+          <Select
+            showSearch
             value={tenderSearchValue}
-            options={tenders}
-            style={{ width: 200 }}
+            options={[
+              {
+                label: 'Active',
+                options: tenders.filter((tender) => tender.passive === 'false'),
+              },
+              {
+                label: 'Passive',
+                options: tenders.filter((tender) => tender.passive === 'true'),
+              },
+            ]}
             defaultActiveFirstOption
+            style={{ width: 200 }}
+            filterOption={(input, option) =>
+              option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
             onSelect={(selectedTender) => {
               createEngagement('tender', selectedTender);
               setTenderSearchValue('');
