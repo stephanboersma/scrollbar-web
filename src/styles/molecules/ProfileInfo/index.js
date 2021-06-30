@@ -75,15 +75,18 @@ const ProfileInfo = ({ tender, updateProfile, manageUser }) => {
           onUpdatePhoto={(url) => updateProfile('photoUrl', url)}
           tender={tender}
         />
-
-        <DisplayName
-          level={4}
-          editable={{
-            onChange: (value) => updateProfile('displayName', value),
-          }}
-        >
-          {tender.displayName}
-        </DisplayName>
+        {manageUser ? (
+          <DisplayName
+            level={4}
+            editable={{
+              onChange: (value) => updateProfile('displayName', value),
+            }}
+          >
+            {tender.displayName}
+          </DisplayName>
+        ) : (
+          <DisplayName level={4}>{tender.displayName}</DisplayName>
+        )}
       </Row>
       <Divider />
       <StyledRow>
