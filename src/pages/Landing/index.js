@@ -5,7 +5,8 @@ import {
   CalendarOutlined,
   LoadingOutlined,
 } from '@ant-design/icons';
-import { Col, Divider, Row, Space } from 'antd';
+import MDEditor from '@uiw/react-md-editor';
+import { Button, Col, Divider, Row, Space } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import { Content } from 'antd/lib/layout/layout';
 import moment from 'moment';
@@ -38,6 +39,8 @@ const StyledTimelineElement = styled(VerticalTimelineElement)`
     display: inline-block;
   }
 `;
+
+const { Markdown } = MDEditor;
 
 const Landing = () => {
   const { eventState } = useContext(EventContext);
@@ -159,6 +162,41 @@ const Landing = () => {
             </Paragraph>
           </Col>
         </Row>
+        {settings && settings.openForSignups && <Divider />}
+        {settings && settings.openForSignups && (
+          <Row justify="center">
+            <Col
+              md={24}
+              lg={12}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+              <Title
+                id="join_scrollbar"
+                level={2}
+                style={{ scrollMarginTop: '135px' }}
+              >
+                {settings.joinScrollBarTitle}
+              </Title>
+              <Markdown
+                className="ant-typohraphy"
+                style={{ fontSize: '18px', lineHeight: '36px' }}
+                source={settings.joinScrollBarText}
+              />
+              <Button
+                type="primary"
+                size="large"
+                href={settings.joinScrollBarLink}
+                target="_blank"
+              >
+                Apply now!
+              </Button>
+            </Col>
+          </Row>
+        )}
 
         <Divider />
         <Row justify="center">
