@@ -12,7 +12,7 @@ exports.sendEmailInvite = functions.region('europe-west1').firestore
     const email = context.params.email;
     return mailgun.messages().send({
         to: email,
-        from: `no-reply@scrollbar.dk, scrollbar@${functions.config().mailgun.domain}`, // TODO, change domain
+        from: `no-reply@${functions.config().mailgun.domain}`, // TODO, change domain
         subject: 'You have been invited to ScrollBar Tender site',
         template: 'invite_template'
     })
