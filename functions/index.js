@@ -3,7 +3,7 @@ const admin = require('firebase-admin');
 admin.initializeApp();
 
 const db = admin.firestore();
-const mailgun = require('mailgun-js')({apiKey: functions.config().mailgun.api_key, domain: functions.config().mailgun.domain});
+const mailgun = require('mailgun-js')({host: 'api.eu.mailgun.net', apiKey: functions.config().mailgun.api_key, domain: functions.config().mailgun.domain});
 
 
 exports.sendEmailInvite = functions.region('europe-west1').firestore
@@ -12,7 +12,7 @@ exports.sendEmailInvite = functions.region('europe-west1').firestore
     const email = context.params.email;
     return mailgun.messages().send({
         to: email,
-        from: `no-reply@scrollbar.dk, scrollbar@${functions.config().mailgun.domain}`, // TODO, change domain
+        from: `ScrollBar Web <no-reply@${functions.config().mailgun.domain}>`,
         subject: 'You have been invited to ScrollBar Tender site',
         template: 'invite_template'
     })
@@ -28,7 +28,7 @@ exports.sendShiftGrabbedConfirmation = functions.region('europe-west1').firestor
         const tenderTakingShift = await db.collection('/users').doc(engagementAfter.userId).get();
         return mailgun.messages().send({
             to: tender.data().email,
-            from: `no-reply@scrollbar.dk, scrollbar@${functions.config().mailgun.domain}`, // TODO, change domain
+            from: `ScrollBar Web <no-reply@${functions.config().mailgun.domain}>`,
             subject: 'Your shift has been grabbed!',
             template: 'shift_taken',
             'h:X-Mailgun-Variables': JSON.stringify({name: tenderTakingShift.data().displayName}) 

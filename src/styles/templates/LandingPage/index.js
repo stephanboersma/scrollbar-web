@@ -93,14 +93,19 @@ const LandingPage = ({ children }) => {
             <MenuItem key="1">
               <Link href="#about">About Scrollbar</Link>
             </MenuItem>
+            {settings && settings.openForSignups && (
+              <MenuItem key="2">
+                <Link href="#join_scrollbar">Join Scrollbar</Link>
+              </MenuItem>
+            )}
 
-            <MenuItem key="2">
+            <MenuItem key="3">
               <Link href="#volunteers"> Our volunteers</Link>
             </MenuItem>
-            <MenuItem key="3">
+            <MenuItem key="4">
               <Link href="#future_events">Future events</Link>
             </MenuItem>
-            <MenuItem key="4" onClick={() => history.push('/members/shifts')}>
+            <MenuItem key="5" onClick={() => history.push('/members/shifts')}>
               Tender site
             </MenuItem>
           </Menu>
