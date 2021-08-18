@@ -46,9 +46,8 @@ const ShiftPlan = () => {
   return (
     <SideBarPage title="Tender site">
       <Space direction="vertical" style={{ width: '100%' }}>
-        {eventState.events.filter((_event) => _event.published).length > 0 ? (
+        {eventState.events.filter((_event) => _event).length > 0 ? (
           eventState.events
-            .filter((_event) => _event.published)
             .map((each, i) => {
               return (
                 <EventListItem
