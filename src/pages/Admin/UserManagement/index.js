@@ -31,13 +31,8 @@ const StyledButton = styled(Button)`
 `;
 
 const UserManagement = () => {
-  const {
-    tenderState,
-    invitedTenders,
-    updateTender,
-    addInvite,
-    removeInvite,
-  } = useContext(TendersContext);
+  const { tenderState, invitedTenders, updateTender, addInvite, removeInvite } =
+    useContext(TendersContext);
   const { studylines } = useContext(AuthContext);
   const [isProfileVisible, setIsProfileVisible] = useState(false);
   const [isInviteModalVisible, setIsInviteModalVisible] = useState(false);
