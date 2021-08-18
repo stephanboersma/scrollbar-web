@@ -13,9 +13,8 @@ const ShiftPlan = () => {
   const { eventState } = useContext(EventContext);
   const { shiftState } = useContext(ShiftContext);
   const { tenderState } = useContext(TendersContext);
-  const { engagementState, takeShift, setUpForGrabs } = useContext(
-    EngagementContext
-  );
+  const { engagementState, takeShift, setUpForGrabs } =
+    useContext(EngagementContext);
 
   const getEventShifts = (eventId) => {
     return shiftState.shifts.filter((shift) => shift.eventId === eventId);
@@ -47,20 +46,19 @@ const ShiftPlan = () => {
     <SideBarPage title="Tender site">
       <Space direction="vertical" style={{ width: '100%' }}>
         {eventState.events.filter((_event) => _event).length > 0 ? (
-          eventState.events
-            .map((each, i) => {
-              return (
-                <EventListItem
-                  event={each}
-                  shifts={getEventShifts(each.id)}
-                  engagements={getEventEngagements(each.id)}
-                  key={i}
-                  users={tenderState.tenders}
-                  onTakeShift={onTakeShift}
-                  setUpForGrabs={onSetUpForGrabs}
-                />
-              );
-            })
+          eventState.events.map((each, i) => {
+            return (
+              <EventListItem
+                event={each}
+                shifts={getEventShifts(each.id)}
+                engagements={getEventEngagements(each.id)}
+                key={i}
+                users={tenderState.tenders}
+                onTakeShift={onTakeShift}
+                setUpForGrabs={onSetUpForGrabs}
+              />
+            );
+          })
         ) : (
           <Text type="secondary">
             No events are currently planned. Stay tuned

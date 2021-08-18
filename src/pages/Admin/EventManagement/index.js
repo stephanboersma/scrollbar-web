@@ -33,12 +33,10 @@ const StyledButton = styled(Button)`
 `;
 
 const EventManagement = () => {
-  const { eventState, addEvent, removeEvent, updateEvent } = useContext(
-    EventContext
-  );
-  const { shiftState, addShift, removeShift, updateShift } = useContext(
-    ShiftContext
-  );
+  const { eventState, addEvent, removeEvent, updateEvent } =
+    useContext(EventContext);
+  const { shiftState, addShift, removeShift, updateShift } =
+    useContext(ShiftContext);
   const [selectedShifts, setSelectedShifts] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState();
   const [isEventInfoVisible, setIsEventInfoVisible] = useState(false);
