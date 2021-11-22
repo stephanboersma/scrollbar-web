@@ -54,7 +54,7 @@ const ShiftPlan = () => {
 
   const filterEventsWithUser = (events, userId) => {
     var eventidsWithUser = engagementState.engagements
-      .filter((engagement) => (engagement.userId = userId))
+      .filter((engagement) => engagement.userId === userId)
       .map((e) => e.eventId);
     return events.filter((_event) => eventidsWithUser.includes(_event.id));
   };
