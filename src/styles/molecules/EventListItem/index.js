@@ -48,6 +48,7 @@ const EventListItem = ({
               setUpForGrabs(engagement, userId);
             }}
             takeShift={onTakeShift}
+            isPast={each.start.toDate() <= new Date(Date.now())}
           />
         );
       })}
