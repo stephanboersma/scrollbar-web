@@ -75,13 +75,13 @@ const ShiftPlan = () => {
             checked={myShiftChecked}
             onChange={(e) => setMyShiftChecked(e.target.checked)}
           >
-            Show my shifts only
+            Show events where I got a shift
           </Checkbox>
           <Checkbox
             checked={showPreviousShifts}
             onChange={(e) => setShowPreviousShifts(e.target.checked)}
           >
-            Show previous shifts from
+            Show previous events from
           </Checkbox>
           <DatePicker
             value={shiftFrom}
