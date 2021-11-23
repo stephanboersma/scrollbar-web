@@ -1,4 +1,4 @@
-import { Checkbox, DatePicker, Divider, message, Space } from 'antd';
+import { Checkbox, Collapse, DatePicker, Divider, message, Space } from 'antd';
 import moment from 'moment';
 import React, { useContext, useState } from 'react';
 
@@ -18,6 +18,8 @@ const ShiftPlan = () => {
   const { engagementState, takeShift, setUpForGrabs } = useContext(
     EngagementContext
   );
+
+  const { Panel } = Collapse;
 
   const { user } = useContext(AuthContext);
 
@@ -61,32 +63,35 @@ const ShiftPlan = () => {
 
   return (
     <SideBarPage title="Tender site">
-      <Space
+      <Collapse
         title="Filters"
         direction="vertical"
-        style={{ width: '100%', paddingBottom: '20px' }}
+        style={{ width: '100%' }}
+        ghost
+        bordered
       >
-        <Divider>Filters</Divider>
-        <Checkbox
-          checked={myShiftChecked}
-          onChange={(e) => setMyShiftChecked(e.target.checked)}
-        >
-          Show my shifts only
-        </Checkbox>
-        <Checkbox
-          checked={showPreviousShifts}
-          onChange={(e) => setShowPreviousShifts(e.target.checked)}
-        >
-          Show previous shifts from
-        </Checkbox>
-        <DatePicker
-          value={shiftFrom}
-          onChange={(date) =>
-            date ? setShiftFrom(date) : setShiftFrom(moment())
-          }
-        ></DatePicker>
-        <Divider></Divider>
-      </Space>
+        <Panel header="Filters">
+          <Checkbox
+            checked={myShiftChecked}
+            onChange={(e) => setMyShiftChecked(e.target.checked)}
+          >
+            Show my shifts only
+          </Checkbox>
+          <Checkbox
+            checked={showPreviousShifts}
+            onChange={(e) => setShowPreviousShifts(e.target.checked)}
+          >
+            Show previous shifts from
+          </Checkbox>
+          <DatePicker
+            value={shiftFrom}
+            onChange={(date) =>
+              date ? setShiftFrom(date) : setShiftFrom(moment())
+            }
+          ></DatePicker>
+        </Panel>
+      </Collapse>
+      <Divider></Divider>
       <Space direction="vertical" style={{ width: '100%' }}>
         {eventState.events.filter((_event) => _event).length > 0 ? (
           (showPreviousShifts
