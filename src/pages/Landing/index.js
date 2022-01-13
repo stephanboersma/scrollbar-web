@@ -223,7 +223,11 @@ const Landing = () => {
             >
               {studylines.length > 0 && !tenderState.loading ? (
                 tenderState.tenders
-                  .filter((_tender) => !_tender.roles.includes('passive'))
+                  .filter(
+                    (_tender) =>
+                      !_tender.roles.includes('passive') &&
+                      _tender.roles.length != 0
+                  )
                   .map((each, i) => {
                     return (
                       <Space direction="vertical" align="center" key={i}>
