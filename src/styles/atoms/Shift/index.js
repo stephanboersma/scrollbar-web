@@ -16,6 +16,7 @@ const Shift = ({
   onRemoveEngagement,
   takeShift,
   onSetUpForGrabs,
+  isPast,
 }) => {
   const [tenderSearchValue, setTenderSearchValue] = useState();
   const [anchorSearchValue, setAnchorSearchValue] = useState();
@@ -168,6 +169,7 @@ const Shift = ({
               }}
               key={i}
               isUpForGrabs={anchorEngagement.upForGrabs}
+              isPast={isPast}
             />
           ))
         ) : (
@@ -223,6 +225,7 @@ const Shift = ({
                 onSetUpForGrabs(tenderEngagement, status);
               }}
               isUpForGrabs={tenderEngagement.upForGrabs}
+              isPast={isPast}
             />
           ))
         ) : (
@@ -244,6 +247,7 @@ Shift.propTypes = {
   onRemoveEngagement: PropTypes.func,
   takeShift: PropTypes.func,
   onSetUpForGrabs: PropTypes.func,
+  isPast: PropTypes.bool,
 };
 
 export default Shift;
