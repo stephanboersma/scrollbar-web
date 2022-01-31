@@ -9,6 +9,27 @@ const FilteredShiftsRadioGroup = ({
   shifts,
   engagements,
 }) => {
+  const styles = {
+    radioGroup: {
+      marginBottom: 8,
+      boxSizing: 'border-box',
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'space-between',
+    },
+
+    button: {
+      display: 'inline-block',
+      textAlign: 'center',
+      width: '100%',
+      height: 'inherit',
+      color: 'black',
+      lineHeight: '21px',
+      paddingTop: '5px',
+      paddingBottom: '5px',
+    },
+  };
+
   const getTotalAmount = () => {
     return shifts.filter((shift) => shift.end.toDate() >= new Date(Date.now()))
       .length;
@@ -35,31 +56,23 @@ const FilteredShiftsRadioGroup = ({
       onChange={handleModeChange}
       value={mode}
       buttonStyle={'solid'}
-      style={{
-        marginBottom: 8,
-        boxSizing: 'border-box',
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'space-between',
-      }}
+      numberOfLines={1}
+      adjustsFontSizeToFit
+      style={styles.radioGroup}
     >
-      <Radio.Button
-        style={{ textAlign: 'center', width: '100%', color: 'black' }}
-        value="all"
-      >
-        All shifts ( {getTotalAmount()} )
+      <Radio.Button style={styles.button} value="all">
+        All shifts <br /> ({getTotalAmount()})
       </Radio.Button>
       <Radio.Button
-        style={{ textAlign: 'center', width: '100%', color: 'black' }}
+        numberOfLines={1}
+        adjustsFontSizeToFit
+        style={styles.button}
         value="myShifts"
       >
-        My shifts ( {getMyShiftAmount()} )
+        My shifts <br /> ({getMyShiftAmount()})
       </Radio.Button>
-      <Radio.Button
-        style={{ textAlign: 'center', width: '100%', color: 'black' }}
-        value="upforgrabs"
-      >
-        Up for grabs ( {getUpForGrabsAmount()} )
+      <Radio.Button style={styles.button} value="upforgrabs">
+        Up for grabs <br /> ({getUpForGrabsAmount()})
       </Radio.Button>
     </Radio.Group>
   );
