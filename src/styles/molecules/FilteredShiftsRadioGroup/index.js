@@ -60,9 +60,6 @@ const FilteredShiftsRadioGroup = ({
       adjustsFontSizeToFit
       style={styles.radioGroup}
     >
-      <Radio.Button style={styles.button} value="all">
-        All shifts <br /> ({getTotalAmount()})
-      </Radio.Button>
       <Radio.Button
         numberOfLines={1}
         adjustsFontSizeToFit
@@ -73,6 +70,9 @@ const FilteredShiftsRadioGroup = ({
       </Radio.Button>
       <Radio.Button style={styles.button} value="upforgrabs">
         Up for grabs <br /> ({getUpForGrabsAmount()})
+      </Radio.Button>
+      <Radio.Button style={styles.button} value="all">
+        All shifts <br /> ({getTotalAmount()})
       </Radio.Button>
     </Radio.Group>
   );
