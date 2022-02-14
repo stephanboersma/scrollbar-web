@@ -15,13 +15,14 @@ const TenderAvatar = ({
   isUpForGrabs,
   setUpForGrabs,
   takeShift,
+  isPast,
 }) => {
   const { user } = useContext(AuthContext);
 
   const getButton = () => {
     if (manage) return;
 
-    if (tender.id === user.id) {
+    if (tender.id === user.id && !isPast) {
       return isUpForGrabs ? (
         <Button type="primary" onClick={() => setUpForGrabs(false)}>
           I want this shift anyway
@@ -37,7 +38,7 @@ const TenderAvatar = ({
         </Button>
       );
     } else {
-      return isUpForGrabs ? (
+      return isUpForGrabs && !isPast ? (
         <Button type="primary" onClick={() => takeShift(user)}>
           Grab shift
         </Button>
@@ -46,14 +47,26 @@ const TenderAvatar = ({
   };
 
   return (
-    <Space style={{ cursor: 'pointer' }} direction="vertical" align="center">
+    <Space
+      style={{ width: '125px', cursor: 'pointer', textAlign: 'center' }}
+      direction="vertical"
+      align="center"
+    >
       <Avatar
         onClick={onClick}
         src={tender.photoUrl ? tender.photoUrl : DEFAULT_AVATAR_URL}
         size="large"
         icon={<AntDesignOutlined />}
       />
-      <Text>{tender.displayName}</Text>
+      <Text
+        style={{
+          textAlign: 'center',
+          inlineSize: '125px',
+          overflowWrap: 'break-word',
+        }}
+      >
+        {tender.displayName}
+      </Text>
       {getButton()}
     </Space>
   );
@@ -65,5 +78,6 @@ TenderAvatar.propTypes = {
   isUpForGrabs: PropTypes.bool,
   setUpForGrabs: PropTypes.func,
   takeShift: PropTypes.func,
+  isPast: PropTypes.bool,
 };
 export default TenderAvatar;

@@ -16,6 +16,7 @@ const Shift = ({
   onRemoveEngagement,
   takeShift,
   onSetUpForGrabs,
+  isPast,
 }) => {
   const [tenderSearchValue, setTenderSearchValue] = useState();
   const [anchorSearchValue, setAnchorSearchValue] = useState();
@@ -168,6 +169,7 @@ const Shift = ({
               }}
               key={i}
               isUpForGrabs={anchorEngagement.upForGrabs}
+              isPast={isPast}
             />
           ))
         ) : (
@@ -208,7 +210,12 @@ const Shift = ({
           />
         </Space>
       )}
-      <Space direction="horizontal" align="start" wrap>
+      <Space
+        direction="horizontal"
+        style={{ justifyContent: 'flex-start' }}
+        align="start"
+        wrap
+      >
         {tenderEngagements.length > 0 ? (
           tenderEngagements.map((tenderEngagement, i) => (
             <TenderAvatar
@@ -223,6 +230,7 @@ const Shift = ({
                 onSetUpForGrabs(tenderEngagement, status);
               }}
               isUpForGrabs={tenderEngagement.upForGrabs}
+              isPast={isPast}
             />
           ))
         ) : (
@@ -244,6 +252,7 @@ Shift.propTypes = {
   onRemoveEngagement: PropTypes.func,
   takeShift: PropTypes.func,
   onSetUpForGrabs: PropTypes.func,
+  isPast: PropTypes.bool,
 };
 
 export default Shift;
