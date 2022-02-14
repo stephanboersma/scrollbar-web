@@ -210,7 +210,12 @@ const Shift = ({
           />
         </Space>
       )}
-      <Space direction="horizontal" align="start" wrap>
+      <Space
+        direction="horizontal"
+        style={{ justifyContent: 'flex-start' }}
+        align="start"
+        wrap
+      >
         {tenderEngagements.length > 0 ? (
           tenderEngagements.map((tenderEngagement, i) => (
             <TenderAvatar

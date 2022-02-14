@@ -19,7 +19,7 @@ const ShiftPlan = () => {
     EngagementContext
   );
 
-  const [mode, setMode] = useState('all');
+  const [mode, setMode] = useState('myShifts');
 
   const { user } = useContext(AuthContext);
 
