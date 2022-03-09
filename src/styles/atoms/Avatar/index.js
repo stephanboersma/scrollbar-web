@@ -27,7 +27,7 @@ const TenderAvatar = ({
           style={{
             position: 'relative',
             zIndex: '1',
-            top: '-25px',
+            top: '-18px',
             width: '40px',
             background: 'red',
             height: '0px',
@@ -42,7 +42,7 @@ const TenderAvatar = ({
           style={{
             position: 'relative',
             zIndex: '1',
-            top: '-25px',
+            top: '-18px',
             width: '40px',
             background: 'red',
             height: '0px',
