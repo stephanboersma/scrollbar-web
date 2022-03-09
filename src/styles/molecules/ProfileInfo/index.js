@@ -38,6 +38,8 @@ const ProfileInfo = ({ tender, updateProfile, manageUser }) => {
       return 'Anchor';
     } else if (roles.includes('tender')) {
       return 'Tender';
+    } else if (roles.includes('newbie')) {
+      return 'Newbie';
     } else {
       return 'Closed Account';
     }
@@ -132,6 +134,7 @@ const ProfileInfo = ({ tender, updateProfile, manageUser }) => {
               >
                 <OptGroup label="Roles">
                   <Option value="tender">Tender</Option>
+                  <Option value="newbie">Newbie</Option>
                   <Option value="anchor">Anchor</Option>
                   <Option value="board">Board member</Option>
                   <Option value="passive">Passive member</Option>
