@@ -1,9 +1,10 @@
-import { Button, Divider, Drawer, message, Tabs } from 'antd';
+import { Button, Divider, Drawer, Input, message, Space, Tabs } from 'antd';
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
 import AuthContext from '../../../contexts/AuthContext';
 import TendersContext from '../../../contexts/TendersContext';
+import { Title } from '../../../styles/atoms/Typography';
 import DataTable from '../../../styles/molecules/DataTable';
 import InviteModal from '../../../styles/molecules/InviteModal';
 import ProfileInfo from '../../../styles/molecules/ProfileInfo';
@@ -29,7 +30,6 @@ const StyledTabPane = styled(TabPane)`
 const StyledButton = styled(Button)`
   margin-bottom: ${({ theme }) => theme.baseUnit}px;
 `;
-
 const UserManagement = () => {
   const {
     tenderState,
@@ -40,6 +40,7 @@ const UserManagement = () => {
   } = useContext(TendersContext);
   const { studylines } = useContext(AuthContext);
   const [isProfileVisible, setIsProfileVisible] = useState(false);
+  const [searchParam, setSearchParam] = useState('');
   const [isInviteModalVisible, setIsInviteModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
@@ -68,6 +69,12 @@ const UserManagement = () => {
     }
   };
 
+  const filterOnSearchParam = (tenders) => {
+    return tenders.filter((t) =>
+      t.displayName.toLowerCase().includes(searchParam)
+    );
+  };
+
   const onInviteDelete = (row) => {
     removeInvite(row)
       .then(() => message.success('Invite removed'))
@@ -76,11 +83,23 @@ const UserManagement = () => {
 
   return (
     <SideBarPage title="User Management">
+      <Space
+        direction="vertical"
+        style={{ width: '100%', paddingBottom: '20px' }}
+      >
+        <Title level={3}>Filter by name</Title>
+        <Input
+          placeholder="Name"
+          onChange={(v) => {
+            setSearchParam(v.target.value.toLowerCase());
+          }}
+        />
+      </Space>
       <StyledTabs type="card" defaultActiveKey="1">
         <StyledTabPane tab="Manage users" key="1">
           <DataTable
             columns={USER_COLUMNS(onUserEdit, studylines)}
-            data={tenderState.tenders}
+            data={filterOnSearchParam(tenderState.tenders)}
           />
         </StyledTabPane>
         <StyledTabPane tab="Invited users" key="2">

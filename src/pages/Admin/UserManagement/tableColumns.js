@@ -73,6 +73,8 @@ export const USER_COLUMNS = (onUserEdit, studylines) => [
         return 'Anchor';
       } else if (roles.includes('tender')) {
         return 'Tender';
+      } else if (roles.includes('newbie')) {
+        return 'Newbie';
       } else {
         return 'Closed Account';
       }
