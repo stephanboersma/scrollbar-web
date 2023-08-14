@@ -15,9 +15,8 @@ const ShiftPlan = () => {
   const { eventState } = useContext(EventContext);
   const { shiftState } = useContext(ShiftContext);
   const { tenderState } = useContext(TendersContext);
-  const { engagementState, takeShift, setUpForGrabs } = useContext(
-    EngagementContext
-  );
+  const { engagementState, takeShift, setUpForGrabs } =
+    useContext(EngagementContext);
 
   const [mode, setMode] = useState('myShifts');
 
