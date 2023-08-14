@@ -75,7 +75,7 @@ const Landing = () => {
           height="100%"
           playing={true}
           muted={true}
-          loop
+          loop={true}
           url={settings ? settings.hero : ''}
         />
 
