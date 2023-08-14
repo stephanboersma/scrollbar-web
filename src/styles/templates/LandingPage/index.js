@@ -18,12 +18,14 @@ import Logo from '../../atoms/Logo';
 import { Link, Paragraph, Text, Title } from '../../atoms/Typography';
 
 const MenuItem = styled(Menu.Item)`
-  padding: 0 40px !important;
+  padding: 0 40px;
   font-size: 16px;
 `;
 const UserNameLink = styled(Text)`
   margin: 0 12px 0 0;
   color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
   @media (max-width: 680px) {
     display: none;
   }
@@ -61,6 +63,7 @@ const FooterText = styled(Text)`
 const LandingPage = ({ children }) => {
   const { user, authenticated, settings } = useContext(AuthContext);
   const history = useHistory();
+
   return (
     <Layout
       style={{ display: 'flex', flexDirection: 'column', height: 'auto' }}
@@ -84,11 +87,17 @@ const LandingPage = ({ children }) => {
           />
           <Menu
             overflowedIndicator={
-              <MenuOutlined style={{ fontSize: '32px', color: '#fff319' }} />
+              <MenuOutlined
+                style={{
+                  fontSize: '32px',
+                  color: '#fff319',
+                  margin: 'auto 0',
+                }}
+              />
             }
             theme="dark"
             mode="horizontal"
-            style={{ lineHeight: '132px', flex: '1' }}
+            style={{ lineHeight: '132px', flexGrow: 3, width: '55vw' }}
           >
             <MenuItem key="1">
               <Link href="#about">About Scrollbar</Link>
@@ -103,15 +112,24 @@ const LandingPage = ({ children }) => {
               <Link href="#volunteers"> Our volunteers</Link>
             </MenuItem>
             <MenuItem key="4">
-              <Link href="#future_events">Future events</Link>
+              <Link
+                href="#future_events"
+                style={{ whiteSpace: 'normal', height: 'auto' }}
+              >
+                Future events
+              </Link>
             </MenuItem>
-            <MenuItem key="5" onClick={() => history.push('/members/shifts')}>
+            <MenuItem
+              key="5"
+              onClick={() => history.push('/members/shifts')}
+              style={{ whiteSpace: 'normal', height: 'auto' }}
+            >
               Tender site
             </MenuItem>
           </Menu>
         </HeaderWrapper>
         {authenticated && (
-          <UserCorner direction="horizontal">
+          <UserCorner direction="horizontal" style={{ flexgrow: 4 }}>
             <UserNameLink>{user.displayName}</UserNameLink>
             <Dropdown
               overlay={<AvatarMenu onNavigate={(path) => history.push(path)} />}
