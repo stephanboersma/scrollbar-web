@@ -11,6 +11,7 @@ import Avatar from 'antd/lib/avatar/avatar';
 import { Content } from 'antd/lib/layout/layout';
 import moment from 'moment';
 import React, { useContext } from 'react';
+import ReactPlayer from 'react-player';
 import {
   VerticalTimeline,
   VerticalTimelineElement,
@@ -58,19 +59,26 @@ const Landing = () => {
     <LandingPage>
       <div
         style={{
-          backgroundImage: `url(${settings ? settings.hero : ''})`,
           backgroundColor: '#171717',
-          backgroundRepeat: 'no-repeat no-repeat',
           backgroundPosition: 'center center',
           backgroundSize: 'cover',
-          minHeight: '40vh',
-          maxHeight: '40vh',
+          minHeight: '20vh',
+          maxHeight: '80vh',
           marginTop: '132px',
           width: '100%',
           position: 'relative',
           overflow: 'hidden',
         }}
       >
+        <ReactPlayer
+          width="100%"
+          height="100%"
+          playing={true}
+          muted={true}
+          loop={true}
+          url={settings ? settings.hero : ''}
+        />
+
         <div
           style={{
             position: 'absolute',
@@ -81,8 +89,7 @@ const Landing = () => {
             height: '100%',
             background: 'rgba(0, 0, 0, 0.5)',
           }}
-        />
-
+        ></div>
         <NextEvent justify="end">
           <Col
             md={24}

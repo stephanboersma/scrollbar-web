@@ -1,5 +1,5 @@
-import { AntDesignOutlined } from '@ant-design/icons';
-import { Button, Space } from 'antd';
+import { AntDesignOutlined, ExclamationCircleFilled } from '@ant-design/icons';
+import { Button, Modal, Space } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
@@ -19,6 +19,25 @@ const TenderAvatar = ({
   isPast,
 }) => {
   const { user } = useContext(AuthContext);
+
+  const { confirm } = Modal;
+
+  const showConfirm = (title, boolean) => {
+    confirm({
+      title: 'Please confirm',
+      icon: <ExclamationCircleFilled />,
+      content: title,
+      okText: 'Yes',
+      cancelText: 'No',
+      onOk() {
+        if (boolean === user) {
+          takeShift(user);
+        } else {
+          setUpForGrabs(boolean);
+        }
+      },
+    });
+  };
 
   const getHat = () => {
     if (tender.roles.includes('newbie')) {
@@ -57,22 +76,35 @@ const TenderAvatar = ({
 
     if (tender.id === user.id && !isPast) {
       return isUpForGrabs ? (
-        <Button type="primary" onClick={() => setUpForGrabs(false)}>
+        <Button
+          type="primary"
+          onClick={() =>
+            showConfirm('Are you sure you want this shift anyway?', false)
+          }
+        >
           I want this shift anyway
         </Button>
       ) : (
         <Button
           type="primary"
-          onClick={() => {
-            setUpForGrabs(true);
-          }}
+          onClick={() =>
+            showConfirm(
+              'Are you sure you want to put this shift up for grabs?',
+              true
+            )
+          }
         >
           Put up for grabs
         </Button>
       );
     } else {
       return isUpForGrabs && !isPast ? (
-        <Button type="primary" onClick={() => takeShift(user)}>
+        <Button
+          type="primary"
+          onClick={() =>
+            showConfirm('Are you sure you want to grab this shift?', user)
+          }
+        >
           Grab shift
         </Button>
       ) : null;

@@ -29,8 +29,11 @@ jobs:
       REACT_APP_FIREBASE_MEASUREMENT_ID: '${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}'
       REACT_APP_ENV: 'test'
     steps:
-      - uses: actions/checkout@v2
-      - run: curl -o- -L https://yarnpkg.com/install.sh | bash
+      - uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
       - run: yarn install && yarn lint && yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
