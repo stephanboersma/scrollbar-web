@@ -29,6 +29,7 @@ jobs:
       REACT_APP_FIREBASE_API_ID: '${{ secrets.REACT_APP_FIREBASE_API_ID }}'
       REACT_APP_FIREBASE_MEASUREMENT_ID: '${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}'
       REACT_APP_ENV: 'dev'
+      NODE_OPTIONS: --openssl-legacy-provider
     steps:
       - uses: actions/checkout@v2
       - run: curl -o- -L https://yarnpkg.com/install.sh | bash
