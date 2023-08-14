@@ -57,14 +57,25 @@ const TenderAvatar = ({
 
     if (tender.id === user.id && !isPast) {
       return isUpForGrabs ? (
-        <Button type="primary" onClick={() => setUpForGrabs(false)}>
+        <Button
+          type="primary"
+          onClick={() => {
+            if (window.confirm('Are you sure you want this shift?'))
+              setUpForGrabs(false);
+          }}
+        >
           I want this shift anyway
         </Button>
       ) : (
         <Button
           type="primary"
           onClick={() => {
-            setUpForGrabs(true);
+            if (
+              window.confirm(
+                'Are you sure you want to put this shift up for grabs?'
+              )
+            )
+              setUpForGrabs(true);
           }}
         >
           Put up for grabs
@@ -72,7 +83,13 @@ const TenderAvatar = ({
       );
     } else {
       return isUpForGrabs && !isPast ? (
-        <Button type="primary" onClick={() => takeShift(user)}>
+        <Button
+          type="primary"
+          onClick={() => {
+            if (window.confirm('Are you sure you want this shift?'))
+              takeShift(user);
+          }}
+        >
           Grab shift
         </Button>
       ) : null;
