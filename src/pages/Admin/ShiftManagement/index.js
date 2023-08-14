@@ -13,9 +13,8 @@ const ShiftManagement = () => {
   const { eventState } = useContext(EventContext);
   const { shiftState } = useContext(ShiftContext);
   const { tenderState } = useContext(TendersContext);
-  const { engagementState, addEngagement, removeEngagement } = useContext(
-    EngagementContext
-  );
+  const { engagementState, addEngagement, removeEngagement } =
+    useContext(EngagementContext);
 
   const getEventShifts = (eventId) => {
     return shiftState.shifts.filter((shift) => shift.eventId === eventId);
