@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 
 import {
   deleteInvite,
+  deleteUser,
   inviteUser,
   streamInvitedUsers,
   streamUsers,
@@ -56,6 +57,10 @@ const useTenders = () => {
     return deleteInvite(row);
   };
 
+  const removeUser = (id) => {
+    return deleteUser(id);
+  };
+
   const updateTender = (id, field, value) => {
     return updateUser({ id: id, field: field, value: value });
   };
@@ -66,6 +71,7 @@ const useTenders = () => {
     addInvite,
     removeInvite,
     updateTender,
+    removeUser,
   };
 };
 
