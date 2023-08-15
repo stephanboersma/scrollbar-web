@@ -19,6 +19,7 @@ const EventInfo = ({
   onUpdateShift,
   onDeleteShift,
   updateEvent,
+  onAddDefaultShifts,
 }) => {
   const [description, setDescription] = useState(event.description);
   const [editDescription, setEditDescription] = useState(false);
@@ -103,6 +104,9 @@ const EventInfo = ({
               <Button type="primary" onClick={() => onAddShift(null)}>
                 Add shift
               </Button>
+              <Button type="primary" onClick={() => onAddDefaultShifts()}>
+                Add default shifts
+              </Button>
               <Checkbox
                 onChange={(e) => updateEvent('published', e.target.checked)}
                 checked={event.published}
@@ -140,5 +144,6 @@ EventInfo.propTypes = {
   onAddShift: PropTypes.func,
   onUpdateShift: PropTypes.func,
   onDeleteShift: PropTypes.func,
+  onAddDefaultShifts: PropTypes.func,
 };
 export default EventInfo;
