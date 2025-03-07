@@ -94,6 +94,11 @@ export const uploadProfilePicture = (picture, email) => {
 const saveUser = (id, profile) => {
   return db.collection('/users').doc(id).set(profile);
 };
+
+export const deleteUser = (id) => {
+  return db.collection('/users').doc(id).delete();
+};
+
 export const signOut = () => auth.signOut();
 
 export const sendResetPasswordEmail = ({ email }) => {

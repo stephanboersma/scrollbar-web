@@ -31,8 +31,14 @@ const StyledButton = styled(Button)`
   margin-bottom: ${({ theme }) => theme.baseUnit}px;
 `;
 const UserManagement = () => {
-  const { tenderState, invitedTenders, updateTender, addInvite, removeInvite } =
-    useContext(TendersContext);
+  const {
+    tenderState,
+    invitedTenders,
+    updateTender,
+    addInvite,
+    removeInvite,
+    removeUser,
+  } = useContext(TendersContext);
   const { studylines } = useContext(AuthContext);
   const [isProfileVisible, setIsProfileVisible] = useState(false);
   const [searchParam, setSearchParam] = useState('');
@@ -70,6 +76,17 @@ const UserManagement = () => {
     );
   };
 
+  const onRemoveAllClosedAccounts = () => {
+    const closedAccounts = tenderState.tenders.filter(
+      (t) => t.roles.length < 1
+    );
+    closedAccounts.forEach((t) => {
+      removeUser(t.id)
+        .then(() => message.success(`${t.displayName} has been removed`))
+        .catch((error) => message.error('An error ocurred: ' + error.message));
+    });
+  };
+
   const onInviteDelete = (row) => {
     removeInvite(row)
       .then(() => message.success('Invite removed'))
@@ -92,6 +109,18 @@ const UserManagement = () => {
       </Space>
       <StyledTabs type="card" defaultActiveKey="1">
         <StyledTabPane tab="Manage users" key="1">
+          <StyledButton
+            type="primary"
+            onClick={() =>
+              window.confirm(
+                'Are you sure you want to delete all closed accounts'
+              )
+                ? onRemoveAllClosedAccounts()
+                : console.log('nothing deleted')
+            }
+          >
+            Delete all closed accounts
+          </StyledButton>
           <DataTable
             columns={USER_COLUMNS(onUserEdit, studylines)}
             data={filterOnSearchParam(tenderState.tenders)}
