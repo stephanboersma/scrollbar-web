@@ -118,6 +118,64 @@ const EventManagement = () => {
       })
       .catch((error) => message.error('An error occurred: ' + error.message));
   };
+
+  const createDefaultShifts = () => {
+    const shifts = [
+      {
+        title: 'Opening',
+        location: 'Main bar',
+        start: convertToTimestamp(
+          moment(selectedEvent.start.toDate()).subtract(1, 'hours').toDate()
+        ),
+        end: convertToTimestamp(
+          moment(selectedEvent.start.toDate()).add(4, 'hours').toDate()
+        ),
+        eventId: selectedEvent.id,
+        anchors: 1,
+        tenders: 4,
+      },
+      {
+        title: 'Middle',
+        location: 'Main bar',
+        start: convertToTimestamp(
+          moment(selectedEvent.start.toDate()).add(4, 'hours').toDate()
+        ),
+        end: convertToTimestamp(
+          moment(selectedEvent.start.toDate()).add(8, 'hours').toDate()
+        ),
+        eventId: selectedEvent.id,
+        anchors: 1,
+        tenders: 4,
+      },
+      {
+        title: 'Closing',
+        location: 'Main bar',
+        start: convertToTimestamp(
+          moment(selectedEvent.start.toDate()).add(8, 'hours').toDate()
+        ),
+        end: convertToTimestamp(moment(selectedEvent.end.toDate()).toDate()),
+        eventId: selectedEvent.id,
+        anchors: 1,
+        tenders: 4,
+      },
+    ];
+    shifts.forEach((shift) => {
+      addShift(shift)
+        .then((res) => {
+          setSelectedShifts(
+            [
+              ...selectedShifts,
+              {
+                ...shift,
+                id: res.id,
+              },
+            ].sort(sortShifts)
+          );
+        })
+        .catch((error) => message.error('An error occurred: ' + error.message));
+    });
+  };
+
   const createNewShift = (duplicate) => {
     const newShift = {
       title: duplicate ? duplicate.title : 'Opening',
@@ -225,6 +283,7 @@ const EventManagement = () => {
           updateEvent={(field, value) => updateEventField(field, value)}
           shifts={selectedShifts}
           onAddShift={createNewShift}
+          onAddDefaultShifts={createDefaultShifts}
           onUpdateShift={updateShiftField}
           onDeleteShift={onDeleteShift}
           event={selectedEvent}

@@ -190,7 +190,12 @@ const Landing = () => {
               </Title>
               <Markdown
                 className="ant-typohraphy"
-                style={{ fontSize: '18px', lineHeight: '36px' }}
+                style={{
+                  fontSize: '18px',
+                  lineHeight: '36px',
+                  backgroundColor: 'transparent',
+                  color: '#000000',
+                }}
                 source={settings.joinScrollBarText}
               />
               <Button
