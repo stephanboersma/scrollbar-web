@@ -28,6 +28,8 @@ jobs:
       REACT_APP_FIREBASE_API_ID: '${{ secrets.REACT_APP_FIREBASE_API_ID }}'
       REACT_APP_FIREBASE_MEASUREMENT_ID: '${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}'
       REACT_APP_ENV: 'test'
+      NODE_OPTIONS: --openssl-legacy-provider
+
     steps:
       - uses: actions/checkout@v4
       - name: Set up Node.js
