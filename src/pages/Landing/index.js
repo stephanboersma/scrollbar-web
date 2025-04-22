@@ -299,7 +299,7 @@ const Landing = () => {
                         iconStyle={{
                           background: '#fff319',
                           color: '#171717',
-                          display: 'flex',
+                          display: 'grid',
                           flexDirection: 'column',
                           justifyContent: 'center',
                           width: '50px',
